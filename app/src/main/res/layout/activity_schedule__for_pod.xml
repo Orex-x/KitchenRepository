@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Schedule_ActivityForPOD">
+
+    <TextView
+        android:id="@+id/TVNullList"
+        android:layout_width="359dp"
+        android:layout_height="69dp"
+        android:text="Графика нет, обратитесь к смтрителю"
+        android:textSize="28dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ListView
+        android:id="@+id/OKListViewInSchedule_ActivityForPOD"
+        android:layout_width="365dp"
+        android:layout_height="389dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.347"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TVNullList"
+        app:layout_constraintVertical_bias="0.941" />
+
+    <Button
+        android:id="@+id/replacePODinSchedule"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:onClick="replacePODinScheduleButton"
+        android:text="Поменяться"
+        app:layout_constraintBottom_toTopOf="@+id/OKListViewInSchedule_ActivityForPOD"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TVNullList"
+        app:layout_constraintVertical_bias="0.892" />
+
+    <Button
+        android:id="@+id/BReplaceDay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Replace"
+        android:onClick="replacereplace"
+        app:layout_constraintBottom_toTopOf="@+id/OKListViewInSchedule_ActivityForPOD"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.348"
+        app:layout_constraintStart_toEndOf="@+id/replacePODinSchedule"
+        app:layout_constraintTop_toBottomOf="@+id/TVNullList"
+        app:layout_constraintVertical_bias="0.942" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

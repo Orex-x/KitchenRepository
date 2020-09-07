@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
+    tools:context=".InfoAboutReplaceFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/TVFragmentReplaceDay"
+            android:layout_width="234dp"
+            android:layout_height="52dp"
+            android:layout_marginTop="16dp"
+            android:text="какой день хотите поменять?"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/BFragmentNotReplaceDay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Нет"
+            app:layout_constraintEnd_toStartOf="@+id/BFragmentReplaceDay"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/LVFragmentReplaysForDay"
+            app:layout_constraintTop_toBottomOf="@+id/LVFragmentReplaysForDay" />
+
+        <Button
+            android:id="@+id/BFragmentReplaceDay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Поменять"
+            app:layout_constraintEnd_toEndOf="@+id/LVFragmentReplaysForDay"
+            app:layout_constraintTop_toBottomOf="@+id/LVFragmentReplaysForDay" />
+
+        <ListView
+            android:id="@+id/LVFragmentReplaysForDay"
+            android:layout_width="292dp"
+            android:layout_height="143dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TVFragmentReplaceDay" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Schedule_ActivityForWatcher">
+
+    <ListView
+        android:id="@+id/OKListViewInSchedule_Activity"
+        android:layout_width="406dp"
+        android:layout_height="378dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TVinSchedule"
+        app:layout_constraintVertical_bias="1.0" />
+
+
+    <TextView
+        android:id="@+id/TVinSchedule"
+        android:layout_width="349dp"
+        android:layout_height="96dp"
+        android:text="Кто сегодня дежурит?"
+        android:textSize="24sp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ListView
+        android:id="@+id/ListViewInSchedule_Activity"
+        android:layout_width="328dp"
+        android:layout_height="259dp"
+        android:layout_marginLeft="40sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TVinSchedule"
+        app:layout_constraintVertical_bias="0.425" />
+
+    <Button
+        android:id="@+id/replaceSchedule"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:text="Сделать новый"
+        android:onClick="replaceOnNewSchedule"
+        app:layout_constraintBottom_toTopOf="@+id/OKListViewInSchedule_Activity"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.049"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/notReplace"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:text="отмена"
+        android:onClick="notreplaceOnNewSchedule"
+        app:layout_constraintBottom_toTopOf="@+id/OKListViewInSchedule_Activity"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toEndOf="@+id/replaceSchedule" />
+</androidx.constraintlayout.widget.ConstraintLayout>

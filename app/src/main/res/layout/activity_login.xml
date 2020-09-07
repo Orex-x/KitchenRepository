@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LoginActivity">
+
+    <TextView
+        android:id="@+id/TVWelcome"
+        android:layout_width="162dp"
+        android:layout_height="52dp"
+        android:layout_marginTop="40dp"
+        android:text="Welcome"
+        android:textSize="36sp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.534"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/ETWelcomeLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:ems="10"
+        android:hint="Login"
+        android:inputType="textPersonName"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/TVWelcome"
+        app:layout_constraintHorizontal_bias="0.509"
+        app:layout_constraintStart_toStartOf="@+id/TVWelcome"
+        app:layout_constraintTop_toBottomOf="@+id/TVWelcome" />
+
+    <EditText
+        android:id="@+id/ETWelcomePassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:ems="10"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/ETWelcomeLogin"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/ETWelcomeLogin"
+        app:layout_constraintTop_toBottomOf="@+id/ETWelcomeLogin" />
+
+    <Button
+        android:id="@+id/BWOpen"
+        android:layout_width="213dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="40dp"
+        android:onClick="logInto"
+        android:text="Log into"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/ETWelcomePassword"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/ETWelcomePassword"
+        app:layout_constraintTop_toBottomOf="@+id/ETWelcomePassword" />
+
+    <Button
+        android:id="@+id/BWRegistr"
+        android:layout_width="213dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="24dp"
+        android:onClick="showRegistr"
+        android:text="To registr"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/BWOpen"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/BWOpen"
+        app:layout_constraintTop_toBottomOf="@+id/BWOpen" />
+
+    <TextView
+        android:id="@+id/TVRegistr"
+        android:layout_width="118dp"
+        android:layout_height="49dp"
+        android:layout_marginTop="16dp"
+        android:text="Registr"
+        android:textSize="36dp"
+        android:visibility="visible"
+        app:layout_constraintEnd_toStartOf="@+id/BRBack"
+        app:layout_constraintHorizontal_bias="0.755"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/ETRLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="Login"
+        android:inputType="textPersonName"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="@+id/TVRegistr"
+        app:layout_constraintStart_toStartOf="@+id/TVRegistr"
+        app:layout_constraintTop_toBottomOf="@+id/TVRegistr" />
+
+    <EditText
+        android:id="@+id/ETRName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="Name"
+        android:inputType="textPersonName"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="@+id/ETRPassword"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/ETRPassword"
+        app:layout_constraintTop_toBottomOf="@+id/ETRPassword" />
+
+
+    <EditText
+        android:id="@+id/ETRPhone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:ems="10"
+        android:hint="Phone"
+        android:inputType="textPersonName"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="@+id/ETRName"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/ETRName"
+        app:layout_constraintTop_toBottomOf="@+id/ETRName" />
+
+    <EditText
+        android:id="@+id/ETRPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="@+id/ETRLogin"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/ETRLogin"
+        app:layout_constraintTop_toBottomOf="@+id/ETRLogin" />
+
+    <Button
+        android:id="@+id/BRPersonOD"
+        android:layout_width="144dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="8dp"
+        android:onClick="createPersonOD"
+        android:text="Person on duty"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="@+id/ETRPhone"
+        app:layout_constraintHorizontal_bias="0.463"
+        app:layout_constraintStart_toStartOf="@+id/ETRPhone"
+        app:layout_constraintTop_toBottomOf="@+id/ETRPhone" />
+
+    <Button
+        android:id="@+id/BRWatcher"
+        android:layout_width="115dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="20dp"
+        android:onClick="createWatcher"
+        android:text="Watcher"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="@+id/BRPersonOD"
+        app:layout_constraintHorizontal_bias="0.517"
+        app:layout_constraintStart_toStartOf="@+id/BRPersonOD"
+        app:layout_constraintTop_toBottomOf="@+id/BRPersonOD" />
+
+    <Button
+        android:id="@+id/BRRegistr"
+        android:layout_width="159dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="28dp"
+        android:onClick="registrB"
+        android:text="Registr"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="@+id/ETRidGroup"
+        app:layout_constraintStart_toStartOf="@+id/ETRidGroup"
+        app:layout_constraintTop_toBottomOf="@+id/ETRidGroup" />
+
+    <EditText
+        android:id="@+id/ETRidGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="ID group"
+        android:inputType="textPersonName"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="@+id/BRWatcher"
+        app:layout_constraintStart_toStartOf="@+id/BRWatcher"
+        app:layout_constraintTop_toBottomOf="@+id/BRWatcher" />
+
+    <Button
+        android:id="@+id/BRBack"
+        android:layout_width="85dp"
+        android:layout_height="49dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginRight="12dp"
+        android:onClick="showWelcomeWithView"
+        android:text="Back"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
