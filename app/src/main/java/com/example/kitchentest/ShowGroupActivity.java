@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -40,6 +41,7 @@ public class ShowGroupActivity extends AppCompatActivity {
     private int firstTap;
     private Button BASGAddPOD, BSActivityLeaveGroup, BASGnotAddPOD;
     private String namePPOD, phonePPOD;
+    private TextView addPODtext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,6 +125,7 @@ public class ShowGroupActivity extends AppCompatActivity {
         getmDataBaseW = FirebaseDatabase.getInstance().getReference(Constant.WATCHER_KEY);
         getmDataBaseGroup = FirebaseDatabase.getInstance().getReference(Constant.GROUP_KEY);
 
+        addPODtext = (TextView) findViewById(R.id.addPODtext);
         BSActivityLeaveGroup = (Button) findViewById(R.id.BSActivityLeaveGroup);
         BASGnotAddPOD = (Button) findViewById(R.id.BASGnotAddPOD);
         BASGAddPOD = (Button) findViewById(R.id.BASGAddPOD);
@@ -141,6 +144,7 @@ public class ShowGroupActivity extends AppCompatActivity {
             firstTap++;
             BASGAddPOD.setBackgroundResource(R.drawable.button_vacation);
             listView.setVisibility(View.GONE);
+            addPODtext.setVisibility(View.VISIBLE);
             EDASGNamePPOD.setVisibility(View.VISIBLE);
             EDASGPhonePOD.setVisibility(View.VISIBLE);
 
@@ -210,6 +214,7 @@ public class ShowGroupActivity extends AppCompatActivity {
 
         mDataBasePOD.push().setValue(personOnDuty);
         listView.setVisibility(View.VISIBLE);
+        addPODtext.setVisibility(View.GONE);
         EDASGNamePPOD.setVisibility(View.GONE);
         EDASGPhonePOD.setVisibility(View.GONE);
         EDASGNamePPOD.setText("");
@@ -255,6 +260,7 @@ public class ShowGroupActivity extends AppCompatActivity {
     public void notAddPOD(View view) {
         BASGAddPOD.setBackgroundResource(R.drawable.button);
         listView.setVisibility(View.VISIBLE);
+        addPODtext.setVisibility(View.GONE);
         BASGnotAddPOD.setVisibility(View.GONE);
         EDASGNamePPOD.setVisibility(View.GONE);
         EDASGPhonePOD.setVisibility(View.GONE);

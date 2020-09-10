@@ -52,21 +52,27 @@ public class AdditionalDutyFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 addDays = 1;
-                TVFragmentAdditionalDuty.setText("Сколько дней добавить? (1)");
+                BFragmentAdditionalDutyONE.setBackgroundResource(R.drawable.buttoncall);
+                BFragmentAdditionalDutyTHREE.setBackgroundResource(R.drawable.button);
+                BFragmentAdditionalDutyFIVE.setBackgroundResource(R.drawable.button);
             }
         });
         BFragmentAdditionalDutyTHREE.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 addDays = 3;
-                TVFragmentAdditionalDuty.setText("Сколько дней добавить? (3)");
+                BFragmentAdditionalDutyTHREE.setBackgroundResource(R.drawable.buttoncall);
+                BFragmentAdditionalDutyFIVE.setBackgroundResource(R.drawable.button);
+                BFragmentAdditionalDutyONE.setBackgroundResource(R.drawable.button);
             }
         });
         BFragmentAdditionalDutyFIVE.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 addDays = 5;
-                TVFragmentAdditionalDuty.setText("Сколько дней добавить? (5)");
+                BFragmentAdditionalDutyFIVE.setBackgroundResource(R.drawable.buttoncall);
+                BFragmentAdditionalDutyTHREE.setBackgroundResource(R.drawable.button);
+                BFragmentAdditionalDutyONE.setBackgroundResource(R.drawable.button);
             }
         });
         BFragmentAdditionalDutyBack.setOnClickListener(new View.OnClickListener() {

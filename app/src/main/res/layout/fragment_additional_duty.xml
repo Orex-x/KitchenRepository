@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/islandtext"
     tools:context=".AdditionalDutyFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -11,72 +12,77 @@
         android:layout_height="match_parent">
 
         <Button
-            android:id="@+id/BFragmentAdditionalDutyONE"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="56dp"
-            android:layout_marginLeft="56dp"
-            android:layout_marginTop="28dp"
-            android:text="1 день"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/TVFragmentAdditionalDuty" />
-
-        <Button
             android:id="@+id/BFragmentAdditionalDutyBack"
-            android:layout_width="128dp"
-            android:layout_height="51dp"
-            android:layout_marginStart="56dp"
-            android:layout_marginLeft="56dp"
-            android:layout_marginTop="12dp"
+            android:layout_width="90dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/empty_button"
             android:text="назад"
-            app:layout_constraintStart_toStartOf="parent"
+            android:textColor="@color/color_red"
+            app:layout_constraintEnd_toEndOf="@+id/BFragmentAdditionalDutyTHREE"
+            app:layout_constraintStart_toStartOf="@+id/BFragmentAdditionalDutyONE"
             app:layout_constraintTop_toBottomOf="@+id/BFragmentAdditionalDutyTHREE" />
 
         <TextView
             android:id="@+id/TVFragmentAdditionalDuty"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="68dp"
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:layout_marginTop="16dp"
             android:text="Сколько дней добавить?"
+            android:textColor="@color/colorAccent"
             android:textSize="15sp"
+            android:gravity="center"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.451"
+            app:layout_constraintHorizontal_bias="0.51"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/BFragmentAdditionalDutyFIVE"
+            android:id="@+id/BFragmentAdditionalDutyONE"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
-            android:layout_marginEnd="56dp"
-            android:layout_marginRight="56dp"
-            android:text="5 дней"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/button"
+            android:text="1 день"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/TVFragmentAdditionalDuty" />
 
         <Button
             android:id="@+id/BFragmentAdditionalDutyTHREE"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/button"
             android:text="3 дня"
-            app:layout_constraintEnd_toStartOf="@+id/BFragmentAdditionalDutyFIVE"
-            app:layout_constraintHorizontal_bias="0.514"
             app:layout_constraintStart_toEndOf="@+id/BFragmentAdditionalDutyONE"
+            app:layout_constraintTop_toBottomOf="@+id/TVFragmentAdditionalDuty" />
+
+        <Button
+            android:id="@+id/BFragmentAdditionalDutyFIVE"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/button"
+            android:text="5 дней"
+            app:layout_constraintStart_toEndOf="@+id/BFragmentAdditionalDutyTHREE"
             app:layout_constraintTop_toBottomOf="@+id/TVFragmentAdditionalDuty" />
 
         <Button
             android:id="@+id/BFragmentAdditionalDutyADD"
             android:layout_width="103dp"
             android:layout_height="50dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="56dp"
-            android:layout_marginRight="56dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/button"
             android:text="добавить"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@+id/BFragmentAdditionalDutyBack"
+            app:layout_constraintEnd_toEndOf="@+id/BFragmentAdditionalDutyFIVE"
+            app:layout_constraintHorizontal_bias="0.494"
+            app:layout_constraintStart_toStartOf="@+id/BFragmentAdditionalDutyTHREE"
             app:layout_constraintTop_toBottomOf="@+id/BFragmentAdditionalDutyTHREE" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

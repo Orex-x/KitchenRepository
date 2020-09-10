@@ -6,19 +6,41 @@
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
     tools:context=".ShowGroupActivity">
-    tools:context=".ShowGroupActivity">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/text"
+        android:gravity="right"
+        android:paddingRight="12sp"
+        android:paddingTop="3sp"
+        android:text="Участники группы"
+        android:fontFamily="casual"
+        android:textColor="@color/color_white"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ListView
         android:id="@+id/ListViewGroup"
-        android:layout_width="411dp"
-        android:layout_height="502dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="320dp"
+        android:layout_height="360dp"
+        android:layout_marginTop="36dp"
+        android:background="@drawable/islandtext"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        tools:visibility="visible" />
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        tools:visibility="gone" />
 
     <Button
         android:id="@+id/BASGAddPOD"
@@ -32,7 +54,7 @@
         android:text="+"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:visibility="gone" />
+        tools:visibility="visible" />
 
     <Button
         android:id="@+id/BASGnotAddPOD"
@@ -41,25 +63,12 @@
         android:layout_marginBottom="16dp"
         android:background="@drawable/empty_button"
         android:onClick="notAddPOD"
-        android:visibility="gone"
+        android:visibility="visible"
         android:text="отмена"
         android:textColor="@color/color_red"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/BASGAddPOD" />
 
-    <EditText
-        android:id="@+id/EDASGNamePPOD"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="220dp"
-        android:ems="10"
-        android:hint="Name"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:visibility="gone" />
 
     <Button
         android:id="@+id/BSActivityLeaveGroup"
@@ -68,7 +77,8 @@
         android:layout_marginTop="20dp"
         android:background="@drawable/button_add_days"
         android:onClick="leaveTheGroup"
-        android:visibility="visible"
+        android:textColor="@color/color_red"
+        android:visibility="gone"
         android:text="Выпилиться"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -77,16 +87,53 @@
     <EditText
         android:id="@+id/EDASGPhonePOD"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginTop="16dp"
         android:ems="10"
+        android:padding="12sp"
         android:hint="Телефон"
-        android:visibility="gone"
+        android:visibility="visible"
         android:inputType="textPersonName"
+        android:background="@drawable/edit_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/EDASGNamePPOD" />
+
+
+    <EditText
+        android:id="@+id/EDASGNamePPOD"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginBottom="280dp"
+        android:background="@drawable/edit_text"
+        android:ems="10"
+        android:padding="12sp"
+        android:hint="Name"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/addPODtext"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginBottom="16dp"
+        android:gravity="fill_vertical"
+        android:text="Добавить дежурного"
+        android:textColor="@color/color_white"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/EDASGNamePPOD"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,6 +8,21 @@
     tools:context=".Schedule_ActivityForPOD">
 
     <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="50sp"
+        android:background="@drawable/text"
+        android:text="  Расписание"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:gravity="fill_vertical"
+        android:textColor="@color/color_white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
         android:id="@+id/TVNullList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,11 +38,12 @@
 
     <ListView
         android:id="@+id/OKListViewInSchedule_ActivityForPOD"
-        android:layout_width="365dp"
-        android:layout_height="389dp"
-        android:layout_marginTop="28dp"
+        android:layout_width="320dp"
+        android:layout_height="360dp"
+        android:layout_marginTop="36dp"
+        android:background="@drawable/islandtext"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.347"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/replacePODinSchedule" />
 
@@ -35,12 +51,11 @@
         android:id="@+id/replacePODinSchedule"
         android:layout_width="114dp"
         android:layout_height="49dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/button"
         android:onClick="replacePODinScheduleButton"
         android:text="Поменяться"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 </androidx.constraintlayout.widget.ConstraintLayout>

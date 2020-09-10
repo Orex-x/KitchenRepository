@@ -101,7 +101,7 @@ public class ShowActivity extends AppCompatActivity {
                             updateSchedule();
                             uri = "https://dnevalnie.firebaseio.com/Person_On_Duty/";
                         }
-                        tvId.setText("больше нет с нами");
+                        tvId.setText("больше нет");
 
                     }
                 }

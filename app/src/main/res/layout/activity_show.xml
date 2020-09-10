@@ -22,7 +22,7 @@
                 android:layout_height="60dp"
                 android:text="TextView"
                 android:gravity="fill"
-                android:textColor="@color/colorFewAccent"
+                android:textColor="@color/color_white"
                 android:background="@drawable/text"
                 android:textSize="30dp"
                 android:textStyle="bold"
@@ -33,14 +33,14 @@
 
             <TextView
                 android:id="@+id/ShowId"
-                android:layout_width="249dp"
-                android:layout_height="57dp"
+                android:layout_width="220dp"
+                android:layout_height="60dp"
                 android:text=""
+                android:padding="12sp"
                 android:background="@drawable/text"
-                android:textColor="@color/colorFewAccent"
-                android:gravity="center"
-                android:textStyle="bold"
-                android:textSize="20dp"
+                android:textColor="@color/color_white"
+                android:gravity="fill"
+                android:textSize="25dp"
                 android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="@+id/ShowName"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -63,7 +63,10 @@
                 android:id="@+id/BActivityShowOpenVacation"
                 android:layout_width="169dp"
                 android:layout_height="51dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/color_white"
                 android:background="@drawable/button_vacation"
                 android:onClick="openVacation"
                 android:text="Отправить в отпуск"
@@ -77,44 +80,43 @@
                 android:layout_marginTop="16dp"
                 android:background="@drawable/button_add_days"
                 android:onClick="openAdditionalDuty"
+                android:textColor="@color/color_white"
                 android:text="Добавить дежурства"
                 app:layout_constraintEnd_toEndOf="@+id/BActivityShowOpenVacation"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/BActivityShowOpenVacation"
                 app:layout_constraintTop_toBottomOf="@+id/BActivityShowOpenVacation" />
+
+            <fragment
+                android:id="@+id/fragment_AdditionalDuty"
+                android:name="com.example.kitchentest.AdditionalDutyFragment"
+                android:layout_width="326dp"
+                android:layout_height="196dp"
+                android:layout_gravity="bottom"
+                android:visibility="visible"
+                app:layout_constraintBottom_toTopOf="@+id/BSActivityRemovePOD"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/BActivityShowAddDay" />
+
+            <fragment
+                android:id="@+id/fragment_Vacation"
+                android:name="com.example.kitchentest.VacationFragment"
+                android:layout_width="325dp"
+                android:layout_height="373dp"
+                android:layout_gravity="bottom"
+                android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@+id/BSActivityRemovePOD"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/BActivityShowAddDay"
+                app:layout_constraintVertical_bias="0.302" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <fragment
-                android:id="@+id/fragment_Vacation"
-                android:name="com.example.kitchentest.VacationFragment"
-                android:layout_width="411dp"
-                android:layout_height="294dp"
-                android:layout_gravity="bottom"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.704" />
-
-            <fragment
-                android:id="@+id/fragment_AdditionalDuty"
-                android:name="com.example.kitchentest.AdditionalDutyFragment"
-                android:layout_width="411dp"
-                android:layout_height="294dp"
-                android:layout_gravity="bottom"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="1.0" />
         </FrameLayout>
 
     </RelativeLayout>

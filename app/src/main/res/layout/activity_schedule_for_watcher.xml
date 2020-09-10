@@ -8,57 +8,73 @@
     tools:context=".Schedule_ActivityForWatcher">
 
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="50sp"
+        android:background="@drawable/text"
+        android:text="  Расписание"
+        android:textSize="30sp"
+        android:fontFamily="sans-serif-black"
+        android:textStyle="bold"
+        android:gravity="fill_vertical"
+        android:textColor="@color/color_white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
     <ListView
         android:id="@+id/OKListViewInSchedule_Activity"
-        android:layout_width="406dp"
-        android:layout_height="378dp"
-        android:layout_marginTop="24dp"
-        android:visibility="visible"
+        android:layout_width="320dp"
+        android:layout_height="360dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/islandtext"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/replaceSchedule" />
 
     <TextView
         android:id="@+id/TVinSchedule"
-        android:layout_width="349dp"
-        android:layout_height="96dp"
-        android:text="Кто сегодня дежурит?"
+        android:layout_width="match_parent"
+        android:layout_height="30sp"
+        android:layout_marginTop="28dp"
         android:gravity="center_horizontal"
-        android:textStyle="bold"
-        android:textColor="@color/colorAccent"
+        android:text="Кто сегодня дежурит?"
+        android:textColor="@color/color_white"
         android:textSize="24sp"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ListView
-        android:id="@+id/ListViewInSchedule_Activity"
-        android:layout_width="328dp"
-        android:layout_height="259dp"
-        android:layout_marginLeft="40sp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textStyle="bold"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TVinSchedule"
-        app:layout_constraintVertical_bias="0.127" />
+        app:layout_constraintTop_toTopOf="@+id/OKListViewInSchedule_Activity" />
+
+    <ListView
+        android:id="@+id/ListViewInSchedule_Activity"
+        android:layout_width="320dp"
+        android:layout_height="360dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/islandtext"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TVinSchedule" />
 
     <Button
         android:id="@+id/replaceSchedule"
-        android:layout_width="140dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="188dp"
+        android:layout_height="49dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/button"
         android:onClick="replaceOnNewSchedule"
-        android:text="Сделать новый"
+        android:text="Сделать новый график"
         android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <Button
         android:id="@+id/notReplace"
@@ -68,6 +84,7 @@
         android:background="@drawable/buttoncall"
         android:onClick="notreplaceOnNewSchedule"
         android:text="отмена"
+        android:textColor="@color/color_red"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
