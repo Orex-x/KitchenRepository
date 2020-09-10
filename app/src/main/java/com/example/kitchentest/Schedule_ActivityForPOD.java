@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -38,17 +39,16 @@ public class Schedule_ActivityForPOD extends AppCompatActivity {
     public static int threadIntFromScheduleActForPOD = 0, stop = 0, ODCinScheduleActForPODone = 0, ODCinScheduleActForPODtwo = 0;
     private TextView TVNullList;
     private String uri,replaceDay = null, todayStr = null;
-    private int stopCheckStatus = 0, posledvoet = 0, permissionToShowLVRDay = 0, pointToday =1;
+    private int stopCheckStatus = 0, posledvoet = 0, permissionToShowLVRDay = 0, pointToday =1, replaseOneTap = 0;
 
-
-    Button BReplaceDay, replacePODinSchedule;
+    private Button replacePODinSchedule;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_schedule__for_pod);
         init();
-        BReplaceDay.setVisibility(View.GONE);
         if(scheduleForPOD == null){
             TVNullList.setVisibility(View.VISIBLE);
             replacePODinSchedule.setVisibility(View.GONE);
@@ -241,10 +241,11 @@ public class Schedule_ActivityForPOD extends AppCompatActivity {
 
 
     private void setOnClickItemReplaceDay(){
+
         OKlistView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                BReplaceDay.setVisibility(View.VISIBLE);
+                replacePODinSchedule.setBackgroundResource(R.drawable.button_ready_replace);
                 replaceDay = buf.get(position);
 
             }
@@ -275,6 +276,7 @@ public class Schedule_ActivityForPOD extends AppCompatActivity {
                             if (stop == 0) {
                                 replacePODinSchedulePartTwo();
                             } else {
+                                replaceDay = null;
                                 Toast.makeText(Schedule_ActivityForPOD.this, "Прошлый опрос еще не закончился", Toast.LENGTH_SHORT).show();
                             }
                         ODCinScheduleActForPODone = 0;
@@ -308,7 +310,6 @@ public class Schedule_ActivityForPOD extends AppCompatActivity {
                             DatabaseReference reference2 = db.getReferenceFromUrl(uri);
                             reference2.setValue(replaceDay);
                             uri = "https://dnevalnie.firebaseio.com/Person_On_Duty/";
-
                         }
                     }
                     ODCinScheduleActForPODtwo = 0;
@@ -319,6 +320,7 @@ public class Schedule_ActivityForPOD extends AppCompatActivity {
             }
         };
         mDataBasePOD.addValueEventListener(valueEventListener);
+        replaceDay = null;
         Toast.makeText(Schedule_ActivityForPOD.this,"ведутся работы", Toast.LENGTH_SHORT).show();
     }
 
@@ -326,13 +328,22 @@ public class Schedule_ActivityForPOD extends AppCompatActivity {
 
 
     public void replacePODinScheduleButton(View view) {
-        Toast.makeText(Schedule_ActivityForPOD.this, "Выберите день который хотели бы поменять", Toast.LENGTH_SHORT).show();
-        setOnClickItemReplaceDay();
+        replaseOneTap++;
+        if(replaseOneTap == 1) {
+            replacePODinSchedule.setBackgroundResource(R.drawable.buttoncall);
+            Toast.makeText(Schedule_ActivityForPOD.this, "Выберите день который хотели бы поменять", Toast.LENGTH_SHORT).show();
+            setOnClickItemReplaceDay();
+        }else{
+            replacePODinSchedule.setBackgroundResource(R.drawable.button);
+            if (replaceDay != null) {
+                replacePODinSchedule();
+            }
+            replaseOneTap = 0;
+        }
     }
-    public void replacereplace(View view) {
-        replacePODinSchedule();
-        BReplaceDay.setVisibility(View.GONE);
-    }
+
+
+
 
 
 
@@ -347,7 +358,6 @@ public class Schedule_ActivityForPOD extends AppCompatActivity {
         mDataBasePOD = FirebaseDatabase.getInstance().getReference(Constant.PERSON_ON_DUTY_KEY);
 
         TVNullList = (TextView) findViewById(R.id.TVNullList);
-        BReplaceDay = (Button) findViewById(R.id.BReplaceDay);
         replacePODinSchedule = (Button) findViewById(R.id.replacePODinSchedule);
 
         buf = new ArrayList<>();

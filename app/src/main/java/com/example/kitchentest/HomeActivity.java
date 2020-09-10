@@ -7,8 +7,11 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -111,7 +114,7 @@ public class HomeActivity extends AppCompatActivity {
 
 
         public static String UserID = null, UriUserInHome, userName = null, userStatus = null, uriUserStatus, checkreplaceDay, IDGroupUser = null;
-        private String  todayStr, todayPODStr, tomorrowStr, NamePODyesterdayStr, uri, uriReplace,
+        private String  todayStr, todayPODStr, tomorrowPODstr = "--", yesterdayPODstr = "--", uriReplace,
                 replaceForDay = null, nameOne = null, nameTwo  = null, nameBuf  = null, uriChengeSchedule = null;
         private String uriFirst, uriSecond, schedule, LMBuf;
         private static String itogNotAcceptWork = "";
@@ -119,7 +122,7 @@ public class HomeActivity extends AppCompatActivity {
 
 
         private Button listGroupForWatcher, listGroupForPOD, scheduleForPOD, BHNotReplaceFinish, BHReplaceFinish, BHActivityAddIdGroup,
-                BHExit, BHActivityReplaceName;
+                BHExit, BHActivityReplaceName,CallYesterdaayPOD, CallTodayPOD, CallTomorrowPOD;
         public static Button BHNotAcceptWork, BHAcceptWork;
         public static Button BHAcceptReplace, BHNotAcceptReplace;
 
@@ -132,6 +135,12 @@ public class HomeActivity extends AppCompatActivity {
         static ArrayList<String> buflistScheduleName = new ArrayList<>();
         static ArrayList<String> newlistSchedule = new ArrayList<>();
         private ArrayList<String> bufForSchedule;
+
+//    Intent intent = new Intent(Intent.ACTION_CALL);
+//intent.setData(Uri.parse("tel:900..." ));
+//    startActivity(intent);
+
+    private Intent callTodayPODI, callTomorrowPODI, callYesterdayPODI;
 
 
         Calendar today;
@@ -157,6 +166,7 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_home);
         init();
         checkGroup();
@@ -490,6 +500,9 @@ public class HomeActivity extends AppCompatActivity {
                         if(ListOfFirebase.scheduleStr != null){
                             showTodayPOD();
                         }else{
+                            CallYesterdaayPOD.setVisibility(View.GONE);
+                            CallTomorrowPOD.setVisibility(View.GONE);
+                            CallTodayPOD.setVisibility(View.GONE);
                             TodayPOD.setText("Сегодня никто не дежурит");
                             YesterdaayPOD.setText("Вчера никто не дежурил");
                             TomorrowPOD.setText("Завтра никто не дежурит");
@@ -565,6 +578,9 @@ public class HomeActivity extends AppCompatActivity {
                         if(group.getSchedule() != null){
                             showTodayPOD();
                         }else{
+                            CallYesterdaayPOD.setVisibility(View.GONE);
+                            CallTomorrowPOD.setVisibility(View.GONE);
+                            CallTodayPOD.setVisibility(View.GONE);
                             TodayPOD.setText("Сегодня никто не дежурит");
                             YesterdaayPOD.setText("Вчера никто не дежурил");
                             TomorrowPOD.setText("Завтра никто не дежурит");
@@ -584,8 +600,6 @@ public class HomeActivity extends AppCompatActivity {
         todayStr = ":" + String.valueOf(today.get(Calendar.DAY_OF_MONTH)) +
                 "." + dateToday.getDay() + "." + dateToday.getMonth();
         today.add(Calendar.DAY_OF_YEAR, 1);
-        tomorrowStr = ":" + String.valueOf(today.get(Calendar.DAY_OF_MONTH)) +
-                "." + dateToday.getDay() + "." + dateToday.getMonth();
 
         final int hour = dateToday.getHours();
 
@@ -624,7 +638,31 @@ public class HomeActivity extends AppCompatActivity {
                 for (int i = 0; i < OKlistDataInHome.size(); i++) {
                     if (todayStr.equals(OKlistDataInHome.get(i))) {
 
-                        todayPODStr = listName.get(i);
+                            todayPODStr = listName.get(i);
+                        CallYesterdaayPOD.setVisibility(View.VISIBLE);
+                        CallTomorrowPOD.setVisibility(View.VISIBLE);
+                        CallTodayPOD.setVisibility(View.VISIBLE);
+                            try {
+                                tomorrowPODstr = listName.get(i + 1);
+                                yesterdayPODstr = listName.get(i - 1);
+                                createIntentForCall();
+                            }catch (ArrayIndexOutOfBoundsException e){
+                                CallYesterdaayPOD.setVisibility(View.GONE);
+                                try{
+                                    tomorrowPODstr = listName.get(i + 1);
+                                    createIntentForCall();
+                                }catch (ArrayIndexOutOfBoundsException ee){
+                                    CallTomorrowPOD.setVisibility(View.GONE);
+                                    createIntentForCall();
+                                }
+                            }
+
+
+
+                       //huina predvaritelno
+                        // prov = 0 когда есть все | prov = 1 когда есть сегодня и завтра |prov = 2 когда ничего нет
+
+                        //createIntentForCall();
                         //до 10 надо приннимать
                         if (todayPODStr.equals(userName) && hour < 10) {
                             checkStatusAWork();
@@ -634,6 +672,7 @@ public class HomeActivity extends AppCompatActivity {
 
 
                         TodayPOD.setText("Сегодня дежурит: " + listName.get(i));
+
                         try {
                             TomorrowPOD.setText("Завтра дежурит:  " + listName.get(i + 1));
                         } catch (ArrayIndexOutOfBoundsException e) {
@@ -650,7 +689,12 @@ public class HomeActivity extends AppCompatActivity {
                             CreateNewScedule();
                         }
                     } else if (scheduleExistTPODnotExist == 1) {
-                        TodayPOD.setText("Сегодня никто не деурит");
+                        CallYesterdaayPOD.setVisibility(View.GONE);
+                        CallTomorrowPOD.setVisibility(View.GONE);
+                        CallTodayPOD.setVisibility(View.GONE);
+                        TodayPOD.setText("Сегодня никто не дежурит");
+                        YesterdaayPOD.setText("Вчера никто не дежурил");
+                        TomorrowPOD.setText("Завтра никто не дежурит");
                     }
                 }
             }
@@ -662,6 +706,124 @@ public class HomeActivity extends AppCompatActivity {
         };
         mDataBaseGroup.addValueEventListener(valueEventListener);
     }
+
+//    private void createIntentForCall(final String nameTodayS, final String nameTomorrowS,final String nameYesterdayS) {
+//        Toast.makeText(HomeActivity.this, "все", Toast.LENGTH_SHORT).show();
+//        callYesterdayPODI = new Intent(Intent.ACTION_CALL);
+//        callTomorrowPODI = new Intent(Intent.ACTION_CALL);
+//        callTodayPODI = new Intent(Intent.ACTION_CALL);
+//
+//        ValueEventListener valueEventListener = new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+//                    PersonOnDuty personOnDuty = ds.getValue(PersonOnDuty.class);
+//                    assert personOnDuty != null;
+//                    if(personOnDuty.getIdGroup().equals(IDGroupUser)){
+//                        if(personOnDuty.getName().equals(nameTodayS)){
+//                            callTodayPODI.setData(Uri.parse("tel:" + personOnDuty.getPhone()));
+//                        }else if(personOnDuty.getName().equals("tel:" +nameTomorrowS)){
+//                            callTomorrowPODI.setData(Uri.parse(personOnDuty.getPhone()));
+//                        }else if(personOnDuty.getName().equals("tel:" +nameYesterdayS)){
+//                            callYesterdayPODI.setData(Uri.parse(personOnDuty.getPhone()));
+//                        }
+//                    }
+//                }
+//            }
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//            }
+//        };
+//        mDataBasePOD.addListenerForSingleValueEvent(valueEventListener);
+//
+//    }
+
+//    private void createIntentForCall(final String nameTodayS, final String nameTomorrowS) {
+//        callTomorrowPODI = new Intent(Intent.ACTION_CALL);
+//        callTodayPODI = new Intent(Intent.ACTION_CALL);
+//        Toast.makeText(HomeActivity.this, "сегодян и завтра", Toast.LENGTH_SHORT).show();
+//
+//        ValueEventListener valueEventListener = new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+//                    PersonOnDuty personOnDuty = ds.getValue(PersonOnDuty.class);
+//                    assert personOnDuty != null;
+//                    if(personOnDuty.getIdGroup().equals(IDGroupUser)){
+//                        if(personOnDuty.getName().equals(nameTodayS)){
+//                            Toast.makeText(HomeActivity.this, "записал сегодняшний", Toast.LENGTH_SHORT).show();
+//                            callTodayPODI.setData(Uri.parse("tel:" + personOnDuty.getPhone()));
+//                        }else if(personOnDuty.getName().equals("tel:" +nameTomorrowS)){
+//                            Toast.makeText(HomeActivity.this, "записал завтрашний", Toast.LENGTH_SHORT).show();
+//                            callTomorrowPODI.setData(Uri.parse(personOnDuty.getPhone()));
+//                        }
+//                    }
+//                }
+//            }
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//            }
+//        };
+//        mDataBasePOD.addListenerForSingleValueEvent(valueEventListener);
+//    }
+
+
+//    private void createIntentForCall(Integer prov) {
+//        callTodayPODI = new Intent(Intent.ACTION_CALL);
+//        Toast.makeText(HomeActivity.this, "сегодня", Toast.LENGTH_SHORT).show();
+//
+//        ValueEventListener valueEventListener = new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+//                    PersonOnDuty personOnDuty = ds.getValue(PersonOnDuty.class);
+//                    assert personOnDuty != null;
+//                    if(personOnDuty.getIdGroup().equals(IDGroupUser)){
+//                        if(personOnDuty.getName().equals(todayPODStr)){
+//                            callTodayPODI.setData(Uri.parse("tel:" + personOnDuty.getPhone()));
+//                        }
+//                    }
+//                }
+//            }
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//            }
+//        };
+//        mDataBasePOD.addListenerForSingleValueEvent(valueEventListener);
+//
+//    }
+
+    private void createIntentForCall() {
+        callYesterdayPODI = new Intent(Intent.ACTION_CALL);
+        callTomorrowPODI = new Intent(Intent.ACTION_CALL);
+        callTodayPODI = new Intent(Intent.ACTION_CALL);
+
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    PersonOnDuty personOnDuty = ds.getValue(PersonOnDuty.class);
+                    assert personOnDuty != null;
+                    if(personOnDuty.getIdGroup().equals(IDGroupUser)){
+                        if(personOnDuty.getName().equals(todayPODStr)){
+                            callTodayPODI.setData(Uri.parse("tel:" + personOnDuty.getPhone()));
+                        }else if(personOnDuty.getName().equals(tomorrowPODstr)){
+                            callTomorrowPODI.setData(Uri.parse("tel:" +personOnDuty.getPhone()));
+                        }else if(personOnDuty.getName().equals(yesterdayPODstr)){
+                            callYesterdayPODI.setData(Uri.parse("tel:" +personOnDuty.getPhone()));
+                        }
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        };
+        mDataBasePOD.addListenerForSingleValueEvent(valueEventListener);
+
+    }
+
+
 
     private void checkStatusAWork() {
         ValueEventListener valueEventListener = new ValueEventListener() {
@@ -934,18 +1096,6 @@ public class HomeActivity extends AppCompatActivity {
     }
 
 
-//    public static void notshowQuestionAboutAcceptWork(){
-//        TVaboutAcceptWork.setVisibility(View.GONE);
-//        BHNotAcceptWork.setVisibility(View.GONE);
-//        BHAcceptWork.setVisibility(View.GONE);
-//    }
-//    private void showQuestionAboutAcceptWork(){
-//        TVaboutAcceptWork.setVisibility(View.VISIBLE);
-//        BHNotAcceptWork.setVisibility(View.VISIBLE);
-//        BHAcceptWork.setVisibility(View.VISIBLE);
-//        notshowQuestionAboutAcceptReplace();
-//    }
-
 
     //Вызывается вначале всей проги и когда показывается больше инфы о обмнене
     public static void notshowQuestionAboutAcceptReplace(){
@@ -1005,26 +1155,6 @@ public class HomeActivity extends AppCompatActivity {
         String dayOfWeek = " ", month = " ";
         StringBuilder itog = new StringBuilder();
         itog.append(str);
-//        char c = '0';
-//        int l = 0;
-//
-//        try {
-//            c = str.charAt(str.length() - 2);
-//            l = str.length();
-//        }catch(StringIndexOutOfBoundsException e){
-//
-//        }
-//
-//        if(c== '.'){
-//            dayOfWeek = String.valueOf(str.charAt(l - 3));
-//            month  = String.valueOf(str.charAt(l-1));
-//            itog.delete(l-4, l);
-
-//        }else{
-//            dayOfWeek = String.valueOf(str.charAt(l - 3));
-//            month  = String.valueOf(str.charAt(l-1));
-//            itog.delete(l-4, l);
-//        }
         try{
             if(itog.charAt(itog.length()-2) == '.'){
                 dayOfWeek = String.valueOf(itog.charAt(itog.length() - 3));
@@ -1105,6 +1235,11 @@ public class HomeActivity extends AppCompatActivity {
         scheduleForPOD = (Button) findViewById(R.id.BHScheduleForPOD);
         BHAcceptReplace = (Button) findViewById(R.id.BHAcceptReplace);
         BHNotAcceptReplace = (Button) findViewById(R.id.BHNotAcceptReplace);
+
+        CallYesterdaayPOD = (Button) findViewById(R.id.CallYesterdaayPOD);
+        CallTodayPOD = (Button) findViewById(R.id.CallTodayPOD);
+        CallTomorrowPOD = (Button) findViewById(R.id.CallTomorrowPOD);
+
         BHExit = (Button) findViewById(R.id.BHExit);
 
         fragmentReplaceDay = (FrameLayout) findViewById(R.id.fragment_info_about_replace);
@@ -1139,7 +1274,16 @@ public class HomeActivity extends AppCompatActivity {
     }
 
 
+    public void callTodayPOD(View view) {
+        startActivity(callTodayPODI);
+    }
+    public void callTomorrowPOD(View view) {
+        startActivity(callTomorrowPODI);
 
+    }
+    public void callYesterdaayPOD(View view) {
+        startActivity(callYesterdayPODI);
+    }
 }
 
 

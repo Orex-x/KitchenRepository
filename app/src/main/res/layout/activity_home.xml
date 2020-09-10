@@ -110,14 +110,14 @@
 
             <Button
                 android:id="@+id/BHScheduleForPOD"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="140dp"
+                android:layout_height="50dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginBottom="16dp"
+                android:background="@drawable/button"
                 android:onClick="GoToSchedule"
                 android:text="Расписание"
-                android:background="@drawable/button"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -125,8 +125,8 @@
 
             <Button
                 android:id="@+id/listGroupForPOD"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="160dp"
+                android:layout_height="50dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginBottom="16dp"
@@ -141,15 +141,15 @@
 
             <Button
                 android:id="@+id/listGroupForWatcher"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="160dp"
+                android:layout_height="50dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginBottom="16dp"
+                android:background="@drawable/button"
                 android:onClick="ShowGroupForWatcher"
                 android:text="Участники группы "
                 android:visibility="gone"
-                android:background="@drawable/button"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 tools:visibility="visible" />
@@ -160,7 +160,7 @@
                 android:layout_height="43dp"
                 android:onClick="logOut"
                 android:text="log out"
-                android:background="@drawable/button"
+                android:background="@drawable/button_add_days"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -168,43 +168,108 @@
 
             <TextView
                 android:id="@+id/TomorrowPOD"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="52dp"
+                android:layout_width="300dp"
+                android:layout_height="120dp"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/colorFewAccent"
+                android:textStyle="bold"
+                android:background="@drawable/islandtext"
+                android:gravity="center_horizontal"
                 android:text="Загрузка..."
                 android:textSize="15dp"
                 android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/TodayPOD"
+                app:layout_constraintStart_toStartOf="@+id/TodayPOD"
                 app:layout_constraintTop_toBottomOf="@+id/TodayPOD"
                 tools:visibility="visible" />
 
             <TextView
                 android:id="@+id/TodayPOD"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="52dp"
+                android:layout_width="300dp"
+                android:layout_height="120dp"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/colorAccent"
+                android:background="@drawable/islandtext"
+                android:gravity="center_horizontal"
+                android:textStyle="bold"
                 android:text="Загрузка..."
                 android:textSize="20dp"
                 android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/YesterdaayPOD"
+                app:layout_constraintStart_toStartOf="@+id/YesterdaayPOD"
                 app:layout_constraintTop_toBottomOf="@+id/YesterdaayPOD"
                 tools:visibility="visible" />
 
             <TextView
                 android:id="@+id/YesterdaayPOD"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="88dp"
+                android:layout_width="300dp"
+                android:layout_height="120dp"
+                android:layout_marginTop="92dp"
                 android:text="Загрузка..."
                 android:textSize="15dp"
-
+                android:textColor="@color/colorFewAccent"
+                android:textStyle="bold"
+                android:background="@drawable/islandtext"
+                android:gravity="center_horizontal"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:visibility="visible" />
+
+            <Button
+                android:id="@+id/CallTodayPOD"
+                android:layout_width="107dp"
+                android:layout_height="46dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/button_call"
+                android:onClick="callTodayPOD"
+                android:text="Позвонить"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@+id/TodayPOD"
+                app:layout_constraintStart_toStartOf="@+id/TodayPOD" />
+
+            <Button
+                android:id="@+id/CallTomorrowPOD"
+                android:layout_width="75dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginBottom="16dp"
+                android:onClick="callTomorrowPOD"
+                android:background="@drawable/button_call"
+                android:text="Позвонить"
+                android:textSize="9dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/TomorrowPOD"
+                app:layout_constraintStart_toStartOf="@+id/TomorrowPOD" />
+
+            <Button
+                android:id="@+id/CallYesterdaayPOD"
+                android:layout_width="75dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginBottom="16dp"
+                android:onClick="callYesterdaayPOD"
+                android:background="@drawable/button_call"
+                android:text="Позвонить"
+                android:visibility="gone"
+                android:textSize="9dp"
+                app:layout_constraintBottom_toBottomOf="@+id/YesterdaayPOD"
+                app:layout_constraintStart_toStartOf="@+id/YesterdaayPOD" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="50sp"
+                android:background="@drawable/text"
+                android:text=""
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

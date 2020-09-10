@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorBackground"
     tools:context=".ShowGroupActivity">
     tools:context=".ShowGroupActivity">
 
     <ListView
         android:id="@+id/ListViewGroup"
-        android:layout_width="409dp"
-        android:layout_height="592dp"
+        android:layout_width="411dp"
+        android:layout_height="502dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -21,41 +22,71 @@
 
     <Button
         android:id="@+id/BASGAddPOD"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
+        android:background="@drawable/button"
         android:onClick="createPassivePOD"
         android:text="+"
-        tools:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
+        tools:visibility="gone" />
+
+    <Button
+        android:id="@+id/BASGnotAddPOD"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/empty_button"
+        android:onClick="notAddPOD"
+        android:visibility="gone"
+        android:text="отмена"
+        android:textColor="@color/color_red"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/BASGAddPOD" />
 
     <EditText
         android:id="@+id/EDASGNamePPOD"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="52dp"
+        android:layout_marginBottom="220dp"
         android:ems="10"
-        android:inputType="textPersonName"
         android:hint="Name"
-        tools:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/BASGAddPOD"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:visibility="gone" />
 
     <Button
         android:id="@+id/BSActivityLeaveGroup"
+        android:layout_width="111dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/button_add_days"
+        android:onClick="leaveTheGroup"
+        android:visibility="visible"
+        android:text="Выпилиться"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ListViewGroup" />
+
+    <EditText
+        android:id="@+id/EDASGPhonePOD"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="28dp"
-        android:onClick="leaveTheGroup"
-        android:text="Выпилиться"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="Телефон"
+        android:visibility="gone"
+        android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/EDASGNamePPOD" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

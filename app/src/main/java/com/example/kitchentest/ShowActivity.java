@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -35,6 +36,7 @@ public class ShowActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_show);
         mDataBasePOD = FirebaseDatabase.getInstance().getReference(Constant.PERSON_ON_DUTY_KEY);
         mDataBaseGroup = FirebaseDatabase.getInstance().getReference(Constant.GROUP_KEY);
@@ -58,7 +60,7 @@ public class ShowActivity extends AppCompatActivity {
             VacationFragment.userNameFragmentVacation = intent.getStringExtra(Constant.USER_NAME);
             AdditionalDutyFragment.namePOD = intent.getStringExtra(Constant.USER_NAME);
             tvName.setText(intent.getStringExtra(Constant.USER_NAME));
-            tvId.setText(intent.getStringExtra(Constant.USER_ID));
+           // tvId.setText(intent.getStringExtra(Constant.USER_ID));
             userName = intent.getStringExtra(Constant.USER_NAME);
             userIdGroup = intent.getStringExtra(Constant.USER_IDGROUP);
         }
@@ -99,7 +101,8 @@ public class ShowActivity extends AppCompatActivity {
                             updateSchedule();
                             uri = "https://dnevalnie.firebaseio.com/Person_On_Duty/";
                         }
-                        tvId.setText("Больше нет с нами");
+                        tvId.setText("больше нет с нами");
+
                     }
                 }
             }

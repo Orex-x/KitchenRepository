@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorBackground"
     tools:context=".ShowActivity">
 
     <RelativeLayout
@@ -17,11 +18,14 @@
 
             <TextView
                 android:id="@+id/ShowName"
-                android:layout_width="239dp"
-                android:layout_height="35dp"
-                android:layout_marginTop="28dp"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
                 android:text="TextView"
-                android:textSize="20dp"
+                android:gravity="fill"
+                android:textColor="@color/colorFewAccent"
+                android:background="@drawable/text"
+                android:textSize="30dp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.156"
                 app:layout_constraintStart_toStartOf="parent"
@@ -29,21 +33,25 @@
 
             <TextView
                 android:id="@+id/ShowId"
-                android:layout_width="236dp"
-                android:layout_height="93dp"
-                android:layout_marginTop="16dp"
-                android:text="TextView"
-                android:textSize="15dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.175"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ShowName" />
+                android:layout_width="249dp"
+                android:layout_height="57dp"
+                android:text=""
+                android:background="@drawable/text"
+                android:textColor="@color/colorFewAccent"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textSize="20dp"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="@+id/ShowName"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <Button
                 android:id="@+id/BSActivityRemovePOD"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="99dp"
+                android:layout_height="48dp"
                 android:layout_marginBottom="16dp"
+                android:textColor="@color/color_red"
+                android:background="@drawable/red_button"
                 android:onClick="RemovePOD"
                 android:text="Выпилить"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -53,19 +61,21 @@
 
             <Button
                 android:id="@+id/BActivityShowOpenVacation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_width="169dp"
+                android:layout_height="51dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/button_vacation"
                 android:onClick="openVacation"
                 android:text="Отправить в отпуск"
-                app:layout_constraintStart_toStartOf="@+id/ShowId"
-                app:layout_constraintTop_toBottomOf="@+id/ShowId" />
+                app:layout_constraintStart_toStartOf="@+id/ShowName"
+                app:layout_constraintTop_toBottomOf="@+id/ShowName" />
 
             <Button
                 android:id="@+id/BActivityShowAddDay"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="176dp"
+                android:layout_height="51dp"
                 android:layout_marginTop="16dp"
+                android:background="@drawable/button_add_days"
                 android:onClick="openAdditionalDuty"
                 android:text="Добавить дежурства"
                 app:layout_constraintEnd_toEndOf="@+id/BActivityShowOpenVacation"
@@ -84,7 +94,7 @@
                 android:layout_width="411dp"
                 android:layout_height="294dp"
                 android:layout_gravity="bottom"
-                android:visibility="visible"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -98,7 +108,7 @@
                 android:layout_width="411dp"
                 android:layout_height="294dp"
                 android:layout_gravity="bottom"
-                android:visibility="visible"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"

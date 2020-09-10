@@ -33,10 +33,12 @@ public class VacationFragment extends Fragment {
     private TextView TVFragmentVacation;
     private ListView LVFragmentVacation;
     private Button BFragmentVacationBack, BFragmentVacationOpen;
-    private int pointToday = 0, posledvoet2 = 0, posledvoet = 0, permissionToShowLVRDay = 0, posledvoetV = 0;
+    private int pointToday = 0, posledvoet2 = 0, posledvoet = 0, permissionToShowLVRDay = 0,
+            posledvoetV = 0;
     private String todayStr, stringVacation, schedule, uri;
     public static List<String> listDataVacationFragment;
-    private ArrayList<String> buf, listVacationDays, nameList, dateList, nameListV, dateListV, indexRemove;
+    private ArrayList<String> buf, listVacationDays, nameList, dateList, nameListV, dateListV,
+            indexRemove;
 
     public static String IDGroupUserVacationFragment = null, userNameFragmentVacation = null;
     private ArrayAdapter<String> ArrayAdapterForVacationFragment;

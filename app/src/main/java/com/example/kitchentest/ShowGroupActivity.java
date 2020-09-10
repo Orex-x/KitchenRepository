@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -31,27 +32,30 @@ public class ShowGroupActivity extends AppCompatActivity {
     private List<PersonOnDuty> listItem;
     private DatabaseReference mDataBasePOD, getmDataBaseW, getmDataBaseGroup;
     public static String IDGroup = null;
-    ArrayList<PersonOnDuty> listForImportPOD = new ArrayList<>();
-    EditText EDASGNamePPOD;
+    private ArrayList<PersonOnDuty> listForImportPOD = new ArrayList<>();
+    private EditText EDASGNamePPOD, EDASGPhonePOD;
 
     public static int isPOD = 0, repeatNameInGroup = 0;
     public static String userIdShowGAct = null;
     private int firstTap;
-    private Button BASGAddPOD, BSActivityLeaveGroup;
-    private String namePPOD;
+    private Button BASGAddPOD, BSActivityLeaveGroup, BASGnotAddPOD;
+    private String namePPOD, phonePPOD;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_show_group);
        if(isPOD == 1) {
            init();
            BASGAddPOD.setVisibility(View.GONE);
+           BASGnotAddPOD.setVisibility(View.GONE);
            BSActivityLeaveGroup.setVisibility(View.VISIBLE);
            getDataFromDb();
        }else if(isPOD == -1){
            init();
            BASGAddPOD.setVisibility(View.VISIBLE);
+           BASGnotAddPOD.setVisibility(View.GONE);
            BSActivityLeaveGroup.setVisibility(View.GONE);
            getDataFromDb();
            setOnClickItem();
@@ -120,32 +124,53 @@ public class ShowGroupActivity extends AppCompatActivity {
         getmDataBaseGroup = FirebaseDatabase.getInstance().getReference(Constant.GROUP_KEY);
 
         BSActivityLeaveGroup = (Button) findViewById(R.id.BSActivityLeaveGroup);
+        BASGnotAddPOD = (Button) findViewById(R.id.BASGnotAddPOD);
         BASGAddPOD = (Button) findViewById(R.id.BASGAddPOD);
+        EDASGPhonePOD = (EditText) findViewById(R.id.EDASGPhonePOD);
         EDASGNamePPOD = (EditText) findViewById(R.id.EDASGNamePPOD);
         EDASGNamePPOD.setVisibility(View.GONE);
+        EDASGPhonePOD.setVisibility(View.GONE);
         firstTap = 0;
         namePPOD = null;
+        phonePPOD = null;
 
     }
 
     public void createPassivePOD(View view) {
         if(firstTap == 0){
             firstTap++;
+            BASGAddPOD.setBackgroundResource(R.drawable.button_vacation);
             listView.setVisibility(View.GONE);
             EDASGNamePPOD.setVisibility(View.VISIBLE);
+            EDASGPhonePOD.setVisibility(View.VISIBLE);
+
+            BASGnotAddPOD.setVisibility(View.VISIBLE);
         }else{
+            BASGAddPOD.setBackgroundResource(R.drawable.button);
             try {
                 namePPOD = EDASGNamePPOD.getText().toString();
                 namePPOD.trim();
 
             }catch (NullPointerException e){
                 Toast.makeText(ShowGroupActivity.this, "name is empty", Toast.LENGTH_SHORT).show();
+                BASGAddPOD.setBackgroundResource(R.drawable.button_vacation);
             }
+
+            try{
+                phonePPOD = EDASGPhonePOD.getText().toString();
+                phonePPOD.trim();
+            }catch (NullPointerException e){
+                Toast.makeText(ShowGroupActivity.this, "phone is empty", Toast.LENGTH_SHORT).show();
+                BASGAddPOD.setBackgroundResource(R.drawable.button_vacation);
+            }
+
             if(namePPOD.length()<3){
                 Toast.makeText(ShowGroupActivity.this, "name is short", Toast.LENGTH_SHORT).show();
-            }else {
-
-
+                BASGAddPOD.setBackgroundResource(R.drawable.button_vacation);
+            }else if(phonePPOD.length()<11) {
+                Toast.makeText(ShowGroupActivity.this, "phone is short", Toast.LENGTH_SHORT).show();
+                BASGAddPOD.setBackgroundResource(R.drawable.button_vacation);
+            }else{
                 ValueEventListener valueEventListener = new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -175,14 +200,21 @@ public class ShowGroupActivity extends AppCompatActivity {
         }
     }
 
+
+
+
     private void createPPOD() {
         
-        PersonOnDuty personOnDuty = new PersonOnDuty(namePPOD, Constant.PERSON_ON_DUTY_ROLE, "IDID" , "0000", IDGroup,
+        PersonOnDuty personOnDuty = new PersonOnDuty(namePPOD, Constant.PERSON_ON_DUTY_ROLE, "IDID" , phonePPOD, IDGroup,
                 "0", "0" , "-");
 
         mDataBasePOD.push().setValue(personOnDuty);
         listView.setVisibility(View.VISIBLE);
         EDASGNamePPOD.setVisibility(View.GONE);
+        EDASGPhonePOD.setVisibility(View.GONE);
+        EDASGNamePPOD.setText("");
+        EDASGPhonePOD.setText("");
+        BASGnotAddPOD.setVisibility(View.GONE);
         firstTap = 0;
         repeatNameInGroup = 0;
         Toast.makeText(ShowGroupActivity.this, "Готово", Toast.LENGTH_SHORT).show();
@@ -218,5 +250,14 @@ public class ShowGroupActivity extends AppCompatActivity {
             }
         };
         mDataBasePOD.addListenerForSingleValueEvent(valueEventListener);
+    }
+
+    public void notAddPOD(View view) {
+        BASGAddPOD.setBackgroundResource(R.drawable.button);
+        listView.setVisibility(View.VISIBLE);
+        BASGnotAddPOD.setVisibility(View.GONE);
+        EDASGNamePPOD.setVisibility(View.GONE);
+        EDASGPhonePOD.setVisibility(View.GONE);
+        firstTap = 0;
     }
 }
