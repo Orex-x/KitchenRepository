@@ -3,6 +3,7 @@ package com.example.kitchentest;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
@@ -310,5 +311,9 @@ public class Schedule_ActivityForWatcher extends AppCompatActivity {
         notReplace.setVisibility(View.GONE);
         showListSchedule();
 
+    }
+
+    public void backHomeActivityFromASFW(View view) {
+        onBackPressed();
     }
 }

@@ -266,4 +266,8 @@ public class ShowGroupActivity extends AppCompatActivity {
         EDASGPhonePOD.setVisibility(View.GONE);
         firstTap = 0;
     }
+
+    public void backHomeActivity(View view) {
+        onBackPressed();
+    }
 }

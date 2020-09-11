@@ -7,6 +7,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
@@ -29,7 +32,7 @@ import com.google.firebase.database.ValueEventListener;
 public class LoginActivity extends AppCompatActivity {
     EditText ETWelcomeLogin, ETWelcomePassword, ETRLogin, ETRName, ETRPhone, ETRPassword, ETRidGroup;
     Button BWOpen, BWRegistr, BRPersonOD, BRWatcher, BRRegistr, BRBack;
-    TextView TVWelcome, TVRegistr;
+    TextView TVWelcome, TVRegistr, TVLoginActChoseeRole;
     private FirebaseAuth mAuth;
     private DatabaseReference PersonOnDutyDataBase, WatcherDataBase, StatusDataBase, GroupDataBase;
     private int isWatcher = 0, repeatIdGroup = 0, repeatNameInGroup = 0, groupexists = 0;
@@ -275,6 +278,7 @@ public class LoginActivity extends AppCompatActivity {
         ETWelcomePassword.setVisibility(View.VISIBLE);
         BWOpen.setVisibility(View.VISIBLE);
         BWRegistr.setVisibility(View.VISIBLE);
+        TVLoginActChoseeRole.setVisibility(View.GONE);
         TVRegistr.setVisibility(View.GONE);
         ETRLogin.setVisibility(View.GONE);
         ETRName.setVisibility(View.GONE);
@@ -293,6 +297,7 @@ public class LoginActivity extends AppCompatActivity {
         BWOpen.setVisibility(View.GONE);
         BWRegistr.setVisibility(View.GONE);
         ETRidGroup.setVisibility(View.GONE);
+        TVLoginActChoseeRole.setVisibility(View.VISIBLE);
         TVRegistr.setVisibility(View.VISIBLE);
         ETRLogin.setVisibility(View.VISIBLE);
         ETRName.setVisibility(View.VISIBLE);
@@ -310,6 +315,7 @@ public class LoginActivity extends AppCompatActivity {
         ETWelcomePassword.setVisibility(View.VISIBLE);
         BWOpen.setVisibility(View.VISIBLE);
         BWRegistr.setVisibility(View.VISIBLE);
+        TVLoginActChoseeRole.setVisibility(View.GONE);
         TVRegistr.setVisibility(View.GONE);
         ETRLogin.setVisibility(View.GONE);
         ETRName.setVisibility(View.GONE);
@@ -343,6 +349,7 @@ public class LoginActivity extends AppCompatActivity {
 
         TVWelcome = (TextView) findViewById(R.id.TVWelcome);
         TVRegistr = (TextView) findViewById(R.id.TVRegistr);
+        TVLoginActChoseeRole =(TextView) findViewById(R.id.TVLoginActChoseeRole);
 
         mAuth = FirebaseAuth.getInstance();
         PersonOnDutyDataBase = FirebaseDatabase.getInstance().getReference(Constant.PERSON_ON_DUTY_KEY);
@@ -351,10 +358,14 @@ public class LoginActivity extends AppCompatActivity {
         GroupDataBase = FirebaseDatabase.getInstance().getReference(Constant.GROUP_KEY);
     }
     public void createWatcher(View view) {
+        BRPersonOD.setBackgroundResource(R.drawable.button);
+        BRWatcher.setBackgroundResource(R.drawable.button_orange);
         ETRidGroup.setVisibility(View.GONE);
         isWatcher = 1;
     }
     public void createPersonOD(View view) {
+        BRPersonOD.setBackgroundResource(R.drawable.button_orange);
+        BRWatcher.setBackgroundResource(R.drawable.button);
         ETRidGroup.setVisibility(View.VISIBLE);
         isWatcher = -1;
     }

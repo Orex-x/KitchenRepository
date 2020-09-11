@@ -16,12 +16,24 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:text=""
+                android:onClick="backListGroup"
+                android:layout_marginTop="6dp"
+                android:layout_marginLeft="4dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
                 android:id="@+id/ShowName"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:text="TextView"
-                android:gravity="fill"
+                android:paddingLeft="60dp"
+                android:gravity="fill_vertical"
                 android:textColor="@color/color_white"
                 android:background="@drawable/text"
                 android:textSize="30dp"
@@ -33,17 +45,18 @@
 
             <TextView
                 android:id="@+id/ShowId"
-                android:layout_width="220dp"
-                android:layout_height="60dp"
-                android:text=""
-                android:padding="12sp"
-                android:background="@drawable/text"
-                android:textColor="@color/color_white"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
                 android:gravity="fill"
-                android:textSize="25dp"
+                android:paddingLeft="10dp"
+                android:text=""
+                android:textColor="@color/color_white"
+                android:textSize="20dp"
+                android:textStyle="bold"
                 android:visibility="visible"
-                app:layout_constraintEnd_toEndOf="@+id/ShowName"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ShowName" />
 
             <Button
                 android:id="@+id/BSActivityRemovePOD"
@@ -63,15 +76,15 @@
                 android:id="@+id/BActivityShowOpenVacation"
                 android:layout_width="169dp"
                 android:layout_height="51dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="20dp"
-                android:textColor="@color/color_white"
+                android:layout_marginStart="24dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="16dp"
                 android:background="@drawable/button_vacation"
                 android:onClick="openVacation"
                 android:text="Отправить в отпуск"
+                android:textColor="@color/color_white"
                 app:layout_constraintStart_toStartOf="@+id/ShowName"
-                app:layout_constraintTop_toBottomOf="@+id/ShowName" />
+                app:layout_constraintTop_toBottomOf="@+id/ShowId" />
 
             <Button
                 android:id="@+id/BActivityShowAddDay"
@@ -87,36 +100,28 @@
                 app:layout_constraintStart_toStartOf="@+id/BActivityShowOpenVacation"
                 app:layout_constraintTop_toBottomOf="@+id/BActivityShowOpenVacation" />
 
-            <fragment
-                android:id="@+id/fragment_AdditionalDuty"
-                android:name="com.example.kitchentest.AdditionalDutyFragment"
-                android:layout_width="326dp"
-                android:layout_height="196dp"
-                android:layout_gravity="bottom"
-                android:visibility="visible"
-                app:layout_constraintBottom_toTopOf="@+id/BSActivityRemovePOD"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/BActivityShowAddDay" />
 
-            <fragment
-                android:id="@+id/fragment_Vacation"
-                android:name="com.example.kitchentest.VacationFragment"
-                android:layout_width="325dp"
-                android:layout_height="373dp"
-                android:layout_gravity="bottom"
-                android:visibility="gone"
-                app:layout_constraintBottom_toTopOf="@+id/BSActivityRemovePOD"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/BActivityShowAddDay"
-                app:layout_constraintVertical_bias="0.302" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <fragment
+                android:id="@+id/fragment_Vacation"
+                android:name="com.example.kitchentest.VacationFragment"
+                android:layout_width="match_parent"
+                android:layout_height="373dp"
+                android:layout_gravity="bottom"
+                android:visibility="gone" />
+
+            <fragment
+                android:id="@+id/fragment_AdditionalDuty"
+                android:name="com.example.kitchentest.AdditionalDutyFragment"
+                android:layout_width="match_parent"
+                android:layout_height="196dp"
+                android:layout_gravity="bottom"
+                android:visibility="gone" />
         </FrameLayout>
 
     </RelativeLayout>

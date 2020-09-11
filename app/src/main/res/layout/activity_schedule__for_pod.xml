@@ -12,29 +12,26 @@
         android:layout_width="match_parent"
         android:layout_height="50sp"
         android:background="@drawable/text"
-        android:text="  Расписание"
+        android:text="Расписание"
         android:textSize="30sp"
         android:textStyle="bold"
-        android:gravity="fill_vertical"
+        android:gravity="center"
         android:textColor="@color/color_white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <TextView
-        android:id="@+id/TVNullList"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Графика нет, обратитесь к смтрителю"
-        android:textSize="30dp"
-        android:visibility="gone"
-        android:gravity="center_horizontal"
-        android:textColor="@color/colorAccent"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:text=""
+        android:onClick="backHomeActivityFromASFPOD"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+
 
     <ListView
         android:id="@+id/OKListViewInSchedule_ActivityForPOD"
@@ -45,17 +42,37 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/replacePODinSchedule" />
+        app:layout_constraintTop_toBottomOf="@+id/replacePODinSchedule" >
+
+
+    </ListView>
+
+    <TextView
+        android:id="@+id/TVNullList"
+        android:layout_width="236dp"
+        android:layout_height="114dp"
+        android:gravity="center_horizontal"
+        android:text="Графика нет, обратитесь к смтрителю"
+        android:textColor="@color/colorAccent"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/OKListViewInSchedule_ActivityForPOD"
+        app:layout_constraintEnd_toEndOf="@+id/OKListViewInSchedule_ActivityForPOD"
+        app:layout_constraintStart_toStartOf="@+id/OKListViewInSchedule_ActivityForPOD"
+        app:layout_constraintTop_toTopOf="@+id/OKListViewInSchedule_ActivityForPOD" />
 
     <Button
         android:id="@+id/replacePODinSchedule"
         android:layout_width="114dp"
         android:layout_height="49dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="28dp"
         android:background="@drawable/button"
         android:onClick="replacePODinScheduleButton"
         android:text="Поменяться"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

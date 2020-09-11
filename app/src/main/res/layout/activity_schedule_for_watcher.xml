@@ -13,11 +13,13 @@
         android:layout_width="match_parent"
         android:layout_height="50sp"
         android:background="@drawable/text"
+        android:paddingRight="12sp"
+        android:paddingTop="3sp"
         android:text="  Расписание"
         android:textSize="30sp"
+        android:gravity="right"
         android:fontFamily="sans-serif-black"
         android:textStyle="bold"
-        android:gravity="fill_vertical"
         android:textColor="@color/color_white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -90,4 +92,13 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ListViewInSchedule_Activity" />
+
+    <Button
+        android:id="@+id/bottom2"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:text=""
+        android:onClick="backHomeActivityFromASFW"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

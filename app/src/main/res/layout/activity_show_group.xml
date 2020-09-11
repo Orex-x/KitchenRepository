@@ -27,6 +27,7 @@
         android:id="@+id/button"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:onClick="backHomeActivity"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -109,7 +110,7 @@
         android:background="@drawable/edit_text"
         android:ems="10"
         android:padding="12sp"
-        android:hint="Name"
+        android:hint="Имя"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

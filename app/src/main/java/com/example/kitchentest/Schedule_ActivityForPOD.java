@@ -157,7 +157,7 @@ public class Schedule_ActivityForPOD extends AppCompatActivity {
                     OKarrayAdapter.notifyDataSetChanged();
                 }catch (IndexOutOfBoundsException e){
                     //график устарел походу..
-                    TVNullList.setText("График устарел походу..");
+                    TVNullList.setText("Неактуальный график");
                     TVNullList.setVisibility(View.VISIBLE);
                     replacePODinSchedule.setVisibility(View.GONE);
                 }
@@ -343,7 +343,9 @@ public class Schedule_ActivityForPOD extends AppCompatActivity {
     }
 
 
-
+    public void backHomeActivityFromASFPOD(View view) {
+        onBackPressed();
+    }
 
 
 

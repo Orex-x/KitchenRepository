@@ -27,6 +27,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -106,7 +108,7 @@ public class HomeActivity extends AppCompatActivity {
         private DatabaseReference mDataBasePOD;
 
 
-        private TextView TodayPOD,YesterdaayPOD, TomorrowPOD, TVReplaseFinish, TVHActivitySecundu, GroupIsNull, TVHActivityReplaceName;
+        private TextView TVActHomeGlav, TodayPOD,YesterdaayPOD, TomorrowPOD, TVReplaseFinish, TVHActivitySecundu, GroupIsNull, TVHActivityReplaceName;
         public static TextView TVaboutAcceptWork;
         public static TextView TVaboutAcceptReplace;
 
@@ -194,6 +196,7 @@ public class HomeActivity extends AppCompatActivity {
                     ToEnterIDGroup();
                     TVHActivitySecundu.setVisibility(View.GONE);
                     BHExit.setVisibility(View.VISIBLE);
+                    TVActHomeGlav.setVisibility(View.VISIBLE);
                     startMainCode();
                 }
             }
@@ -545,7 +548,6 @@ public class HomeActivity extends AppCompatActivity {
                         Schedule_ActivityForPOD.userNameForScheduleActForPOD = userName;
                         InfoAboutReplaceFragment.IDGroupUserFragmentReplace = IDGroupUser;
                         InfoAboutReplaceFragment.userNameFragmentReplace = userName;
-                        Toast.makeText(HomeActivity.this, InfoAboutReplaceFragment.IDGroupUserFragmentReplace, Toast.LENGTH_SHORT).show();
                         scheduleIsLagbehind++;
                         listGroupForPOD.setVisibility(View.VISIBLE);
                         listGroupForWatcher.setVisibility(View.GONE);
@@ -657,11 +659,6 @@ public class HomeActivity extends AppCompatActivity {
                                 }
                             }
 
-
-
-                       //huina predvaritelno
-                        // prov = 0 когда есть все | prov = 1 когда есть сегодня и завтра |prov = 2 когда ничего нет
-
                         //createIntentForCall();
                         //до 10 надо приннимать
                         if (todayPODStr.equals(userName) && hour < 10) {
@@ -707,91 +704,7 @@ public class HomeActivity extends AppCompatActivity {
         mDataBaseGroup.addValueEventListener(valueEventListener);
     }
 
-//    private void createIntentForCall(final String nameTodayS, final String nameTomorrowS,final String nameYesterdayS) {
-//        Toast.makeText(HomeActivity.this, "все", Toast.LENGTH_SHORT).show();
-//        callYesterdayPODI = new Intent(Intent.ACTION_CALL);
-//        callTomorrowPODI = new Intent(Intent.ACTION_CALL);
-//        callTodayPODI = new Intent(Intent.ACTION_CALL);
-//
-//        ValueEventListener valueEventListener = new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                for (DataSnapshot ds : dataSnapshot.getChildren()) {
-//                    PersonOnDuty personOnDuty = ds.getValue(PersonOnDuty.class);
-//                    assert personOnDuty != null;
-//                    if(personOnDuty.getIdGroup().equals(IDGroupUser)){
-//                        if(personOnDuty.getName().equals(nameTodayS)){
-//                            callTodayPODI.setData(Uri.parse("tel:" + personOnDuty.getPhone()));
-//                        }else if(personOnDuty.getName().equals("tel:" +nameTomorrowS)){
-//                            callTomorrowPODI.setData(Uri.parse(personOnDuty.getPhone()));
-//                        }else if(personOnDuty.getName().equals("tel:" +nameYesterdayS)){
-//                            callYesterdayPODI.setData(Uri.parse(personOnDuty.getPhone()));
-//                        }
-//                    }
-//                }
-//            }
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//            }
-//        };
-//        mDataBasePOD.addListenerForSingleValueEvent(valueEventListener);
-//
-//    }
 
-//    private void createIntentForCall(final String nameTodayS, final String nameTomorrowS) {
-//        callTomorrowPODI = new Intent(Intent.ACTION_CALL);
-//        callTodayPODI = new Intent(Intent.ACTION_CALL);
-//        Toast.makeText(HomeActivity.this, "сегодян и завтра", Toast.LENGTH_SHORT).show();
-//
-//        ValueEventListener valueEventListener = new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                for (DataSnapshot ds : dataSnapshot.getChildren()) {
-//                    PersonOnDuty personOnDuty = ds.getValue(PersonOnDuty.class);
-//                    assert personOnDuty != null;
-//                    if(personOnDuty.getIdGroup().equals(IDGroupUser)){
-//                        if(personOnDuty.getName().equals(nameTodayS)){
-//                            Toast.makeText(HomeActivity.this, "записал сегодняшний", Toast.LENGTH_SHORT).show();
-//                            callTodayPODI.setData(Uri.parse("tel:" + personOnDuty.getPhone()));
-//                        }else if(personOnDuty.getName().equals("tel:" +nameTomorrowS)){
-//                            Toast.makeText(HomeActivity.this, "записал завтрашний", Toast.LENGTH_SHORT).show();
-//                            callTomorrowPODI.setData(Uri.parse(personOnDuty.getPhone()));
-//                        }
-//                    }
-//                }
-//            }
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//            }
-//        };
-//        mDataBasePOD.addListenerForSingleValueEvent(valueEventListener);
-//    }
-
-
-//    private void createIntentForCall(Integer prov) {
-//        callTodayPODI = new Intent(Intent.ACTION_CALL);
-//        Toast.makeText(HomeActivity.this, "сегодня", Toast.LENGTH_SHORT).show();
-//
-//        ValueEventListener valueEventListener = new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                for (DataSnapshot ds : dataSnapshot.getChildren()) {
-//                    PersonOnDuty personOnDuty = ds.getValue(PersonOnDuty.class);
-//                    assert personOnDuty != null;
-//                    if(personOnDuty.getIdGroup().equals(IDGroupUser)){
-//                        if(personOnDuty.getName().equals(todayPODStr)){
-//                            callTodayPODI.setData(Uri.parse("tel:" + personOnDuty.getPhone()));
-//                        }
-//                    }
-//                }
-//            }
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//            }
-//        };
-//        mDataBasePOD.addListenerForSingleValueEvent(valueEventListener);
-//
-//    }
 
     private void createIntentForCall() {
         callYesterdayPODI = new Intent(Intent.ACTION_CALL);
@@ -807,9 +720,11 @@ public class HomeActivity extends AppCompatActivity {
                     if(personOnDuty.getIdGroup().equals(IDGroupUser)){
                         if(personOnDuty.getName().equals(todayPODStr)){
                             callTodayPODI.setData(Uri.parse("tel:" + personOnDuty.getPhone()));
-                        }else if(personOnDuty.getName().equals(tomorrowPODstr)){
+                        }
+                        if(personOnDuty.getName().equals(tomorrowPODstr)){
                             callTomorrowPODI.setData(Uri.parse("tel:" +personOnDuty.getPhone()));
-                        }else if(personOnDuty.getName().equals(yesterdayPODstr)){
+                        }
+                        if(personOnDuty.getName().equals(yesterdayPODstr)){
                             callYesterdayPODI.setData(Uri.parse("tel:" +personOnDuty.getPhone()));
                         }
                     }
@@ -1209,6 +1124,7 @@ public class HomeActivity extends AppCompatActivity {
         HomeActivity.statusOne = 0;
     }
     private void init() {
+        TVActHomeGlav = (TextView) findViewById(R.id.TVActHomeGlav);
         TodayPOD = (TextView) findViewById(R.id.TodayPOD);
         GroupIsNull = (TextView) findViewById(R.id.GroupIsNull);
         TVHActivitySecundu = (TextView) findViewById(R.id.TVHActivitySecundu);
