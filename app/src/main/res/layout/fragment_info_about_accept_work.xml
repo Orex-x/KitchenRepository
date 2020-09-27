@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/islandtext"
     tools:context=".InfoAboutAcceptWork">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -12,9 +13,12 @@
 
         <TextView
             android:id="@+id/TVFragmentAcceptWork"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:textColor="@color/colorAccent"
+            android:textSize="15sp"
+            android:gravity="center"
             android:text="Принимаете дежурство?"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
@@ -27,7 +31,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="60dp"
+            android:textColor="@color/colorAccent"
             android:layout_marginRight="60dp"
+            android:background="@drawable/button"
             android:text="Нет"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/TVFragmentAcceptWork" />
@@ -38,7 +44,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="60dp"
             android:layout_marginLeft="60dp"
+            android:textColor="@color/colorAccent"
             android:layout_marginTop="20dp"
+            android:background="@drawable/button"
             android:text="Да"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/TVFragmentAcceptWork" />

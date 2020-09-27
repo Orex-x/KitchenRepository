@@ -29,7 +29,7 @@ import java.util.List;
 
 public class Schedule_ActivityForWatcher extends AppCompatActivity {
     private ListView listView, OKlistView;
-    private ArrayAdapter<String> arrayAdapter, OKarrayAdapter;
+    private Adapter arrayAdapter, OKarrayAdapter;
     private List<String> listData;
     public static List<String> OKlistData;
     private List<PersonOnDuty> listItem;
@@ -174,7 +174,7 @@ public class Schedule_ActivityForWatcher extends AppCompatActivity {
                                 }
                                 if (pointToday == 1 && counterForShowSchedule < 8) {
                                     counterForShowSchedule++;
-                                    OKlistData.add(createFormate(String.valueOf(scheduleBuilder)));
+                                    OKlistData.add(Constant.createFormate(String.valueOf(scheduleBuilder)));
                                 }
 
                                 scheduleBuilder.delete(0, scheduleBuilder.length());
@@ -198,52 +198,7 @@ public class Schedule_ActivityForWatcher extends AppCompatActivity {
         };
         mDataBaseGroup.addValueEventListener(valueEventListener);
     }
-    private String createFormate(String str){
-        String dayOfWeek = " ", month = " ";
-        StringBuilder itog = new StringBuilder();
-        itog.append(str);
-        try{
-            if(itog.charAt(itog.length()-2) == '.'){
-                dayOfWeek = String.valueOf(itog.charAt(itog.length() - 3));
-                month = itog.substring(itog.length()-1, itog.length());
-                itog.delete(itog.length()-4, itog.length());
-            }else{
-                dayOfWeek = String.valueOf(itog.charAt(itog.length() - 4));
-                month = itog.substring(itog.length()-1, itog.length());
-                itog.delete(itog.length()-5, itog.length());
-            }
-        }catch (Exception e){
-            Toast.makeText(Schedule_ActivityForWatcher.this, "жжопе", Toast.LENGTH_SHORT).show();
-        }
 
-        switch (dayOfWeek){
-            case("0"): dayOfWeek = " воскресенье"; break;
-            case("1"): dayOfWeek = " понедельник"; break;
-            case("2"): dayOfWeek = " вторник"; break;
-            case("3"): dayOfWeek = " среда"; break;
-            case("4"): dayOfWeek = " четерг"; break;
-            case("5"): dayOfWeek = " пятница"; break;
-            case("6"): dayOfWeek = " суббота"; break;
-        }
-        switch (month){
-            case("0"): month = " января"; break;
-            case("1"): month = " февраля"; break;
-            case("2"): month = " марта"; break;
-            case("3"): month = " апреля"; break;
-            case("4"): month = " мая"; break;
-            case("5"): month = " июня"; break;
-            case("6"): month= " июля"; break;
-            case("7"): month= " августа"; break;
-            case("8"): month= " сентября"; break;
-            case("9"): month= " октября"; break;
-            case("10"): month = " ноября"; break;
-            case("11"): month = " дерабря"; break;
-        }
-
-        itog.append(month);
-        itog.append(dayOfWeek);
-        return String.valueOf(itog);
-    }
 
 
     private void showListSchedule(){
@@ -262,8 +217,8 @@ public class Schedule_ActivityForWatcher extends AppCompatActivity {
         OKlistData = new ArrayList<>();
         listData = new ArrayList<>();
 
-        OKarrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, OKlistData);
-        arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listData);
+        OKarrayAdapter = new Adapter(this, OKlistData);
+        arrayAdapter = new Adapter(this, listData);
 
         OKlistView.setAdapter(OKarrayAdapter);
         listView.setAdapter(arrayAdapter);

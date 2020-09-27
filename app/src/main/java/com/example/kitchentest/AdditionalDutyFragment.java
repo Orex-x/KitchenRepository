@@ -32,7 +32,7 @@ public class AdditionalDutyFragment extends Fragment {
     private DatabaseReference mDataBaseGroup;
 
     private int posledvoet = 0, indexToday = 0, addDays = 0;
-    String  shedulePosle = "";
+    private String  shedulePosle = "";
     ArrayList<String> nameList = new ArrayList<>();
     ArrayList<String> dateList = new ArrayList<>();
     @Override
@@ -137,6 +137,9 @@ public class AdditionalDutyFragment extends Fragment {
                                 DatabaseReference reference = db.getReferenceFromUrl(uri);
                                 reference.setValue(shedulePosle);
                                 ShowActivity.notShowFragmentAdditionalDuty();
+                                BFragmentAdditionalDutyTHREE.setBackgroundResource(R.drawable.button);
+                                BFragmentAdditionalDutyFIVE.setBackgroundResource(R.drawable.button);
+                                BFragmentAdditionalDutyONE.setBackgroundResource(R.drawable.button);
                             }
 
                         }

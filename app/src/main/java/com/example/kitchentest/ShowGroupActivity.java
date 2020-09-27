@@ -28,7 +28,8 @@ import java.util.List;
 
 public class ShowGroupActivity extends AppCompatActivity {
     private ListView listView;
-    private ArrayAdapter<String> arrayAdapter;
+    //private ArrayAdapter<String> arrayAdapter;
+    private  Adapter arrayAdapter;
     private List<String> listData;
     private List<PersonOnDuty> listItem;
     private DatabaseReference mDataBasePOD, getmDataBaseW, getmDataBaseGroup;
@@ -85,7 +86,7 @@ public class ShowGroupActivity extends AppCompatActivity {
                         listItem.add(personOnDuty);
                     }
                 }
-                arrayAdapter.notifyDataSetChanged();
+                  arrayAdapter.notifyDataSetChanged();
                 importListPODs(listForImportPOD);
 
             }
@@ -118,7 +119,8 @@ public class ShowGroupActivity extends AppCompatActivity {
     private void init() {
         listView = (ListView) findViewById(R.id.ListViewGroup);
         listData = new ArrayList<>();
-        arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listData);
+       // arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listData);
+        arrayAdapter = new Adapter(this, listData);
         listView.setAdapter(arrayAdapter);
         listItem = new ArrayList<>();
         mDataBasePOD = FirebaseDatabase.getInstance().getReference(Constant.PERSON_ON_DUTY_KEY);

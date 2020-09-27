@@ -32,7 +32,7 @@ import com.google.firebase.database.ValueEventListener;
 public class LoginActivity extends AppCompatActivity {
     EditText ETWelcomeLogin, ETWelcomePassword, ETRLogin, ETRName, ETRPhone, ETRPassword, ETRidGroup;
     Button BWOpen, BWRegistr, BRPersonOD, BRWatcher, BRRegistr, BRBack;
-    TextView TVWelcome, TVRegistr, TVLoginActChoseeRole;
+    TextView TVWelcome, TVRegistr, TVLoginActChoseeRole, TVLActivitySecundu;
     private FirebaseAuth mAuth;
     private DatabaseReference PersonOnDutyDataBase, WatcherDataBase, StatusDataBase, GroupDataBase;
     private int isWatcher = 0, repeatIdGroup = 0, repeatNameInGroup = 0, groupexists = 0;
@@ -111,28 +111,31 @@ public class LoginActivity extends AppCompatActivity {
          groupexists = 0;
 
         if (!name.isEmpty() && !phoneStr.isEmpty() && !idGroupStr.isEmpty()){
-            ValueEventListener valueEventListener = new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    for(DataSnapshot ds : dataSnapshot.getChildren()){
-                        PersonOnDuty personOnDuty = ds.getValue(PersonOnDuty.class);
-                        assert personOnDuty != null;
-                        if(personOnDuty.getIdGroup().equals(idGroupStr)){
-                            if(personOnDuty.getName().equals(name)){
-                                repeatNameInGroup = 1;
+            if (phoneStr.length() >= 11) {
+                ValueEventListener valueEventListener = new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                            PersonOnDuty personOnDuty = ds.getValue(PersonOnDuty.class);
+                            assert personOnDuty != null;
+                            if (personOnDuty.getIdGroup().equals(idGroupStr)) {
+                                if (personOnDuty.getName().equals(name)) {
+                                    repeatNameInGroup = 1;
+                                }
                             }
                         }
+                        if (repeatNameInGroup == 0) {
+                            checkGroupId();
+                        } else
+                            Toast.makeText(LoginActivity.this, "Такое имя уже есть в группе", Toast.LENGTH_SHORT).show();
                     }
-                    if(repeatNameInGroup == 0){
-                        checkGroupId();
-                    }else  Toast.makeText(LoginActivity.this, "Такое имя уже есть в группе", Toast.LENGTH_SHORT).show();
-                }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                }
-            };
-            PersonOnDutyDataBase.addListenerForSingleValueEvent(valueEventListener);
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                    }
+                };
+                PersonOnDutyDataBase.addListenerForSingleValueEvent(valueEventListener);
+            }else  Toast.makeText(LoginActivity.this, "Короткий номер", Toast.LENGTH_SHORT).show();
         }else{
             Toast.makeText(LoginActivity.this, "Пустые поля", Toast.LENGTH_SHORT).show();
         }
@@ -176,28 +179,31 @@ public class LoginActivity extends AppCompatActivity {
         name.trim();
         phoneStr.trim();
         repeatIdGroup = 0;
-        if (!name.isEmpty() && !phoneStr.isEmpty()){
-
-            ValueEventListener valueEventListener = new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    for(DataSnapshot ds : dataSnapshot.getChildren()){
-                        Group group = ds.getValue(Group.class);
-                        assert group != null;
-                        if(group.getIdGroup().equals(phoneStr)){
-                            repeatIdGroup = 1;
+        if (!name.isEmpty() && !phoneStr.isEmpty()) {
+            if (phoneStr.length() >= 11){
+                ValueEventListener valueEventListener = new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                            Group group = ds.getValue(Group.class);
+                            assert group != null;
+                            if (group.getIdGroup().equals(phoneStr)) {
+                                repeatIdGroup = 1;
+                            }
+                        }
+                        if (repeatIdGroup == 0) {
+                            registrCW();
+                        } else {
+                            Toast.makeText(LoginActivity.this, "Номер занят", Toast.LENGTH_SHORT).show();
                         }
                     }
-                    if(repeatIdGroup == 0){
-                        registrCW();
-                    }else Toast.makeText(LoginActivity.this, "Номер занят", Toast.LENGTH_SHORT).show();
-                }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                }
-            };
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                    }
+                };
             GroupDataBase.addListenerForSingleValueEvent(valueEventListener);
+        }else  Toast.makeText(LoginActivity.this, "Короткий номер", Toast.LENGTH_SHORT).show();
         }else{
             Toast.makeText(LoginActivity.this, "Пустые поля", Toast.LENGTH_SHORT).show();
         }
@@ -289,6 +295,7 @@ public class LoginActivity extends AppCompatActivity {
         BRRegistr.setVisibility(View.GONE);
         ETRidGroup.setVisibility(View.GONE);
         BRBack.setVisibility(View.GONE);
+        TVLActivitySecundu.setVisibility(View.GONE);
     }
     public void showRegistr(View view) {
         TVWelcome.setVisibility(View.GONE);
@@ -347,6 +354,7 @@ public class LoginActivity extends AppCompatActivity {
         BRRegistr = (Button) findViewById(R.id.BRRegistr);
         BRBack = (Button) findViewById(R.id.BRBack);
 
+        TVLActivitySecundu = (TextView) findViewById(R.id.TVLActivitySecundu);
         TVWelcome = (TextView) findViewById(R.id.TVWelcome);
         TVRegistr = (TextView) findViewById(R.id.TVRegistr);
         TVLoginActChoseeRole =(TextView) findViewById(R.id.TVLoginActChoseeRole);

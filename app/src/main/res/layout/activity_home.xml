@@ -17,6 +17,34 @@
             android:layout_height="match_parent">
 
             <TextView
+                android:id="@+id/TVHActivitySecundu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="30sp"
+                android:background="@drawable/ic_logo"
+                android:visibility="visible"
+                android:textColor="@color/color_white"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/BAHLogOut"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:background="@drawable/red_button"
+                android:layout_marginRight="50dp"
+                android:layout_marginLeft="50dp"
+                android:onClick="logOutH"
+                android:text="Выйти"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
                 android:id="@+id/TVHActivityReplaceName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -31,34 +59,26 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/BHActivityAddIdGroup" />
 
-            <TextView
-                android:id="@+id/TVHActivitySecundu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Загрузка.."
-                android:textSize="30sp"
-                android:visibility="visible"
-                android:textColor="@color/color_white"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+
+
+
 
             <EditText
                 android:id="@+id/ETHActivityGroupID"
                 android:layout_width="200sp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="20dp"
                 android:background="@drawable/edit_text"
                 android:ems="10"
                 android:hint="ID"
                 android:inputType="textPersonName"
                 android:padding="12sp"
+                android:textColor="@color/colorAccent"
+                android:textColorHint="@color/color_Hint"
                 android:textSize="22dp"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintHorizontal_bias="0.521"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/GroupIsNull" />
 
@@ -66,17 +86,17 @@
                 android:id="@+id/GroupIsNull"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="36dp"
-                android:text="Укажите ID группы что бы продолжить"
-                android:textStyle="bold"
+                android:layout_marginTop="80dp"
                 android:gravity="center"
+                android:text="Укажите ID группы что бы продолжить"
                 android:textColor="@color/color_white"
                 android:textSize="20dp"
+                android:textStyle="bold"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.488"
+                app:layout_constraintHorizontal_bias="0.542"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <Button
                 android:id="@+id/BHActivityAddIdGroup"
@@ -86,6 +106,7 @@
                 android:background="@drawable/button"
                 android:onClick="addIDGroupFromHActivity"
                 android:text="Продолжить"
+                android:textColor="@color/colorAccent"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.498"
@@ -100,6 +121,8 @@
                 android:hint="Имя"
                 android:ems="10"
                 android:padding="12sp"
+                android:textColor="@color/colorAccent"
+                android:textColorHint="@color/color_Hint"
                 android:background="@drawable/edit_text"
                 android:inputType="textPersonName"
                 android:visibility="gone"
@@ -116,6 +139,7 @@
                 android:background="@drawable/button"
                 android:onClick="replaceName"
                 android:text="Поменять"
+                android:textColor="@color/colorAccent"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -129,6 +153,7 @@
                 android:layout_marginRight="16dp"
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/button"
+                android:textColor="@color/colorAccent"
                 android:onClick="GoToSchedule"
                 android:text="Расписание"
                 android:visibility="gone"
@@ -137,21 +162,22 @@
 
             <Button
                 android:id="@+id/listGroupForPOD"
-                android:layout_width="160dp"
+                android:layout_width="180dp"
                 android:layout_height="50dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginBottom="16dp"
+                android:background="@drawable/button"
                 android:onClick="ShowGroupForPOD"
                 android:text="Участники группы "
+                android:textColor="@color/colorAccent"
                 android:visibility="gone"
-                android:background="@drawable/button"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <Button
                 android:id="@+id/listGroupForWatcher"
-                android:layout_width="160dp"
+                android:layout_width="180dp"
                 android:layout_height="50dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
@@ -159,23 +185,12 @@
                 android:background="@drawable/button"
                 android:onClick="ShowGroupForWatcher"
                 android:text="Участники группы "
+                android:textColor="@color/colorAccent"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
-            <Button
-                android:id="@+id/BHExit"
-                android:layout_width="86dp"
-                android:layout_height="43dp"
-                android:layout_marginTop="3dp"
-                android:layout_marginEnd="3dp"
-                android:layout_marginRight="4dp"
-                android:background="@drawable/button_add_days"
-                android:onClick="logOut"
-                android:text="log out"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+
 
             <TextView
                 android:id="@+id/TomorrowPOD"
@@ -238,6 +253,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/button_call"
+                android:textColor="@color/colorAccent"
                 android:onClick="callTodayPOD"
                 android:text="Позвонить"
                 android:visibility="visible"
@@ -252,6 +268,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginBottom="16dp"
                 android:onClick="callTomorrowPOD"
+                android:textColor="@color/colorAccent"
                 android:background="@drawable/button_call"
                 android:text="Позвонить"
                 android:textSize="9dp"
@@ -267,6 +284,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginBottom="16dp"
                 android:onClick="callYesterdaayPOD"
+                android:textColor="@color/colorAccent"
                 android:background="@drawable/button_call"
                 android:text="Позвонить"
                 android:visibility="visible"
@@ -289,38 +307,119 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <Button
+                android:id="@+id/BSettings"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/ic_setting"
+                android:onClick="goToSettings"
+                android:text=""
+                android:visibility="gone"
+                app:layout_constraintEnd_toStartOf="@+id/BexitFromApp"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/BexitFromApp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:text=""
+                android:background="@drawable/ic_exit_the_app"
+                android:onClick="exitTheApp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="@+id/TVActHomeGlav"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <fragment
-                android:id="@+id/fragment_info_about_replace"
-                android:name="com.example.kitchentest.InfoAboutReplaceFragment"
-                android:layout_width="match_parent"
-                android:layout_height="300sp"
-                android:layout_gravity="bottom"
-                android:visibility="gone" />
 
             <fragment
                 android:id="@+id/fragment_info_about_acceptWork"
                 android:name="com.example.kitchentest.InfoAboutAcceptWork"
                 android:layout_width="match_parent"
-                android:layout_height="200sp"
+                android:layout_height="150sp"
                 android:layout_gravity="bottom"
                 android:visibility="gone" />
 
 
+            <TextView
+                android:id="@+id/TV_replace_day_p2"
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+                android:layout_gravity="bottom"
+                android:visibility="gone"
+                android:background="@drawable/islandtext" />
+
+            <TextView
+                android:id="@+id/TVAHReplacetext"
+                android:layout_width="360dp"
+                android:layout_height="42dp"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30sp"
+                android:layout_marginBottom="300dp"
+                android:gravity="center"
+                android:visibility="gone"
+                android:text="Выберите день который хотите поменять"
+                android:textColor="@color/colorAccent"
+                android:textSize="15sp" />
+
+            <ListView
+                android:id="@+id/LVAHReplaceDay"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="100dp"
+                android:layout_gravity="bottom"
+                android:background="@drawable/island_list"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:visibility="gone"
+                />
+
+            <Button
+                android:id="@+id/BAHNotReplace"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="40dp"
+                android:onClick="AcceptReplaceIsFalse"
+                android:background="@drawable/empty_button"
+                android:textColor="@color/color_red"
+                android:visibility="gone"
+                android:layout_marginBottom="30dp"
+                android:text="Нет" />
+
+            <Button
+                android:id="@+id/BAHReplace"
+                android:layout_width="111dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="130dp"
+                android:layout_marginBottom="30dp"
+                android:onClick="AcceptReplaceIsTrue"
+                android:background="@drawable/button"
+                android:text="Поменять"
+                android:visibility="gone"
+                android:textColor="@color/colorAccent" />
+
+
             <Button
                 android:id="@+id/BHAcceptReplace"
-                android:layout_width="wrap_content"
+                android:layout_width="112dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:layout_marginLeft="240sp"
                 android:layout_marginBottom="16dp"
+                android:background="@drawable/button"
                 android:onClick="AcceptReplaceIsLearnMore"
                 android:text="подробнее"
+                android:textColor="@color/colorAccent"
                 android:visibility="gone" />
 
             <Button
@@ -332,6 +431,8 @@
                 android:layout_marginBottom="16dp"
                 android:onClick="AcceptReplaceIsFalse"
                 android:text="нет"
+                android:background="@drawable/empty_button"
+                android:textColor="@color/color_red"
                 android:visibility="gone" />
 
             <TextView
@@ -346,6 +447,8 @@
                 android:visibility="gone" />
 
 
+
+
             <TextView
                 android:id="@+id/TVaboutAcceptWork"
                 android:layout_width="wrap_content"
@@ -357,14 +460,14 @@
                 android:textSize="12sp"
                 android:visibility="gone" />
 
-            <ImageView
-                android:id="@+id/IVBackGQuestionAboutReplaceDay"
-                android:layout_width="wrap_content"
-                android:layout_height="309dp"
+            <TextView
+                android:id="@+id/TVQestionReplace"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
                 android:layout_gravity="bottom"
-                android:visibility="gone"
-                app:srcCompat="@drawable/fragbackground" />
-
+                android:background="@drawable/islandtext"
+                android:textSize="12sp"
+                android:visibility="gone" />
 
         </FrameLayout>
 

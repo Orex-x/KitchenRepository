@@ -185,6 +185,7 @@ public class ShowActivity extends AppCompatActivity {
     }
 
     public void openVacation(View view) {
+        VacationFragment.ArrayAdapterForVacationFragment.notifyDataSetChanged();
         fragmentVacation.setVisibility(View.VISIBLE);
         fragmentAdditionalDuty.setVisibility(View.GONE);
     }

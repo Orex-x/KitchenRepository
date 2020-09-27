@@ -41,11 +41,16 @@ public class VacationFragment extends Fragment {
             indexRemove;
 
     public static String IDGroupUserVacationFragment = null, userNameFragmentVacation = null;
-    private ArrayAdapter<String> ArrayAdapterForVacationFragment;
+    public static Adapter ArrayAdapterForVacationFragment;
 
     private int dayIsBe = 0;
 
     private DatabaseReference mDataBaseGroup;
+
+    private StringBuilder nameBr = new StringBuilder();
+    private StringBuilder dateBr = new StringBuilder();
+    private StringBuilder nameBrV = new StringBuilder();
+    private StringBuilder dateBrV = new StringBuilder();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -64,8 +69,9 @@ public class VacationFragment extends Fragment {
         dateListV = new ArrayList<>();
         indexRemove = new ArrayList<>();
 
-        ArrayAdapterForVacationFragment = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, listDataVacationFragment);
+        ArrayAdapterForVacationFragment = new Adapter(getActivity(), listDataVacationFragment);
         LVFragmentVacation.setAdapter(ArrayAdapterForVacationFragment);
+
         buf = new ArrayList<>();
 
         mDataBaseGroup = FirebaseDatabase.getInstance().getReference(Constant.GROUP_KEY);
@@ -86,11 +92,6 @@ public class VacationFragment extends Fragment {
                 }
             }
         });
-
-
-
-
-
         pointToday = 0;
         //отображает лист всех доступных дней пользователя
         Calendar calendar = new GregorianCalendar();
@@ -109,8 +110,8 @@ public class VacationFragment extends Fragment {
                     assert group != null;
                     if(group.idGroup.equals(IDGroupUserVacationFragment)) {
                         uri = "https://dnevalnie.firebaseio.com/Group/"+ ds.getKey() +"/schedule";
-                        String scheduleFull = group.getSchedule();
                         try {
+                            String scheduleFull = group.getSchedule();
                             StringBuilder scheduleBuilder = new StringBuilder();
                             StringBuilder scheduleBuilderName = new StringBuilder();
                             StringBuilder builderDate = new StringBuilder();
@@ -141,7 +142,7 @@ public class VacationFragment extends Fragment {
                                     }
                                     if (permissionToShowLVRDay == 1 && pointToday == 1) {
                                         permissionToShowLVRDay = 0;
-                                        listDataVacationFragment.add(createFormate(String.valueOf(scheduleBuilder)));
+                                        listDataVacationFragment.add(Constant.createFormate(String.valueOf(scheduleBuilder)));
                                         buf.add(String.valueOf(scheduleBuilder));
                                     }
                                     scheduleBuilder.delete(0, scheduleBuilder.length());
@@ -187,86 +188,100 @@ public class VacationFragment extends Fragment {
                 if(listDataVacationFragment.size()>0){
                     listDataVacationFragment.clear();
                 }
+                if(nameList.size() > 0){
+                    nameList.clear();
+                }
+                if(dateList.size() > 0){
+                    dateList.clear();
+                }
                 for(DataSnapshot ds : dataSnapshot.getChildren()){
                     Group group = ds.getValue(Group.class);
                     assert group != null;
                     if(group.idGroup.equals(IDGroupUserVacationFragment)) {
                         schedule = group.getSchedule();
-                    }
-
-                }
-                posledvoetV = 0;
-                posledvoet = 0;
-                StringBuilder nameBr = new StringBuilder();
-                StringBuilder dateBr = new StringBuilder();
-                for (int i = 0; i < schedule.length(); i++) {
-                    if (schedule.charAt(i) == ':') {
-                        posledvoet = 1;
-                    } else if (schedule.charAt(i) == ';') {
-                        nameList.add(String.valueOf(nameBr));
-                        dateList.add(String.valueOf(dateBr));
-                        nameBr.delete(0, nameBr.length());
-                        dateBr.delete(0, dateBr.length());
-                        posledvoet = 0;
-                    } else {
-                        if (posledvoet == 0) {
-                            nameBr.append(schedule.charAt(i));
-                        } else {
-                            dateBr.append(schedule.charAt(i));
-                        }
-                    }
-                }
-
-                String vacationDaysStr = "";
-
-                for(String str : listVacationDays){
-                    vacationDaysStr += str +";";
-                }
-
-                StringBuilder nameBrV = new StringBuilder();
-                StringBuilder dateBrV = new StringBuilder();
-                for (int i = 0; i < vacationDaysStr.length(); i++) {
-                    if (vacationDaysStr.charAt(i) == ':') {
-                        posledvoetV = 1;
-                    } else if (vacationDaysStr.charAt(i) == ';') {
-                        nameListV.add(String.valueOf(nameBrV));
-                        dateListV.add(String.valueOf(dateBrV));
-                        nameBrV.delete(0, nameBrV.length());
-                        dateBrV.delete(0, dateBrV.length());
                         posledvoetV = 0;
-                    } else {
-                        if (posledvoetV == 0) {
-                            nameBrV.append(vacationDaysStr.charAt(i));
-                        } else {
-                            dateBrV.append(vacationDaysStr.charAt(i));
+                        posledvoet = 0;
+                        for (int i = 0; i < schedule.length(); i++) {
+                            if (schedule.charAt(i) == ':') {
+                                posledvoet = 1;
+                            } else if (schedule.charAt(i) == ';') {
+                                nameList.add(String.valueOf(nameBr));
+                                dateList.add(String.valueOf(dateBr));
+                                nameBr.delete(0, nameBr.length());
+                                dateBr.delete(0, dateBr.length());
+                                posledvoet = 0;
+                            } else {
+                                if (posledvoet == 0) {
+                                    nameBr.append(schedule.charAt(i));
+                                } else {
+                                    dateBr.append(schedule.charAt(i));
+                                }
+                            }
                         }
+
+                        String vacationDaysStr = "";
+
+                        for(String str : listVacationDays){
+                            vacationDaysStr += str +";";
+                        }
+
+
+                        for (int i = 0; i < vacationDaysStr.length(); i++) {
+                            if (vacationDaysStr.charAt(i) == ':') {
+                                posledvoetV = 1;
+                            } else if (vacationDaysStr.charAt(i) == ';') {
+                                nameListV.add(String.valueOf(nameBrV));
+                                dateListV.add(String.valueOf(dateBrV));
+                                nameBrV.delete(0, nameBrV.length());
+                                dateBrV.delete(0, dateBrV.length());
+                                posledvoetV = 0;
+                            } else {
+                                if (posledvoetV == 0) {
+                                    nameBrV.append(vacationDaysStr.charAt(i));
+                                } else {
+                                    dateBrV.append(vacationDaysStr.charAt(i));
+                                }
+                            }
+
+                        }
+                        for(int i = 0; i<dateListV.size(); i++){
+                            for(int y = 0; y<dateList.size(); y++){
+                                if(dateList.get(y).equals(dateListV.get(i))){
+                                    indexRemove.add(String.valueOf(y));
+                                }
+                            }
+                        }
+
+                        //y нужна что бы удалять индекс сдвигнутого обьекта в массиве, и поэтому сама за обьектом бегает
+                        int y = 0;
+
+                        for (String indexR : indexRemove) {
+                            nameList.remove(Integer.parseInt(indexR) - y);
+                            y++;
+                        }
+                        //System.out.println("на отработку " + indexRemove.size() + " дней");
+
+                        String scheduleItog = "";
+                        for(int i = 0; i<nameList.size(); i++){
+                            scheduleItog += nameList.get(i) + ":" + dateList.get(i) + ";";
+                        }
+                        FirebaseDatabase db = FirebaseDatabase.getInstance();
+                        DatabaseReference reference = db.getReferenceFromUrl(uri);
+                        reference.setValue(scheduleItog);
+                        schedule = "";
+                        ArrayAdapterForVacationFragment.notifyDataSetChanged();
+                        TVFragmentVacation.setText("а все))");
+//                        nameBr.delete(0, nameBr.length());
+//                        dateBr.delete(0, dateBr.length());
+//                        nameBrV.delete(0, nameBr.length());
+//                        dateBrV.delete(0, dateBr.length());
+//                        listVacationDays.clear();
+//                        dateListV.clear();
+//                        nameList.clear();
+//                        dateList.clear();
+//                        indexRemove.clear();
                     }
-
                 }
-                for(int i = 0; i<dateListV.size(); i++){
-                    for(int y = 0; y<dateList.size(); y++){
-                        if(dateList.get(y).equals(dateListV.get(i))){
-                          indexRemove.add(String.valueOf(y));
-                     }
-                    }
-                }
-
-                //y нужна что бы удалять индекс сдвигнутого обьекта в массиве, и поэтому сама за обьектом бегает
-                int y = 0;
-
-                for (String indexR : indexRemove) {
-                    nameList.remove(Integer.parseInt(indexR) - y);
-                    y++;
-                }
-                //System.out.println("на отработку " + indexRemove.size() + " дней");
-
-                String scheduleItog = "";
-                for(int i = 0; i<nameList.size(); i++){
-                    scheduleItog += nameList.get(i) + ":" + dateList.get(i) + ";";
-                }
-                FirebaseDatabase db = FirebaseDatabase.getInstance();
-                DatabaseReference reference = db.getReferenceFromUrl(uri);
-                reference.setValue(scheduleItog);
             }
 
             @Override
@@ -277,71 +292,7 @@ public class VacationFragment extends Fragment {
         mDataBaseGroup.addListenerForSingleValueEvent(valueEventListener);
     }
 
-    private String createFormate(String str){
-        String dayOfWeek = " ", month = " ";
-        StringBuilder itog = new StringBuilder();
-        itog.append(str);
-//        char c = '0';
-//        int l = 0;
-//
-//        try {
-//            c = str.charAt(str.length() - 2);
-//            l = str.length();
-//        }catch(StringIndexOutOfBoundsException e){
-//
-//        }
-//
-//        if(c== '.'){
-//            dayOfWeek = String.valueOf(str.charAt(l - 3));
-//            month  = String.valueOf(str.charAt(l-1));
-//            itog.delete(l-4, l);
 
-//        }else{
-//            dayOfWeek = String.valueOf(str.charAt(l - 3));
-//            month  = String.valueOf(str.charAt(l-1));
-//            itog.delete(l-4, l);
-//        }
-        try{
-            if(itog.charAt(itog.length()-2) == '.'){
-                dayOfWeek = String.valueOf(itog.charAt(itog.length() - 3));
-                month = itog.substring(itog.length()-1, itog.length());
-                itog.delete(itog.length()-4, itog.length());
-            }else{
-                dayOfWeek = String.valueOf(itog.charAt(itog.length() - 4));
-                month = itog.substring(itog.length()-1, itog.length());
-                itog.delete(itog.length()-5, itog.length());
-            }
-        }catch (Exception e){
-        }
-
-        switch (dayOfWeek){
-            case("0"): dayOfWeek = " воскресенье"; break;
-            case("1"): dayOfWeek = " понедельник"; break;
-            case("2"): dayOfWeek = " вторник"; break;
-            case("3"): dayOfWeek = " среда"; break;
-            case("4"): dayOfWeek = " четерг"; break;
-            case("5"): dayOfWeek = " пятница"; break;
-            case("6"): dayOfWeek = " суббота"; break;
-        }
-        switch (month){
-            case("0"): month = " января"; break;
-            case("1"): month = " февраля"; break;
-            case("2"): month = " марта"; break;
-            case("3"): month = " апреля"; break;
-            case("4"): month = " мая"; break;
-            case("5"): month = " июня"; break;
-            case("6"): month= " июля"; break;
-            case("7"): month= " августа"; break;
-            case("8"): month= " сентября"; break;
-            case("9"): month= " октября"; break;
-            case("10"): month = " ноября"; break;
-            case("11"): month = " дерабря"; break;
-        }
-
-        itog.append(month);
-        itog.append(dayOfWeek);
-        return String.valueOf(itog);
-    }
 
     private void setOnClickItemReplaceDay(){
         LVFragmentVacation.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -351,24 +302,29 @@ public class VacationFragment extends Fragment {
                 dayIsBe = 0;
                 for(int i = 0; i<listVacationDays.size(); i++){
                     if(listVacationDays.get(i).equals(stringVacation)){
+                        TextView tv = (TextView) view.findViewById(R.id.TVItemLyout);
+                        tv.setTextColor(getResources().getColor(R.color.color_white));
                         dayIsBe = 1;
                         listVacationDays.remove(i);
                     }
                 }
                 if(dayIsBe == 0) {
+                    TextView tv = (TextView) view.findViewById(R.id.TVItemLyout);
+                    tv.setTextColor(getResources().getColor(R.color.color_green));
                     listVacationDays.add(buf.get(position));
                 }
 
                 String str = "";
                 for(String listDays : listVacationDays){
                     str += listDays;
-                    TVFragmentVacation.setText(createFormate(listDays) + " ");
+                    TVFragmentVacation.setText(Constant.createFormate(listDays) + " ");
                 }
                 if(listVacationDays.isEmpty()){
                     TVFragmentVacation.setText("Выбирите дни для отпуска");
                 }
 
             }
+
         });
     }
 }

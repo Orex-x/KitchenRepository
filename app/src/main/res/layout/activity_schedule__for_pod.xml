@@ -27,6 +27,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:text=""
+        android:background="@drawable/ic_back"
         android:onClick="backHomeActivityFromASFPOD"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -38,13 +39,11 @@
         android:layout_width="320dp"
         android:layout_height="360dp"
         android:layout_marginTop="36dp"
-        android:background="@drawable/islandtext"
+        android:background="@drawable/island_list"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/replacePODinSchedule" >
-
-
     </ListView>
 
     <TextView
@@ -64,15 +63,29 @@
 
     <Button
         android:id="@+id/replacePODinSchedule"
-        android:layout_width="114dp"
-        android:layout_height="49dp"
+        android:layout_width="129dp"
+        android:layout_height="52dp"
         android:layout_marginTop="28dp"
         android:background="@drawable/button"
         android:onClick="replacePODinScheduleButton"
         android:text="Поменяться"
+        android:textColor="@color/colorAccent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <TextView
+        android:id="@+id/TVaboutReplaceDay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/color_green"
+        android:textSize="15sp"
+        android:gravity="center"
+        app:layout_constraintBottom_toTopOf="@+id/OKListViewInSchedule_ActivityForPOD"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/replacePODinSchedule" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

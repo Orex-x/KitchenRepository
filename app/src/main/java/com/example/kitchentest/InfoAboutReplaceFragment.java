@@ -40,7 +40,7 @@ public class InfoAboutReplaceFragment extends Fragment {
     private TextView TVFragmentReplaceDay;
 
 
-    public static String uriUserStatusFragmentReplace = null, uriReplaceFragmentReplace = null, IDGroupUserFragmentReplace = null,
+    public static String IDGroupUserFragmentReplace = null,
             userNameFragmentReplace = null, replaceDay = null, UriUserInFragReplace = null;
 
 
@@ -52,7 +52,7 @@ public class InfoAboutReplaceFragment extends Fragment {
 
     public static List<String> listDataForReplaseFinishFragmentReplace, listDataForReplaseSchedule;
     private ArrayList<String> buf;
-    private ArrayAdapter<String> ArrayAdapterForReplaceFinishFragmentReplace;
+    private Adapter ArrayAdapterForReplaceFinishFragmentReplace;
 
 
     private Button BFragmentNotReplaceDay, BFragmentReplaceDay;
@@ -73,36 +73,36 @@ public class InfoAboutReplaceFragment extends Fragment {
 
         listDataForReplaseSchedule = new ArrayList<>();
 
-        ArrayAdapterForReplaceFinishFragmentReplace = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, listDataForReplaseFinishFragmentReplace);
+        ArrayAdapterForReplaceFinishFragmentReplace = new Adapter(getActivity(), listDataForReplaseFinishFragmentReplace);
         LVFragmentReplaysForDay.setAdapter(ArrayAdapterForReplaceFinishFragmentReplace);
         buf = new ArrayList();
         mDataBasePOD = FirebaseDatabase.getInstance().getReference(Constant.PERSON_ON_DUTY_KEY);
         mDataBaseW = FirebaseDatabase.getInstance().getReference(Constant.WATCHER_KEY);
         mDataBaseGroup = FirebaseDatabase.getInstance().getReference(Constant.GROUP_KEY);
-        setOnClickItemReplaceDay();
-        TVFragmentReplaceDay.setText(IDGroupUserFragmentReplace + uriUserStatusFragmentReplace + uriReplaceFragmentReplace
-                + userNameFragmentReplace + replaceDay + UriUserInFragReplace);
-
-        BFragmentNotReplaceDay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                HomeActivity.NotshowFragmentInfoAboutReplace();
-                ODCinFragmentReplaceOne = 1;
-                HomeActivity.statusOne = 0;
-                FirebaseDatabase db = FirebaseDatabase.getInstance();
-                DatabaseReference reference = db.getReferenceFromUrl(uriUserStatusFragmentReplace);
-                reference.setValue("0");
-                DatabaseReference reference2 = db.getReferenceFromUrl(uriReplaceFragmentReplace);
-                reference2.setValue("-");
-            }
-        });
+//        setOnClickItemReplaceDay();
+//        TVFragmentReplaceDay.setText(IDGroupUserFragmentReplace + uriUserStatusFragmentReplace
+//                + uriReplaceFragmentReplace
+//                + userNameFragmentReplace + replaceDay + UriUserInFragReplace);
+//
+//        BFragmentNotReplaceDay.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                HomeActivity.NotshowFragmentInfoAboutReplace();
+//                HomeActivity.statusOne = 0;
+//                FirebaseDatabase db = FirebaseDatabase.getInstance();
+//                DatabaseReference reference = db.getReferenceFromUrl(uriUserStatusFragmentReplace);
+//                reference.setValue("0");
+//                DatabaseReference reference2 = db.getReferenceFromUrl(uriReplaceFragmentReplace);
+//                reference2.setValue("-");
+//            }
+//        });
 
 
         // метод меняющий грфик
         BFragmentReplaceDay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HomeActivity.NotshowFragmentInfoAboutReplace();
+
                 //вызывается по кнопке поменять, меняет график
                     ValueEventListener valueEventListener = new ValueEventListener() {
                         @Override
@@ -149,7 +149,6 @@ public class InfoAboutReplaceFragment extends Fragment {
                             DatabaseReference reference = db.getReferenceFromUrl(UriUserInFragReplace);
                             reference.setValue(itog);
                             itog = "";
-                            HomeActivity.NotshowFragmentInfoAboutReplace();
 
                         }
                         @Override
@@ -216,51 +215,6 @@ public class InfoAboutReplaceFragment extends Fragment {
                     for(DataSnapshot ds : dataSnapshot.getChildren()){
                         Group group = ds.getValue(Group.class);
                         assert group != null;
-//                        if(group.idGroup.equals(IDGroupUserFragmentReplace)) {
-//                            String scheduleFull = group.getSchedule();
-//                            try {
-//                                StringBuilder scheduleBuilder = new StringBuilder();
-//                                StringBuilder scheduleBuilderName = new StringBuilder();
-//                                StringBuilder builderDate = new StringBuilder();
-//
-//                                for (int i = 0; i < scheduleFull.length(); i++) {
-//
-//                                    if (scheduleFull.charAt(i) == ':') {
-//                                        posledvoet2 = 1;
-//                                    }
-//                                    if (posledvoet2 == 1) {
-//                                        builderDate.append(scheduleFull.charAt(i));
-//                                    }
-//
-//                                    if (scheduleFull.charAt(i) == ':') {
-//                                        posledvoet = 1;
-//                                        if (String.valueOf(scheduleBuilderName).equals(userNameFragmentReplace)) {
-//                                            permissionToShowLVRDay = 1;
-//                                        }
-//                                        scheduleBuilderName.delete(0, scheduleBuilderName.length());
-//                                    } else if (posledvoet == 0) {
-//                                        scheduleBuilderName.append(scheduleFull.charAt(i));
-//                                    }
-//
-//
-//                                    if (scheduleFull.charAt(i) == ';') {
-//                                        posledvoet = 0;
-//                                        posledvoet2 = 0;
-//                                        if (todayStr.equals(String.valueOf(builderDate))) {
-//                                            pointToday = 1;
-//                                        }
-//                                        if (permissionToShowLVRDay == 1 && pointToday == 1) {
-//                                            permissionToShowLVRDay = 0;
-//                                            listDataForReplaseFinishFragmentReplace.add(createFormate(String.valueOf(scheduleBuilder)));
-//                                            buf.add(String.valueOf(scheduleBuilder));
-//                                        }
-//                                        scheduleBuilder.delete(0, scheduleBuilder.length());
-//                                        builderDate.delete(0, builderDate.length());
-//                                    } else scheduleBuilder.append(scheduleFull.charAt(i));
-//                                }
-//                            }catch(NullPointerException e){
-//                            }
-//                        }
                         if(group.idGroup.equals(IDGroupUserFragmentReplace)) {
                             try{
                              scheduleFull = group.getSchedule();
@@ -289,7 +243,7 @@ public class InfoAboutReplaceFragment extends Fragment {
                                     }
                                     if (pointToday == 1 && permissionToShowLVRDay == 1) {
                                         permissionToShowLVRDay = 0;
-                                        listDataForReplaseFinishFragmentReplace.add(createFormate(String.valueOf(scheduleBuilder)));
+                                        listDataForReplaseFinishFragmentReplace.add(Constant.createFormate(String.valueOf(scheduleBuilder)));
                                         buf.add(String.valueOf(scheduleBuilder));
                                     }
 
@@ -343,121 +297,20 @@ public class InfoAboutReplaceFragment extends Fragment {
     }
 
     //вызывается сразу после нажатия кнопки подробнее, нужен что бы отобразить кнопку поменять
-    private void setOnClickItemReplaceDay(){
-        LVFragmentReplaysForDay.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                BFragmentReplaceDay.setVisibility(View.VISIBLE);
-                replaceForDay = buf.get(position);
-                TVFragmentReplaceDay.setText("Вы будете дежурить " + createFormateForReplaceDay(replaceDay) + " но не дежурить: " +
-                        createFormateForReplaceDay(replaceForDay));
+//    private void setOnClickItemReplaceDay(){
+//        LVFragmentReplaysForDay.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                BFragmentReplaceDay.setVisibility(View.VISIBLE);
+//                replaceForDay = buf.get(position);
+//                TVFragmentReplaceDay.setText("Вы будете дежурить " + createFormateForReplaceDay(replaceDay) + " но не дежурить: " +
+//                        createFormateForReplaceDay(replaceForDay));
+//
+//            }
+//        });
+//    }
 
-            }
-        });
-    }
-    private String createFormate(String str){
 
-        String dayOfWeek = "1", month = "1";
-        StringBuilder itog = new StringBuilder();
-        itog.append(str);
-        char c = '0';
-        int l = 0;
-
-        try {
-            c = str.charAt(str.length() - 2);
-            l = str.length();
-        }catch(StringIndexOutOfBoundsException e){
-
-        }
-
-        if(c== '.'){
-            dayOfWeek = String.valueOf(str.charAt(l - 3));
-            month  = String.valueOf(str.charAt(l-1));
-            itog.delete(l-4, l);
-        }
-
-        switch (dayOfWeek){
-            case("0"): dayOfWeek = " воскресенье"; break;
-            case("1"): dayOfWeek = " понедельник"; break;
-            case("2"): dayOfWeek = " вторник"; break;
-            case("3"): dayOfWeek = " среда"; break;
-            case("4"): dayOfWeek = " четерг"; break;
-            case("5"): dayOfWeek = " пятница"; break;
-            case("6"): dayOfWeek = " суббота"; break;
-        }
-        switch (month){
-            case("0"): month = " января"; break;
-            case("1"): month = " февраля"; break;
-            case("2"): month = " марта"; break;
-            case("3"): month = " апреля"; break;
-            case("4"): month = " мая"; break;
-            case("5"): month = " июня"; break;
-            case("6"): month= " июля"; break;
-            case("7"): month= " августа"; break;
-            case("8"): month= " сентября"; break;
-            case("9"): month= " октября"; break;
-            case("10"): month = " ноября"; break;
-            case("11"): month = " дерабря"; break;
-        }
-
-        itog.append(month);
-        itog.append(dayOfWeek);
-        return String.valueOf(itog);
-    }
-    private String createFormateForReplaceDay(String str){
-
-        String dayOfWeek = "1", month = "1";
-        StringBuilder itog = new StringBuilder();
-        itog.append(str);
-        for(int i =0; i<itog.length(); i++){
-            if(itog.charAt(i) == ':'){
-                itog.delete(0, i+1);
-            }
-        }
-        char c = '0';
-        int l = 0;
-
-        try {
-            c = itog.charAt(itog.length() - 2);
-            l = itog.length();
-        }catch(StringIndexOutOfBoundsException e){
-
-        }
-
-        if(c== '.'){
-            dayOfWeek = String.valueOf(itog.charAt(l - 3));
-            month  = String.valueOf(itog.charAt(l-1));
-            itog.delete(l-4, l);
-        }
-
-        switch (dayOfWeek){
-            case("0"): dayOfWeek = " (воскресенье)"; break;
-            case("1"): dayOfWeek = " (понедельник)"; break;
-            case("2"): dayOfWeek = " (вторник)"; break;
-            case("3"): dayOfWeek = " (среда)"; break;
-            case("4"): dayOfWeek = " (четерг)"; break;
-            case("5"): dayOfWeek = " (пятница)"; break;
-            case("6"): dayOfWeek = " (суббота)"; break;
-        }
-        switch (month){
-            case("0"): month = " января"; break;
-            case("1"): month = " февраля"; break;
-            case("2"): month = " марта"; break;
-            case("3"): month = " апреля"; break;
-            case("4"): month = " мая"; break;
-            case("5"): month = " июня"; break;
-            case("6"): month= " июля"; break;
-            case("7"): month= " августа"; break;
-            case("8"): month= " сентября"; break;
-            case("9"): month= " октября"; break;
-            case("10"): month = " ноября"; break;
-            case("11"): month = " дерабря"; break;
-        }
-
-        itog.append(month);
-        itog.append(dayOfWeek);
-        return String.valueOf(itog);
-    }
 }
 
 

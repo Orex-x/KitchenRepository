@@ -19,12 +19,6 @@ public class PersonOnDuty {
         this.replaceDay = replaceDay;
     }
 
-    public PersonOnDuty(String name, String role, String idGroup, String status) {
-        this.name = name;
-        this.role = role;
-        this.idGroup = idGroup;
-        this.status = status;
-    }
 
     public String getStatusAcceptWork() {
         return statusAcceptWork;
