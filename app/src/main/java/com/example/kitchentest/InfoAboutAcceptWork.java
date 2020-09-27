@@ -20,20 +20,16 @@ import com.google.firebase.database.ValueEventListener;
 
 public class InfoAboutAcceptWork extends Fragment {
     public static String userNameFragmentAcceptWork = null, idGroupUserFragmentAcceptWork = null;
-    private TextView TVFragmentAcceptWork;
     private Button BFragmentNotAcceptWork, BFragmentAcceptWork;
-    private DatabaseReference mDataBaseW, mDataBaseGroup, mDataBasePOD;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_info_about_accept_work, null);
 
-        TVFragmentAcceptWork = (TextView) v.findViewById(R.id.TVFragmentAcceptWork);
         BFragmentNotAcceptWork = (Button) v.findViewById(R.id.BFragmentNotAcceptWork);
         BFragmentAcceptWork = (Button) v.findViewById(R.id.BFragmentAcceptWork);
-
-        mDataBaseGroup = FirebaseDatabase.getInstance().getReference(Constant.GROUP_KEY);
 
         BFragmentAcceptWork.setOnClickListener(new View.OnClickListener() {
             @Override

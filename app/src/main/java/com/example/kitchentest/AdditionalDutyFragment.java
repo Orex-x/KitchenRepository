@@ -24,9 +24,8 @@ import java.util.ArrayList;
 
 
 public class AdditionalDutyFragment extends Fragment {
-    private TextView TVFragmentAdditionalDuty;
-    private Button BFragmentAdditionalDutyONE, BFragmentAdditionalDutyTHREE, BFragmentAdditionalDutyFIVE, BFragmentAdditionalDutyBack,
-            BFragmentAdditionalDutyADD;
+    private Button BFragmentAdditionalDutyONE, BFragmentAdditionalDutyTHREE,
+            BFragmentAdditionalDutyFIVE, BFragmentAdditionalDutyBack, BFragmentAdditionalDutyADD;
     private String uri;
     public static String IDGroupUserAddDutyFragment = null, namePOD = null;
     private DatabaseReference mDataBaseGroup;
@@ -45,7 +44,6 @@ public class AdditionalDutyFragment extends Fragment {
         BFragmentAdditionalDutyFIVE = (Button) v.findViewById(R.id.BFragmentAdditionalDutyFIVE);
         BFragmentAdditionalDutyBack = (Button) v.findViewById(R.id.BFragmentAdditionalDutyBack);
         BFragmentAdditionalDutyADD = (Button) v.findViewById(R.id.BFragmentAdditionalDutyADD);
-        TVFragmentAdditionalDuty = (TextView) v.findViewById(R.id.TVFragmentAdditionalDuty);
         mDataBaseGroup = FirebaseDatabase.getInstance().getReference(Constant.GROUP_KEY);
 
         BFragmentAdditionalDutyONE.setOnClickListener(new View.OnClickListener() {

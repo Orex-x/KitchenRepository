@@ -8,7 +8,7 @@ import android.view.View;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-public class SettingActivity2 extends AppCompatActivity {
+public class SettingActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,7 +18,7 @@ public class SettingActivity2 extends AppCompatActivity {
 
     public void logOut(View view) {
         FirebaseAuth.getInstance().signOut();
-        Intent intent = new Intent(SettingActivity2.this, LoginActivity.class);
+        Intent intent = new Intent(SettingActivity.this, LoginActivity.class);
         startActivity(intent);
         HomeActivity.UserID = null;
         HomeActivity.IDGroupUser = null;

@@ -27,27 +27,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ShowGroupActivity extends AppCompatActivity {
+    private DatabaseReference mDataBasePOD;
     private ListView listView;
-    //private ArrayAdapter<String> arrayAdapter;
     private  Adapter arrayAdapter;
     private List<String> listData;
     private List<PersonOnDuty> listItem;
-    private DatabaseReference mDataBasePOD, getmDataBaseW, getmDataBaseGroup;
-    public static String IDGroup = null;
     private ArrayList<PersonOnDuty> listForImportPOD = new ArrayList<>();
     private EditText EDASGNamePPOD, EDASGPhonePOD;
 
     public static int isPOD = 0, repeatNameInGroup = 0;
-    public static String userIdShowGAct = null;
     private int firstTap;
-    private Button BASGAddPOD, BSActivityLeaveGroup, BASGnotAddPOD;
+    public static String userIdShowGAct = null, IDGroup = null;
     private String namePPOD, phonePPOD;
+
+    private Button BASGAddPOD, BSActivityLeaveGroup, BASGnotAddPOD;
     private TextView addPODtext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+      //  getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_show_group);
        if(isPOD == 1) {
            init();
@@ -119,13 +118,10 @@ public class ShowGroupActivity extends AppCompatActivity {
     private void init() {
         listView = (ListView) findViewById(R.id.ListViewGroup);
         listData = new ArrayList<>();
-       // arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listData);
         arrayAdapter = new Adapter(this, listData);
         listView.setAdapter(arrayAdapter);
         listItem = new ArrayList<>();
         mDataBasePOD = FirebaseDatabase.getInstance().getReference(Constant.PERSON_ON_DUTY_KEY);
-        getmDataBaseW = FirebaseDatabase.getInstance().getReference(Constant.WATCHER_KEY);
-        getmDataBaseGroup = FirebaseDatabase.getInstance().getReference(Constant.GROUP_KEY);
 
         addPODtext = (TextView) findViewById(R.id.addPODtext);
         BSActivityLeaveGroup = (Button) findViewById(R.id.BSActivityLeaveGroup);

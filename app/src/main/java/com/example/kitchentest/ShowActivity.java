@@ -26,7 +26,7 @@ public class ShowActivity extends AppCompatActivity {
     public static FrameLayout fragmentVacation, fragmentAdditionalDuty;
     private Button BActivityShowOpenVacation, BActivityShowAddDay, BSActivityRemovePOD;
     private String userName, userIdGroup, scheduleFull, schedulePosle = "";
-    private int posledvoetV, posledvoet, EdinstvennoyeNameInSchedule = 0;
+    private int  posledvoet, EdinstvennoyeNameInSchedule = 0;
 
     private ArrayList<String>  nameList, dateList;
 
@@ -36,7 +36,7 @@ public class ShowActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+       // getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_show);
         mDataBasePOD = FirebaseDatabase.getInstance().getReference(Constant.PERSON_ON_DUTY_KEY);
         mDataBaseGroup = FirebaseDatabase.getInstance().getReference(Constant.GROUP_KEY);
@@ -125,7 +125,6 @@ public class ShowActivity extends AppCompatActivity {
                         uri += ds.getKey() + "/schedule";
                         scheduleFull = group.getSchedule();
                         if (scheduleFull != null){
-                            posledvoetV = 0;
                             posledvoet = 0;
                             StringBuilder nameBr = new StringBuilder();
                             StringBuilder dateBr = new StringBuilder();

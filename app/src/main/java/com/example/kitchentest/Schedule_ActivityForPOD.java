@@ -32,11 +32,10 @@ public class Schedule_ActivityForPOD extends AppCompatActivity {
     private ArrayList<String> buf;
     private Adapter OKarrayAdapter;
     private List<String> OKlistData;
-    private List<Group> OKlistItem;
     private DatabaseReference mDataBaseGroup,mDataBasePOD;
-    public static String iDGroup = null, idPOD = null, uriUserForPOD = null, scheduleForPOD = null, schedule = null,
+    public static String iDGroup = null, idPOD = null, uriUserForPOD = null, scheduleForPOD = null,
             userNameForScheduleActForPOD = null;
-    public static int threadIntFromScheduleActForPOD = 0, stop = 0, ODCinScheduleActForPODone = 0, ODCinScheduleActForPODtwo = 0;
+    public static int  stop = 0, ODCinScheduleActForPODone = 0, ODCinScheduleActForPODtwo = 0;
     private TextView TVNullList, TVaboutReplaceDay;
     private String uri,replaceDay = null, todayStr = null;
     private int stopCheckStatus = 0, posledvoet = 0, permissionToShowLVRDay = 0, pointToday =1,
@@ -47,7 +46,7 @@ public class Schedule_ActivityForPOD extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        //getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_schedule__for_pod);
         init();
         if(scheduleForPOD == null){
@@ -130,7 +129,6 @@ public class Schedule_ActivityForPOD extends AppCompatActivity {
                     buf.remove(0);
                     OKarrayAdapter.notifyDataSetChanged();
                 }catch (IndexOutOfBoundsException e){
-                    //график устарел походу..
                     TVNullList.setText("Неактуальный график");
                     TVNullList.setVisibility(View.VISIBLE);
                     replacePODinSchedule.setVisibility(View.GONE);
@@ -276,7 +274,6 @@ public class Schedule_ActivityForPOD extends AppCompatActivity {
         OKarrayAdapter = new Adapter(this, OKlistData);
         OKlistView.setAdapter(OKarrayAdapter);
 
-        OKlistItem = new ArrayList<>();
         mDataBaseGroup = FirebaseDatabase.getInstance().getReference(Constant.GROUP_KEY);
         mDataBasePOD = FirebaseDatabase.getInstance().getReference(Constant.PERSON_ON_DUTY_KEY);
 

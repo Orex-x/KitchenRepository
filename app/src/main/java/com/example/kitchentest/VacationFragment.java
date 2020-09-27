@@ -37,7 +37,7 @@ public class VacationFragment extends Fragment {
             posledvoetV = 0;
     private String todayStr, stringVacation, schedule, uri;
     public static List<String> listDataVacationFragment;
-    private ArrayList<String> buf, listVacationDays, nameList, dateList, nameListV, dateListV,
+    private ArrayList<String> buf, listVacationDays, nameList, dateList, dateListV,
             indexRemove;
 
     public static String IDGroupUserVacationFragment = null, userNameFragmentVacation = null;
@@ -65,7 +65,7 @@ public class VacationFragment extends Fragment {
         listVacationDays = new ArrayList<>();
         nameList = new ArrayList<>();
         dateList = new ArrayList<>();
-        nameListV = new ArrayList<>();
+       // nameListV = new ArrayList<>();
         dateListV = new ArrayList<>();
         indexRemove = new ArrayList<>();
 
@@ -230,7 +230,7 @@ public class VacationFragment extends Fragment {
                             if (vacationDaysStr.charAt(i) == ':') {
                                 posledvoetV = 1;
                             } else if (vacationDaysStr.charAt(i) == ';') {
-                                nameListV.add(String.valueOf(nameBrV));
+                                //nameListV.add(String.valueOf(nameBrV));
                                 dateListV.add(String.valueOf(dateBrV));
                                 nameBrV.delete(0, nameBrV.length());
                                 dateBrV.delete(0, dateBrV.length());
@@ -271,15 +271,6 @@ public class VacationFragment extends Fragment {
                         schedule = "";
                         ArrayAdapterForVacationFragment.notifyDataSetChanged();
                         TVFragmentVacation.setText("а все))");
-//                        nameBr.delete(0, nameBr.length());
-//                        dateBr.delete(0, dateBr.length());
-//                        nameBrV.delete(0, nameBr.length());
-//                        dateBrV.delete(0, dateBr.length());
-//                        listVacationDays.clear();
-//                        dateListV.clear();
-//                        nameList.clear();
-//                        dateList.clear();
-//                        indexRemove.clear();
                     }
                 }
             }

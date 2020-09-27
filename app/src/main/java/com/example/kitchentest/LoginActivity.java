@@ -34,7 +34,7 @@ public class LoginActivity extends AppCompatActivity {
     Button BWOpen, BWRegistr, BRPersonOD, BRWatcher, BRRegistr, BRBack;
     TextView TVWelcome, TVRegistr, TVLoginActChoseeRole, TVLActivitySecundu;
     private FirebaseAuth mAuth;
-    private DatabaseReference PersonOnDutyDataBase, WatcherDataBase, StatusDataBase, GroupDataBase;
+    private DatabaseReference PersonOnDutyDataBase, WatcherDataBase, GroupDataBase;
     private int isWatcher = 0, repeatIdGroup = 0, repeatNameInGroup = 0, groupexists = 0;
     private String phoneStr, idWatcher, name, idGroupStr, idPersonOD = null;
 
@@ -42,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+       // getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_login);
         init();
         showWelcome();
@@ -52,13 +52,10 @@ public class LoginActivity extends AppCompatActivity {
         super.onStart();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
-
             Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
             startActivity(intent);
-            String userText = "Вы вошли как: " + currentUser.getEmail();
             HomeActivity.UserID =  currentUser.getUid();
             ThreadCheckStatus.UserIDforThread2 = currentUser.getUid();
-           // Toast.makeText(LoginActivity.this, userText, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -362,7 +359,6 @@ public class LoginActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         PersonOnDutyDataBase = FirebaseDatabase.getInstance().getReference(Constant.PERSON_ON_DUTY_KEY);
         WatcherDataBase = FirebaseDatabase.getInstance().getReference(Constant.WATCHER_KEY);
-        StatusDataBase = FirebaseDatabase.getInstance().getReference(Constant.STATUS_KEY);
         GroupDataBase = FirebaseDatabase.getInstance().getReference(Constant.GROUP_KEY);
     }
     public void createWatcher(View view) {

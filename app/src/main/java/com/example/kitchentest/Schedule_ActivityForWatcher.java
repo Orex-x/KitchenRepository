@@ -33,18 +33,17 @@ public class Schedule_ActivityForWatcher extends AppCompatActivity {
     private List<String> listData;
     public static List<String> OKlistData;
     private List<PersonOnDuty> listItem;
-    private List<Group> OKlistItem;
     private DatabaseReference mDataBasePOD, mDataBaseGroup;
     public static String IDGroup = null, UriUser = null;
     private TextView TVinSchedule;
     private String lol, todayStr;
-    private int i, counterForNewSchedule, counterForShowSchedule, posledvoet = 0, pointToday = 0;
+    private int  counterForNewSchedule, counterForShowSchedule, posledvoet = 0, pointToday = 0;
     private Button replaceOnNewSchedule, notReplace;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+      //  getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_schedule_for_watcher);
 
         init();
@@ -222,7 +221,7 @@ public class Schedule_ActivityForWatcher extends AppCompatActivity {
 
         OKlistView.setAdapter(OKarrayAdapter);
         listView.setAdapter(arrayAdapter);
-        OKlistItem = new ArrayList<>();
+
         listItem = new ArrayList<>();
 
         mDataBasePOD = FirebaseDatabase.getInstance().getReference(Constant.PERSON_ON_DUTY_KEY);
@@ -236,7 +235,6 @@ public class Schedule_ActivityForWatcher extends AppCompatActivity {
 
 
         lol = "";
-        i = -1;
         counterForNewSchedule = 0;
         counterForShowSchedule = 0;
     }

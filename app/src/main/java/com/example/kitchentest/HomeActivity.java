@@ -2,21 +2,16 @@ package com.example.kitchentest;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,24 +23,17 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.lang.Thread;
-import java.util.Set;
 
 class ThreadCheckStatus extends Thread{
     public static String UserIDforThread2 = null;
     private DatabaseReference mDataBasePOD = FirebaseDatabase.getInstance().getReference(Constant.PERSON_ON_DUTY_KEY);
     public static int ODCinThreadChecStatone = 0;
-    private String todayDayStr, todayMonthStr;
-    private int replaceDay, replaceMonth;
-    private StringBuilder replaceDayBuilder;
-
     @Override
     public void run(){
         ODCinThreadChecStatone = 1;
@@ -61,11 +49,6 @@ class ThreadCheckStatus extends Thread{
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot){
                     if (ODCinThreadChecStatone == 1){
-                        Calendar calendar = new GregorianCalendar();
-                        Date date = calendar.getTime();
-                        todayDayStr = String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
-                        todayMonthStr = String.valueOf(date.getMonth());
-
                         for (DataSnapshot ds : dataSnapshot.getChildren()) {
                             PersonOnDuty personOnDuty = ds.getValue(PersonOnDuty.class);
                             assert personOnDuty != null;
@@ -74,18 +57,7 @@ class ThreadCheckStatus extends Thread{
                                     ODCinThreadChecStatone = 0;
                                     HomeActivity.statusOne = 1;
                                     HomeActivity.showQuestionAboutAcceptReplace();
-
                                 }
-//                                if (personOnDuty.getStatusAcceptWork().equals("1")) {
-//                                    ODCinThreadChecStatone = 0;
-//                                    Calendar calendar1 = new GregorianCalendar();
-//                                    Date date1 = calendar1.getTime();
-//                                    int hour = date1.getHours();
-//                                    if(hour<10) {
-//                                        HomeActivity.showFragmentInfoAboutAcceptWork();
-//                                    }
-//
-//                                }
                             }
                         }
                     }
@@ -96,7 +68,7 @@ class ThreadCheckStatus extends Thread{
             };
             mDataBasePOD.addValueEventListener(valueEventListener);
             try {
-                Thread.sleep(4000);
+                Thread.sleep(2000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -107,77 +79,61 @@ class ThreadCheckStatus extends Thread{
 
 public class HomeActivity extends AppCompatActivity {
 
-        private DatabaseReference mDataBaseW;
-        private static DatabaseReference mDataBaseGroup;
-        private DatabaseReference mDataBasePOD;
+        public static DatabaseReference mDataBaseW, mDataBasePOD, mDataBaseGroup;
 
 
-        private TextView TVActHomeGlav, TodayPOD,YesterdaayPOD, TomorrowPOD, TVReplaseFinish, TVHActivitySecundu, GroupIsNull, TVHActivityReplaceName;
-        public static TextView TVaboutAcceptWork;
-        public static TextView TVaboutAcceptReplace;
+        private TextView TVActHomeGlav, TodayPOD,YesterdaayPOD, TomorrowPOD,
+                TVHActivitySecundu, GroupIsNull, TVHActivityReplaceName,
+                TV_replace_day_p2, TVAHReplacetext;
+        public static TextView TVaboutAcceptReplace,TVaboutAcceptWork;
+
 
         private EditText ETHActivityGroupID, editTextTextPersonName;
 
 
         public static String UserID = null, UriUserInHome, userName = null, userStatus = null,
                 uriUserStatus, checkreplaceDay, IDGroupUser = null, replaceDay;
-        private String  todayStr, todayPODStr, tomorrowPODstr = "--", yesterdayPODstr = "--", uriReplace,
-                replaceForDay = null, nameOne = null, nameTwo  = null, nameBuf  = null, uriChengeSchedule = null;
-        private String uriFirst, uriSecond, schedule, LMBuf;
         private static String itogNotAcceptWork = "";
-        private String editTextIDGroup, editTextName, uriGroup, scheduleFullReplaceDay;
-
-
-        private Button listGroupForWatcher, listGroupForPOD, scheduleForPOD, BHNotReplaceFinish,
-                BHReplaceFinish, BHActivityAddIdGroup,
-                 BHActivityReplaceName,CallYesterdaayPOD, CallTodayPOD, CallTomorrowPOD,
-                BexitFromApp, BSettings, BAHLogOut;
-        public static Button BHNotAcceptWork, BHAcceptWork;
-        public static Button BHAcceptReplace, BHNotAcceptReplace;
-
-        public static List<String> OKlistDataInHome;
-
-        private ListView ListViewDayForReplace;
-        private ArrayList<String> buf;
-        private ArrayList<String> listName, listNamePOD;
-        ArrayList<Watcher> listForImportWatchers = new ArrayList<>();
-        static ArrayList<String> listSchedule = new ArrayList<>();
-        static ArrayList<String> buflistScheduleDate = new ArrayList<>();
-        static ArrayList<String> buflistScheduleName = new ArrayList<>();
-        static ArrayList<String> newlistSchedule = new ArrayList<>();
-        private ArrayList<String> bufForSchedule;
+        private String  todayStr, todayPODStr, tomorrowPODstr = "--", yesterdayPODstr = "--",
+                uriReplace, replaceForDay = null, nameOne = null, nameTwo  = null,  uriFirst,
+                uriSecond, schedule, editTextIDGroup, editTextName,
+                scheduleFullReplaceDay;
 
 
 
-    private Intent callTodayPODI, callTomorrowPODI, callYesterdayPODI;
+        private int promptToEnterIDGroupIsWas = 0, groupIsExist = 1, scheduleExistTPODnotExist = 1;;
+        private static int methodOn = 0;
+        public static int statusOne = 0, stopChekWhoIsUser = 0, ODCinHomeActtwo = 0,
+                ODCinHomeActthree = 0,  posledvoet = 0, posledvoet2 = 0,
+                permissionToShowLVRDay = 0, indexDay = 0, indexForDay = 0,
+                scheduleIsLagbehind = 0, NameinGroupBe = 0, pointToday = 0,
+                ODCinFragmentReplaceTwo = 0, onlyOneStopper = 0;
 
 
-        Calendar today;
+    private Button listGroupForWatcher, listGroupForPOD, scheduleForPOD, BHActivityAddIdGroup,
+            BHActivityReplaceName,CallYesterdaayPOD, CallTodayPOD, CallTomorrowPOD,
+            BexitFromApp, BSettings, BAHLogOut, BAHNotReplace, BAHReplace;
+    public static Button BHAcceptReplace, BHNotAcceptReplace;
 
 
-        private int newScheduleStart,promptToEnterIDGroupIsWas = 0, groupIsExist = 1;
-        private static int nomberListScheduleWhenWorkisNotAccept;
-        private static int methodOn = 0, updateScheduleIsWas;
-        private int scheduleExistTPODnotExist = 1;
-        public static int statusOne = 0, sleep = 0, stopChekWhoIsUser = 0,
-                ODCinHomeActone = 0, ODCinHomeActtwo = 0,ODCinHomeActthree = 0,  posledvoet = 0, posledvoet2 = 0,
-                permissionToShowLVRDay = 0, indexDay = 0, indexForDay = 0, scheduleIsLagbehind = 0, NameinGroupBe = 0,
-                pointToday = 0, ODCinFragmentReplaceTwo = 0, onlyOneStopper = 0;
+    public static List<String> OKlistDataInHome;
+    private List<String> listDataForReplaseFinishFragmentReplace, listDataForReplaseSchedule = new ArrayList<>();
+    private  ArrayList<String> buf, listName, listNamePOD;
+    private ArrayList<Watcher> listForImportWatchers = new ArrayList<>();
+    private static ArrayList<String>
+            listSchedule = new ArrayList<>(),
+            buflistScheduleDate = new ArrayList<>(),
+            buflistScheduleName = new ArrayList<>(),
+            newlistSchedule = new ArrayList<>();
+    private ListView LVAHReplaceDay;
 
 
 
-
+        private Intent callTodayPODI, callTomorrowPODI, callYesterdayPODI;
+        private Calendar today;
         public static FrameLayout fragmentAccrptWork;
-        ArrayList<Watcher> listW;
         public static TextView TVQestionReplace;
-
-
-        private List<String> listDataForReplaseFinishFragmentReplace, listDataForReplaseSchedule;
-        private TextView TV_replace_day_p2, TVAHReplacetext;
-        private Button BAHNotReplace, BAHReplace;
-        private ListView LVAHReplaceDay;
         private Adapter ArrayAdapterForReplaceFinishFragmentReplace;
-
 
 
 
@@ -185,7 +141,7 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+      //  getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_home);
         init();
         checkGroup();
@@ -267,7 +223,6 @@ public class HomeActivity extends AppCompatActivity {
 
     public void addIDGroupFromHActivity(View view) {
         editTextIDGroup = ETHActivityGroupID.getText().toString();
-        editTextIDGroup.trim();
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -303,14 +258,13 @@ public class HomeActivity extends AppCompatActivity {
                         NameinGroupBe = 1;
                     }
                     if(personOnDuty.getId().equals(UserID)){
-                        uriAddIDGroup = uriAddIDGroup + ds.getKey() + "/idGroup";
+                        uriAddIDGroup += ds.getKey() + "/idGroup";
                     }
                 }
                 if(NameinGroupBe == 0) {
                     FirebaseDatabase db = FirebaseDatabase.getInstance();
                     DatabaseReference reference = db.getReferenceFromUrl(uriAddIDGroup);
                     reference.setValue(editTextIDGroup);
-                    uriAddIDGroup = "https://dnevalnie.firebaseio.com/Person_On_Duty/";
                     ToEnterIDGroup();
                     startMainCode();
                 }else {
@@ -474,7 +428,6 @@ public class HomeActivity extends AppCompatActivity {
                 for(DataSnapshot ds : dataSnapshot.getChildren()){
                     Watcher watcher = ds.getValue(Watcher.class);
                     assert watcher != null;
-//                    Toast.makeText(HomeActivity.this, UserID + userName, Toast.LENGTH_SHORT).show();
                     if(watcher.getId().equals(UserID)){
                         listForImportWatchers.add(watcher);
                         userName = watcher.getName();
@@ -483,7 +436,6 @@ public class HomeActivity extends AppCompatActivity {
                         scheduleIsLagbehind++;
                         listGroupForWatcher.setVisibility(View.VISIBLE);
                         listGroupForPOD.setVisibility(View.GONE);
-//                       scheduleForPOD.setVisibility(View.GONE);
                         IDGroupUser = watcher.getPhone();
                         VacationFragment.IDGroupUserVacationFragment = IDGroupUser;
                         AdditionalDutyFragment.IDGroupUserAddDutyFragment = IDGroupUser;
@@ -513,7 +465,6 @@ public class HomeActivity extends AppCompatActivity {
                     assert group != null;
                     if(group.getIdGroup().equals(IDGroupUser)){
                         UriUserInHome = uriFirst + ds.getKey() + "/" + "schedule";
-                        InfoAboutReplaceFragment.UriUserInFragReplace = UriUserInHome;
                         Schedule_ActivityForWatcher.UriUser = UriUserInHome;
                         ListOfFirebase.scheduleStr = group.getSchedule();
                         if(ListOfFirebase.scheduleStr != null){
@@ -549,21 +500,17 @@ public class HomeActivity extends AppCompatActivity {
                     assert personOnDuty != null;
 
                     if (personOnDuty.getId().equals(UserID)) {
-                       replaceDay = personOnDuty.getReplaceDay();
+                        replaceDay = personOnDuty.getReplaceDay();
                         userName = personOnDuty.getName();
                         userStatus = personOnDuty.getRole();
                         IDGroupUser = personOnDuty.getIdGroup();
-
-                        uriUserStatus = "https://dnevalnie.firebaseio.com/Person_On_Duty/";
-                        uriUserStatus = uriUserStatus + ds.getKey() + "/status";
-                        FragmentReplaceDay.uriUserStatusFragmentReplace = uriUserStatus;
-                        uriReplace = "https://dnevalnie.firebaseio.com/Person_On_Duty/" + ds.getKey() + "/replaceDay";
-                        FragmentReplaceDay.uriReplaceFragmentReplace = uriReplace;
+                        uriUserStatus = "https://dnevalnie.firebaseio.com/Person_On_Duty/"
+                                + ds.getKey() + "/status";
+                        uriReplace = "https://dnevalnie.firebaseio.com/Person_On_Duty/"
+                                + ds.getKey() + "/replaceDay";
 
                         Toast.makeText(HomeActivity.this, "Добро пожаловать " + userName, Toast.LENGTH_SHORT).show();
                         Schedule_ActivityForPOD.userNameForScheduleActForPOD = userName;
-                        InfoAboutReplaceFragment.IDGroupUserFragmentReplace = IDGroupUser;
-                        InfoAboutReplaceFragment.userNameFragmentReplace = userName;
                         scheduleIsLagbehind++;
                         listGroupForPOD.setVisibility(View.VISIBLE);
                         listGroupForWatcher.setVisibility(View.GONE);
@@ -590,7 +537,6 @@ public class HomeActivity extends AppCompatActivity {
                     assert group != null;
                     if(group.getIdGroup().equals(IDGroupUser)){
                         UriUserInHome = uriFirst + ds.getKey() + "/" + "schedule";
-                        InfoAboutReplaceFragment.UriUserInFragReplace = UriUserInHome;
                         Schedule_ActivityForPOD.uriUserForPOD = uriFirst + uriSecond + "/" + "schedule";
                         Schedule_ActivityForPOD.scheduleForPOD = group.getSchedule();
                         if(group.getSchedule() != null){
@@ -674,8 +620,6 @@ public class HomeActivity extends AppCompatActivity {
                                     createIntentForCall();
                                 }
                             }
-
-                        //createIntentForCall();
                         //до 10 надо приннимать
                         if (todayPODStr.equals(userName) && hour < 10) {
                             checkStatusAWork();
@@ -860,8 +804,6 @@ public class HomeActivity extends AppCompatActivity {
                     FirebaseDatabase db = FirebaseDatabase.getInstance();
                     DatabaseReference reference = db.getReferenceFromUrl(UriUserInHome);
                     reference.setValue(lol);
-                    lol = "";
-                    counter = 0;
                     Toast.makeText(HomeActivity.this, "График обновлен", Toast.LENGTH_SHORT).show();
 
                 }
@@ -942,74 +884,6 @@ public class HomeActivity extends AppCompatActivity {
                 for(DataSnapshot ds : dataSnapshot.getChildren()){
                     Group group = ds.getValue(Group.class);
                     assert group != null;
-//                    if(group.idGroup.equals(IDGroupUser)) {
-//                        String scheduleFull = group.getSchedule();
-//                        StringBuilder scheduleBuilder = new StringBuilder();
-//
-//                        for(int i = 0; i<scheduleFull.length(); i++){
-//                            if(scheduleFull.charAt(i) == ';'){
-//                                scheduleBuilder.append(";");
-//                                listSchedule.add(String.valueOf(scheduleBuilder));   //name and date list
-//                                scheduleBuilder.delete(0, scheduleBuilder.length());
-//                            }else{
-//                                scheduleBuilder.append(scheduleFull.charAt(i));
-//                            }
-//                        }
-//                        if(methodOn == 0){
-//                            itogNotAcceptWork = "";
-//                            methodOn = 1;
-//                            StringBuilder buildername = new StringBuilder();
-//                            StringBuilder builderdata = new StringBuilder();
-//                            int dvoetochWas= 0;
-//
-//                            for(String str: listSchedule){
-//                                for(int i = 0; i<str.length(); i++){
-//                                    if(str.charAt(i) == ':'){
-//                                        dvoetochWas = 1;
-//                                    }
-//                                    if(str.charAt(i) != ':'){
-//                                        if(dvoetochWas == 0){
-//                                            buildername.append(str.charAt(i));
-//                                        }else{
-//                                            builderdata.append(str.charAt(i));
-//                                        }
-//                                    }
-//                                    if(str.charAt(i) == ';'){
-//                                        buflistScheduleName.add(String.valueOf(buildername));
-//                                        buflistScheduleDate.add(String.valueOf(builderdata));
-//                                        buildername.delete(0, buildername.length());
-//                                        builderdata.delete(0, builderdata.length());
-//                                        dvoetochWas = 0;
-//                                    }
-//                                }
-//                            }
-//                            Calendar today1 = new GregorianCalendar();
-//                            Date dateToday = today1.getTime();
-//                            String todayStr =  String.valueOf(today1.get(Calendar.DAY_OF_MONTH)) +
-//                                    "." + dateToday.getDay() + "." + dateToday.getMonth() + ";"; // 12.2.8;
-//                            int index = 0;
-//                            for(String date : buflistScheduleDate){
-//                                if(date.equals(todayStr)){
-//                                    index = buflistScheduleDate.indexOf(date);
-//                                }
-//                            }
-//
-//
-//                            for(int i = 0; i<index-1; i++){
-//                                itogNotAcceptWork += buflistScheduleName.get(i) + ":" + buflistScheduleDate.get(i);
-//                            }
-//                            for(int i = index-1; i<listSchedule.size(); i++){
-//                                itogNotAcceptWork += buflistScheduleName.get(i-1) + ":" + buflistScheduleDate.get(i);
-//                            }
-//                            AcceptWorkIsFalseCont(itogNotAcceptWork);
-//                            itogNotAcceptWork = "";
-////                            newlistSchedule.clear();
-////                            buflistScheduleName.clear();
-////                            buflistScheduleDate.clear();
-////                            listSchedule.clear();
-//
-//                        }
-//                    }
                     if(group.idGroup.equals(IDGroupUser)) {
                         if(methodOn == 0) {
                             methodOn = 1;
@@ -1037,8 +911,6 @@ public class HomeActivity extends AppCompatActivity {
                                     }
                                 }
                             }
-
-
                             //узнаем какой индекс у сегодняшнего дня
                             int index = 0;
                             for(String date : buflistScheduleDate){
@@ -1054,8 +926,6 @@ public class HomeActivity extends AppCompatActivity {
                             for(int i = index-1; i<buflistScheduleName.size()-1; i++){
                                 itogNotAcceptWork += buflistScheduleName.get(i) + ":" + buflistScheduleDate.get(i+1) + ";";
                             }
-
-
                             AcceptWorkIsFalseCont(itogNotAcceptWork);
                         }
                     }
@@ -1106,6 +976,9 @@ public class HomeActivity extends AppCompatActivity {
     //вызывается когда пользовательь нажимает нет
     public void AcceptReplaceIsFalse(View view) {
         ODCinHomeActtwo = 1;
+        TVAHReplacetext.setText("Выберите день который хотите поменять");
+        NotshowTextInfoAboutReplace();
+        notshowQuestionAboutAcceptReplace();
         HomeActivity.statusOne = 0;
         FirebaseDatabase db = FirebaseDatabase.getInstance();
         DatabaseReference reference = db.getReferenceFromUrl(uriUserStatus);
@@ -1123,6 +996,10 @@ public class HomeActivity extends AppCompatActivity {
         indexDay = 0;
         ODCinFragmentReplaceTwo = 0;
         onlyOneStopper = 0;
+        nameOne = "";
+        nameTwo = "";
+        schedule = "";
+        TVAHReplacetext.setText("Выберите день который хотите поменять");
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -1130,16 +1007,19 @@ public class HomeActivity extends AppCompatActivity {
                     Group group = ds.getValue(Group.class);
                     assert group != null;
                     if(group.idGroup.equals(IDGroupUser)) {
+                        if(listDataForReplaseSchedule.size()>0){
+                            listDataForReplaseSchedule.clear();
+                        }
                         schedule = group.getSchedule();
                         StringBuilder builder = new StringBuilder();
                         for(int i = 0; i<schedule.length(); i++) {
                             if (schedule.charAt(i) == ';') {
                                 listDataForReplaseSchedule.add(String.valueOf(builder));
                                 if(String.valueOf(builder).equals(replaceForDay)){
-                                    indexForDay = listDataForReplaseSchedule.size();
+                                    indexForDay = listDataForReplaseSchedule.size()-1;
                                 }
                                 if(String.valueOf(builder).equals(replaceDay)){
-                                    indexDay = listDataForReplaseSchedule.size();
+                                    indexDay = listDataForReplaseSchedule.size()-1;
                                 }
                                 builder.delete(0, builder.length());
                             } else builder.append(schedule.charAt(i));
@@ -1158,16 +1038,25 @@ public class HomeActivity extends AppCompatActivity {
                         nameTwo = String.valueOf(buildername2);//ra
                     }else buildername2.append(replaceDay.charAt(i));
                 }
-                listDataForReplaseSchedule.set(indexDay - 1, listDataForReplaseSchedule.get(indexDay - 1).replaceAll(nameTwo , nameOne));
-                listDataForReplaseSchedule.set(indexForDay - 1, listDataForReplaseSchedule.get(indexForDay - 1).replaceAll(nameOne , nameTwo));
-                String itog = "";
-                for(String str: listDataForReplaseSchedule){
-                    itog = itog + str + ";";
+                try {
+                    listDataForReplaseSchedule.set(indexDay, listDataForReplaseSchedule.get(indexDay).replaceAll(nameTwo, nameOne));
+                    listDataForReplaseSchedule.set(indexForDay, listDataForReplaseSchedule.get(indexForDay).replaceAll(nameOne, nameTwo));
+                    String itog = "";
+                    for (String str : listDataForReplaseSchedule) {
+                        itog = itog + str + ";";
+                    }
+                    FirebaseDatabase db = FirebaseDatabase.getInstance();
+                    DatabaseReference reference = db.getReferenceFromUrl(UriUserInHome);
+                    reference.setValue(itog);
+                    itog = "";
+
+                }catch (Exception e){
+                    Toast.makeText(HomeActivity.this, String.valueOf(e), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(HomeActivity.this, listDataForReplaseSchedule.get(indexDay), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(HomeActivity.this, listDataForReplaseSchedule.get(indexForDay), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(HomeActivity.this,nameOne , Toast.LENGTH_SHORT).show();
+                    Toast.makeText(HomeActivity.this, nameTwo, Toast.LENGTH_SHORT).show();
                 }
-                FirebaseDatabase db = FirebaseDatabase.getInstance();
-                DatabaseReference reference = db.getReferenceFromUrl(UriUserInHome);
-                reference.setValue(itog);
-                itog = "";
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -1204,6 +1093,8 @@ public class HomeActivity extends AppCompatActivity {
 
                         }
                     }
+                    NotshowTextInfoAboutReplace();
+                    checkStatus();
                     ODCinFragmentReplaceTwo = 0;
                     onlyOneStopper = 0;
                 }
@@ -1214,7 +1105,6 @@ public class HomeActivity extends AppCompatActivity {
         };
 
         mDataBasePOD.addListenerForSingleValueEvent(valueEventListener2);
-        NotshowTextInfoAboutReplace();
     }
 
     public void showTextInfoAboutReplace(){
@@ -1223,6 +1113,7 @@ public class HomeActivity extends AppCompatActivity {
         BAHNotReplace.setVisibility(View.VISIBLE);
         LVAHReplaceDay.setVisibility(View.VISIBLE);
         BAHReplace.setVisibility(View.VISIBLE);
+        updateReplaceDay();
         setOnClickItemReplaceDay();
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
@@ -1234,8 +1125,6 @@ public class HomeActivity extends AppCompatActivity {
                     Group group = ds.getValue(Group.class);
                     assert group != null;
                     if(group.idGroup.equals(IDGroupUser)) {
-                        Toast.makeText(HomeActivity.this, "nen3" ,Toast.LENGTH_SHORT).show();
-
                         try {
                             posledvoet = 0;
                             posledvoet2 = 0;
@@ -1282,24 +1171,22 @@ public class HomeActivity extends AppCompatActivity {
                         }
                     }
                 }
-//                try {
-//                    //удаляет первый элемет если он не нужен (имя другое)
-//                    StringBuilder firstName = new StringBuilder();
-//                    for(int i = 0; i<listDataForReplaseFinishFragmentReplace.get(0).length(); i++){
-//                        if(listDataForReplaseFinishFragmentReplace.get(0).charAt(i) == ':'){
-//                            if(!String.valueOf(firstName).equals(userName)){
-//                                listDataForReplaseFinishFragmentReplace.remove(0);
-//                                buf.remove(0);
-//                            }
-//                        }else firstName.append(listDataForReplaseFinishFragmentReplace.get(0).charAt(i));
-//                    }
-//                    ArrayAdapterForReplaceFinishFragmentReplace.notifyDataSetChanged();
-//                }catch (IndexOutOfBoundsException e){
-//                    //график устарел походу..
-//                    // TVFragmentReplaceDay.setText(scheduleFull);
-//                }
+                try {
+                    //удаляет первый элемет если он не нужен (имя другое)
+                    StringBuilder firstName = new StringBuilder();
+                    String firstEl = listDataForReplaseFinishFragmentReplace.get(0);
+                    for(int i = 0; i<firstEl.length(); i++){
+                        if(firstEl.charAt(i) == ':'){
+                            if(!String.valueOf(firstName).equals(userName)){
+                                listDataForReplaseFinishFragmentReplace.remove(0);
+                                buf.remove(0);
+                            }
+                        }else firstName.append(firstEl.charAt(i));
+                    }
+                    ArrayAdapterForReplaceFinishFragmentReplace.notifyDataSetChanged();
+                }catch (IndexOutOfBoundsException e){
+                }
                 ArrayAdapterForReplaceFinishFragmentReplace.notifyDataSetChanged();
-
             }
 
             @Override
@@ -1317,7 +1204,9 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 replaceForDay = buf.get(position);
-                TVAHReplacetext.setText("Вы будете дежурить " + Constant.createFormateForReplaceDay(replaceDay) + " но не дежурить: " +
+                TVAHReplacetext.setText("Вы будете дежурить " +
+                        Constant.createFormateForReplaceDay(replaceDay) +
+                        " но не дежурить: " +
                         Constant.createFormateForReplaceDay(replaceForDay));
 
             }
@@ -1385,7 +1274,6 @@ public class HomeActivity extends AppCompatActivity {
         LVAHReplaceDay = (ListView) findViewById(R.id.LVAHReplaceDay);
         listDataForReplaseFinishFragmentReplace = new ArrayList<>();
         buf = new ArrayList<>();
-        listDataForReplaseSchedule = new ArrayList<>();
         ArrayAdapterForReplaceFinishFragmentReplace = new Adapter(this, listDataForReplaseFinishFragmentReplace);
         LVAHReplaceDay.setAdapter(ArrayAdapterForReplaceFinishFragmentReplace);
 
@@ -1399,19 +1287,15 @@ public class HomeActivity extends AppCompatActivity {
         listName = new ArrayList<>();
         listNamePOD = new ArrayList<>();
 
-
-        newScheduleStart = 0;
-        updateScheduleIsWas = 0;
         today = new GregorianCalendar();
 
-        bufForSchedule = new ArrayList<>();
-        listW = new ArrayList<>();
+
+
         listNamePOD = new ArrayList<>();
 
         uriReplace = "https://dnevalnie.firebaseio.com/Person_On_Duty/";
         uriUserStatus = "https://dnevalnie.firebaseio.com/Person_On_Duty/";
         uriFirst = "https://dnevalnie.firebaseio.com/Group/";
-        uriGroup = "https://dnevalnie.firebaseio.com/Group/";
         uriSecond = null;
     }
 
@@ -1440,14 +1324,8 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
-    public void sbros(View view) {
-        FirebaseDatabase db213 = FirebaseDatabase.getInstance();
-        DatabaseReference reference123= db213.getReferenceFromUrl("https://dnevalnie.firebaseio.com/Person_On_Duty/-MHMVa2PQxuMliKLJJRu/statusAcceptWork");
-        reference123.setValue("0");
-    }
-
     public void goToSettings(View view) {
-        Intent intent = new Intent(HomeActivity.this, SettingActivity2.class);
+        Intent intent = new Intent(HomeActivity.this, SettingActivity.class);
         startActivity(intent);
     }
 
@@ -1468,6 +1346,27 @@ public class HomeActivity extends AppCompatActivity {
         userName = null;
         stopChekWhoIsUser = 0;
         statusOne = 0;
+    }
+
+
+    public void updateReplaceDay(){
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    PersonOnDuty personOnDuty = ds.getValue(PersonOnDuty.class);
+                    assert personOnDuty != null;
+                    if (personOnDuty.getId().equals(UserID)) {
+                        replaceDay = personOnDuty.getReplaceDay();
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
+        mDataBasePOD.addValueEventListener(valueEventListener);
     }
 }
 

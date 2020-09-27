@@ -338,6 +338,7 @@
             android:layout_height="match_parent">
 
 
+
             <fragment
                 android:id="@+id/fragment_info_about_acceptWork"
                 android:name="com.example.kitchentest.InfoAboutAcceptWork"
@@ -363,7 +364,6 @@
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30sp"
                 android:layout_marginBottom="300dp"
-                android:gravity="center"
                 android:visibility="gone"
                 android:text="Выберите день который хотите поменять"
                 android:textColor="@color/colorAccent"
@@ -435,19 +435,6 @@
                 android:textColor="@color/color_red"
                 android:visibility="gone" />
 
-            <TextView
-                android:id="@+id/TVaboutAcceptReplace"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_marginLeft="10sp"
-                android:layout_marginBottom="28dp"
-                android:text="Вы хотите поменятся?"
-                android:textSize="14sp"
-                android:visibility="gone" />
-
-
-
 
             <TextView
                 android:id="@+id/TVaboutAcceptWork"
@@ -467,6 +454,18 @@
                 android:layout_gravity="bottom"
                 android:background="@drawable/islandtext"
                 android:textSize="12sp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/TVaboutAcceptReplace"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="20dp"
+                android:layout_marginBottom="30dp"
+                android:text="Вы хотите поменятся?"
+                android:textColor="@color/colorAccent"
+                android:textSize="14sp"
                 android:visibility="gone" />
 
         </FrameLayout>
