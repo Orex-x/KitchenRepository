@@ -38,72 +38,129 @@ class ThreadCheckStatus extends Thread{
     public void run(){
         ODCinThreadChecStatone = 1;
 
-       // while(HomeActivity.statusOne == 0){
-        while (true){
+        while(HomeActivity.chekStatus){
             try {
-                Thread.sleep(200);
+                Thread.sleep(3000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             ValueEventListener valueEventListener = new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot){
-                    if (ODCinThreadChecStatone == 1){
+//                    if (ODCinThreadChecStatone == 1){
                         for (DataSnapshot ds : dataSnapshot.getChildren()) {
                             PersonOnDuty personOnDuty = ds.getValue(PersonOnDuty.class);
                             assert personOnDuty != null;
                             if (personOnDuty.getId().equals(UserIDforThread2) && ODCinThreadChecStatone == 1) {
                                 if (personOnDuty.getStatus().equals("1")) {
                                     ODCinThreadChecStatone = 0;
-                                    HomeActivity.statusOne = 1;
+                                   // HomeActivity.statusOne = 1;
+                                    HomeActivity.chekStatus = false;
                                     HomeActivity.showQuestionAboutAcceptReplace();
                                 }
+
                             }
                         }
                     }
-                }
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
                 }
             };
-            mDataBasePOD.addValueEventListener(valueEventListener);
+            mDataBasePOD.addListenerForSingleValueEvent(valueEventListener);
             try {
-                Thread.sleep(2000);
+                Thread.sleep(8000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
     }
 }
+ 
+
+class ThreadCheckStatusHOWork extends Thread{
+    private DatabaseReference mDataBasePOD = FirebaseDatabase.getInstance().getReference(Constant.PERSON_ON_DUTY_KEY);
+    @Override
+    public void run(){
+        while (HomeActivity.chekStatusHOWork){
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            ValueEventListener valueEventListener = new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot){
+                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                        PersonOnDuty personOnDuty = ds.getValue(PersonOnDuty.class);
+                        assert personOnDuty != null;
+                        if(personOnDuty.getIdGroup().equals(HomeActivity.IDGroupUser)){
+                            if(HomeActivity.userName.equals(HomeActivity.tomorrowPODstr)){
+                                checkStatusHOWork();
+                            }
+                        }
+                        }
+                    }
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                }
+            };
+            mDataBasePOD.addListenerForSingleValueEvent(valueEventListener);
+        }
+    }
+    void checkStatusHOWork(){
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot){
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    PersonOnDuty personOnDuty = ds.getValue(PersonOnDuty.class);
+                    assert personOnDuty != null;
+                    if(personOnDuty.getIdGroup().equals(HomeActivity.IDGroupUser)) {
+                        if (personOnDuty.getName().equals(HomeActivity.todayPODStr)) {
+                            if (personOnDuty.getStatusHandOverWork().equals("1")) {
+                                HomeActivity.showFragmentInfoAboutAcceptWork();
+                            }
+                        }
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        };
+        mDataBasePOD.addListenerForSingleValueEvent(valueEventListener);
+    }
+}
+
+
+
 
 
 public class HomeActivity extends AppCompatActivity {
 
         public static DatabaseReference mDataBaseW, mDataBasePOD, mDataBaseGroup;
-
-
         private TextView TVActHomeGlav, TodayPOD,YesterdaayPOD, TomorrowPOD,
                 TVHActivitySecundu, GroupIsNull, TVHActivityReplaceName,
-                TV_replace_day_p2, TVAHReplacetext;
+                TV_replace_day_p2, TVAHReplacetext,
+                TVAHAcceptToday, TVAHHandOverToday, TVAHAcceptTommorow, TVAHHandOverTommorow, TVAHAcceptYesterday, TVAHHandOverYesterday;
         public static TextView TVaboutAcceptReplace,TVaboutAcceptWork;
-
 
         private EditText ETHActivityGroupID, editTextTextPersonName;
 
 
-        public static String UserID = null, UriUserInHome, userName = null, userStatus = null,
-                uriUserStatus, checkreplaceDay, IDGroupUser = null, replaceDay;
+        public static String UserID = null, UriUserInHome, userName = null, userStatus = null,userPhone = null,
+                uriUserStatus, checkreplaceDay, IDGroupUser = null, replaceDay, todayPODStr, tomorrowPODstr = "";
         private static String itogNotAcceptWork = "";
-        private String  todayStr, todayPODStr, tomorrowPODstr = "--", yesterdayPODstr = "--",
+        private String  todayStr = "", yesterdayPODstr = "",
                 uriReplace, replaceForDay = null, nameOne = null, nameTwo  = null,  uriFirst,
                 uriSecond, schedule, editTextIDGroup, editTextName,
                 scheduleFullReplaceDay;
 
 
 
+
         private int promptToEnterIDGroupIsWas = 0, groupIsExist = 1, scheduleExistTPODnotExist = 1;;
         private static int methodOn = 0;
-        public static int statusOne = 0, stopChekWhoIsUser = 0, ODCinHomeActtwo = 0,
+        public static int  stopChekWhoIsUser = 0, ODCinHomeActtwo = 0,
                 ODCinHomeActthree = 0,  posledvoet = 0, posledvoet2 = 0,
                 permissionToShowLVRDay = 0, indexDay = 0, indexForDay = 0,
                 scheduleIsLagbehind = 0, NameinGroupBe = 0, pointToday = 0,
@@ -112,8 +169,8 @@ public class HomeActivity extends AppCompatActivity {
 
     private Button listGroupForWatcher, listGroupForPOD, scheduleForPOD, BHActivityAddIdGroup,
             BHActivityReplaceName,CallYesterdaayPOD, CallTodayPOD, CallTomorrowPOD,
-            BexitFromApp, BSettings, BAHLogOut, BAHNotReplace, BAHReplace;
-    public static Button BHAcceptReplace, BHNotAcceptReplace;
+            BexitFromApp, BSettings, BAHLogOut, BAHNotReplace, BAHReplace, BAHsetHandOverWorkOne, BAHEdit;
+    public static Button BHAcceptReplace, BHNotAcceptReplace, showUndoneDuties;
 
 
     public static List<String> OKlistDataInHome;
@@ -123,6 +180,7 @@ public class HomeActivity extends AppCompatActivity {
     private static ArrayList<String>
             listSchedule = new ArrayList<>(),
             buflistScheduleDate = new ArrayList<>(),
+            buflistScheduleDateClear = new ArrayList<>(),
             buflistScheduleName = new ArrayList<>(),
             newlistSchedule = new ArrayList<>();
     private ListView LVAHReplaceDay;
@@ -131,9 +189,11 @@ public class HomeActivity extends AppCompatActivity {
 
         private Intent callTodayPODI, callTomorrowPODI, callYesterdayPODI;
         private Calendar today;
-        public static FrameLayout fragmentAccrptWork;
+        public static FrameLayout fragmentAccrptWork, infoAboutUndoneDuties;
         public static TextView TVQestionReplace;
         private Adapter ArrayAdapterForReplaceFinishFragmentReplace;
+
+        public static boolean chekStatus = true, chekStatusHOWork = true;
 
 
 
@@ -141,7 +201,6 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-      //  getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_home);
         init();
         checkGroup();
@@ -188,6 +247,7 @@ public class HomeActivity extends AppCompatActivity {
         TodayPOD.setVisibility(View.VISIBLE);
         TomorrowPOD.setVisibility(View.VISIBLE);
         BSettings.setVisibility(View.VISIBLE);
+        BAHEdit.setVisibility(View.VISIBLE);
         BexitFromApp.setVisibility(View.VISIBLE);
         NotshowTextInfoAboutReplace();
         NotshowFragmentInfoAboutAcceptWork();
@@ -197,6 +257,7 @@ public class HomeActivity extends AppCompatActivity {
         getDataFromTablePOD();
         checkStatus();
         checkReplaceDay();
+        SettingActivity.populateList();
     }
 
     private void promptToEnterIDGroup() {
@@ -419,6 +480,11 @@ public class HomeActivity extends AppCompatActivity {
         threadCheckStatus.start();
     }
 
+    public static void chekStatutHOWork() {
+        ThreadCheckStatusHOWork threadCheckStatusHOWork = new ThreadCheckStatusHOWork();
+        threadCheckStatusHOWork.start();
+
+    }
 
 
     private void getDataFromTableW(){
@@ -432,6 +498,7 @@ public class HomeActivity extends AppCompatActivity {
                         listForImportWatchers.add(watcher);
                         userName = watcher.getName();
                         userStatus = watcher.getRole();
+                        userPhone = watcher.getPhone();
                         Toast.makeText(HomeActivity.this, "Добро пожаловать " + userName, Toast.LENGTH_SHORT).show();
                         scheduleIsLagbehind++;
                         listGroupForWatcher.setVisibility(View.VISIBLE);
@@ -484,7 +551,7 @@ public class HomeActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         };
-        mDataBaseGroup.addValueEventListener( valueEventListener);
+        mDataBaseGroup.addListenerForSingleValueEvent( valueEventListener);
     }
 
 
@@ -504,6 +571,10 @@ public class HomeActivity extends AppCompatActivity {
                         userName = personOnDuty.getName();
                         userStatus = personOnDuty.getRole();
                         IDGroupUser = personOnDuty.getIdGroup();
+                        userPhone = personOnDuty.getPhone();
+                        if(!personOnDuty.getUndoneDuties().equals("-")){
+                            showUndoneDuties.setVisibility(View.VISIBLE);
+                        }
                         uriUserStatus = "https://dnevalnie.firebaseio.com/Person_On_Duty/"
                                 + ds.getKey() + "/status";
                         uriReplace = "https://dnevalnie.firebaseio.com/Person_On_Duty/"
@@ -556,20 +627,19 @@ public class HomeActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         };
-        mDataBaseGroup.addValueEventListener(valueEventListener);
+        mDataBaseGroup.addListenerForSingleValueEvent(valueEventListener);
     }
     //находит сегодняшнего дежурного и обновляет график при необходимости
     private void showTodayPOD() {
-        Date dateToday = today.getTime();
-        todayStr = ":" + String.valueOf(today.get(Calendar.DAY_OF_MONTH)) +
-                "." + dateToday.getDay() + "." + dateToday.getMonth();
-        today.add(Calendar.DAY_OF_YEAR, 1);
-
-        final int hour = dateToday.getHours();
-
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Date dateToday = today.getTime();
+                todayStr = ":" + String.valueOf(today.get(Calendar.DAY_OF_MONTH)) +
+                        "." + dateToday.getDay() + "." + dateToday.getMonth();
+                today.add(Calendar.DAY_OF_YEAR, 1);
+                boolean stat = false;
+                final int hour = dateToday.getHours();
                 if (OKlistDataInHome.size() > 0) {
                     OKlistDataInHome.clear();
                 }
@@ -590,10 +660,16 @@ public class HomeActivity extends AppCompatActivity {
                                     builder.delete(0, i);
                                 }
 
-                                if (schedule.charAt(i) == ';') {
+                                if (schedule.charAt(i) == ',') {
+                                    stat = true;
                                     OKlistDataInHome.add(String.valueOf(builder));
                                     builder.delete(0, builder.length());
-                                } else builder.append(schedule.charAt(i));
+                                } else if(!stat){
+                                    builder.append(schedule.charAt(i));
+                                }
+                                if(schedule.charAt(i) == ';'){
+                                    stat = false;
+                                }
                             }
                     }
                 } //Распределяет имена и дату по листам
@@ -602,44 +678,67 @@ public class HomeActivity extends AppCompatActivity {
                 for (int i = 0; i < OKlistDataInHome.size(); i++) {
                     if (todayStr.equals(OKlistDataInHome.get(i))) {
 
-                            todayPODStr = listName.get(i);
+                        todayPODStr = listName.get(i);
                         CallYesterdaayPOD.setVisibility(View.VISIBLE);
                         CallTomorrowPOD.setVisibility(View.VISIBLE);
                         CallTodayPOD.setVisibility(View.VISIBLE);
+                        try {
+                            tomorrowPODstr = listName.get(i + 1);
+                            yesterdayPODstr = listName.get(i - 1);
+                            createIntentForCall();
+                        } catch (ArrayIndexOutOfBoundsException e) {
+                            CallYesterdaayPOD.setVisibility(View.GONE);
                             try {
                                 tomorrowPODstr = listName.get(i + 1);
-                                yesterdayPODstr = listName.get(i - 1);
                                 createIntentForCall();
-                            }catch (ArrayIndexOutOfBoundsException e){
-                                CallYesterdaayPOD.setVisibility(View.GONE);
-                                try{
-                                    tomorrowPODstr = listName.get(i + 1);
-                                    createIntentForCall();
-                                }catch (ArrayIndexOutOfBoundsException ee){
-                                    CallTomorrowPOD.setVisibility(View.GONE);
-                                    createIntentForCall();
-                                }
+                            } catch (ArrayIndexOutOfBoundsException ee) {
+                                CallTomorrowPOD.setVisibility(View.GONE);
+                                createIntentForCall();
                             }
-                        //до 10 надо приннимать
-                        if (todayPODStr.equals(userName) && hour < 10) {
-                            checkStatusAWork();
-                        } else if (!todayPODStr.equals(userName)) {
-                            setStatusAworkNol();
                         }
 
 
-                        TodayPOD.setText("Сегодня дежурит: " + listName.get(i));
+//                        //приемм дежурства осуществяется в зависимости от натроек
+//                        if (todayPODStr.equals(userName) && hour < Integer.parseInt(SettingActivity.deadLine)) {
+//                            checkStatusAWork();
+//                        } else if (!todayPODStr.equals(userName)) {
+//                            setStatusAworkNol();
+//                        }
+
+
+                        if (!todayPODStr.equals(userName)) {
+                            setStatusAworkNol();
+                            BAHsetHandOverWorkOne.setVisibility(View.GONE);
+                        }
+
+                        if (todayPODStr.equals(userName)) {
+                            TodayPOD.setText("Сегодня дежурите вы");
+                            //checkStatusAWork();
+                            CallTodayPOD.setVisibility(View.GONE);
+                            BAHsetHandOverWorkOne.setVisibility(View.VISIBLE);
+                        } else {
+                            TodayPOD.setText("Сегодня дежурит: " + listName.get(i));
+                            setStatusAworkNol();
+                        }
 
                         try {
                             TomorrowPOD.setText("Завтра дежурит:  " + listName.get(i + 1));
                         } catch (ArrayIndexOutOfBoundsException e) {
-                            TomorrowPOD.setText("---");
+                            TomorrowPOD.setText("Завтра никто не дежурит");
                         }
                         try {
                             YesterdaayPOD.setText("Вчера дежурил(-а): " + listName.get(i - 1));
                         } catch (ArrayIndexOutOfBoundsException e) {
-                            YesterdaayPOD.setText("---");
+                            YesterdaayPOD.setText("Вчера никто не дежурил");
                         }
+
+                     if (tomorrowPODstr.equals(userName)) {
+                        TomorrowPOD.setText("Завтра дежурите вы");
+                        chekStatutHOWork();
+                     } else if (yesterdayPODstr.equals(userName)) {
+                         YesterdaayPOD.setText("Вчера дежурили вы");
+                     }
+
                         scheduleExistTPODnotExist = 0;
                         //8 это за сколько дней делать график
                         if (i >= OKlistDataInHome.size() - 8) {
@@ -661,9 +760,9 @@ public class HomeActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         };
-        mDataBaseGroup.addValueEventListener(valueEventListener);
+        mDataBaseGroup.addListenerForSingleValueEvent(valueEventListener);
+        checkStatusInSchedule();
     }
-
 
 
     private void createIntentForCall() {
@@ -699,29 +798,6 @@ public class HomeActivity extends AppCompatActivity {
     }
 
 
-
-    private void checkStatusAWork() {
-        ValueEventListener valueEventListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    PersonOnDuty personOnDuty = ds.getValue(PersonOnDuty.class);
-                    assert personOnDuty != null;
-                    if (personOnDuty.statusAcceptWork.equals("0") && personOnDuty.getName().equals(todayPODStr)
-                    && personOnDuty.getIdGroup().equals(IDGroupUser)) {
-                        InfoAboutAcceptWork.userNameFragmentAcceptWork = userName;
-                        InfoAboutAcceptWork.idGroupUserFragmentAcceptWork = IDGroupUser;
-                        showFragmentInfoAboutAcceptWork();
-                        setStatusAwork();
-                    }
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        };
-        mDataBasePOD.addListenerForSingleValueEvent(valueEventListener);
-    }
     private void setStatusAworkNol() {
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
@@ -742,7 +818,11 @@ public class HomeActivity extends AppCompatActivity {
         };
         mDataBasePOD.addListenerForSingleValueEvent(valueEventListener);
     }
-    private void setStatusAwork() {
+
+
+
+
+    public static void setStatusAworkOne() {
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -750,8 +830,10 @@ public class HomeActivity extends AppCompatActivity {
                     PersonOnDuty personOnDuty = ds.getValue(PersonOnDuty.class);
                     assert personOnDuty != null;
                     if (personOnDuty.name.equals(userName) && personOnDuty.getIdGroup().equals(IDGroupUser)) {
+                        String uri = "https://dnevalnie.firebaseio.com/Person_On_Duty/"
+                                + ds.getKey() +"/statusAcceptWork";
                         FirebaseDatabase db = FirebaseDatabase.getInstance();
-                        DatabaseReference reference = db.getReferenceFromUrl("https://dnevalnie.firebaseio.com/Person_On_Duty/"+ ds.getKey() +"/statusAcceptWork");
+                        DatabaseReference reference = db.getReferenceFromUrl(uri);
                         reference.setValue("1");
                     }
                 }
@@ -762,7 +844,295 @@ public class HomeActivity extends AppCompatActivity {
         };
         mDataBasePOD.addListenerForSingleValueEvent(valueEventListener);
     }
+    public static void setStatusHOworkOne(View view) {
+        editScheduleStatus("?1");
+        showUndoneDuties.setVisibility(View.GONE);
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    PersonOnDuty personOnDuty = ds.getValue(PersonOnDuty.class);
+                    assert personOnDuty != null;
+                    if (personOnDuty.name.equals(userName) && personOnDuty.getIdGroup().equals(IDGroupUser)) {
+                        String uri = "https://dnevalnie.firebaseio.com/Person_On_Duty/"
+                                + ds.getKey() +"/statusHandOverWork";
+                        FirebaseDatabase db = FirebaseDatabase.getInstance();
+                        DatabaseReference reference = db.getReferenceFromUrl(uri);
+                        reference.setValue("1");
+                        uri = "https://dnevalnie.firebaseio.com/Person_On_Duty/"
+                                + ds.getKey() + "/undoneDuties";
+                       reference = db.getReferenceFromUrl(uri);
+                       reference.setValue("-");
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        };
+        mDataBasePOD.addListenerForSingleValueEvent(valueEventListener);
+    }
 
+
+
+
+    //ПРинял дежурство статус = 1 (1?)
+    //СДал дежурство статус = 1 (?1)
+    //не сдал дежуство статус = 0 (?0)
+    public static void editScheduleStatus(final String status){
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                ArrayList<String> listShedule = new ArrayList<>();
+                ArrayList<String> listDate = new ArrayList<>();
+                String scheduleDoEditSchedule = "", schedulePosleEditSchedule = "", uri = "";
+                for(DataSnapshot ds : dataSnapshot.getChildren()){
+                    Group group = ds.getValue(Group.class);
+                    assert group != null;
+                    if(group.getIdGroup().equals(IDGroupUser)){
+                        uri = "https://dnevalnie.firebaseio.com/Group/" + ds.getKey() + "/schedule";
+                        scheduleDoEditSchedule = group.getSchedule();
+                        StringBuilder builderFull = new StringBuilder();
+                        StringBuilder builderDate = new StringBuilder();
+
+                        boolean startDate = false;
+                        for(int i = 0; i<scheduleDoEditSchedule.length(); i++){
+
+                            if(scheduleDoEditSchedule.charAt(i) == ','){
+                                startDate = false;
+                                listDate.add(String.valueOf(builderDate));
+                                builderDate.delete(0, builderDate.length());
+                            }
+
+                            if(startDate){
+                                builderDate.append(scheduleDoEditSchedule.charAt(i));
+                            }
+
+
+                            if(scheduleDoEditSchedule.charAt(i) == ':'){
+                                startDate = true;
+                            }
+
+
+                            if(scheduleDoEditSchedule.charAt(i) == ';'){
+                                startDate = false;
+                                listShedule.add(String.valueOf(builderFull));
+                                builderFull.delete(0, builderFull.length());
+                                builderDate.delete(0, builderDate.length());
+                            }else builderFull.append(scheduleDoEditSchedule.charAt(i));
+
+                        }
+
+                        Calendar calendar = new GregorianCalendar();
+                        String today = calendar.get(Calendar.DAY_OF_MONTH) + "." + (calendar.get(Calendar.DAY_OF_WEEK)-1) + "." + calendar.get(Calendar.MONTH);
+                            int indextodayDay = -1;
+                            for(int i = 0; i<listDate.size(); i++){
+                                if(listDate.get(i).equals(today)){
+                                    indextodayDay = i;
+                                }
+                            }
+
+                            String edit, newStatus;
+
+                            switch (status){
+                                case "?1":{
+                                    edit = listShedule.get(indextodayDay);
+                                    newStatus = edit.substring(0,edit.length()-1);
+                                    newStatus = newStatus + "1";
+                                    listShedule.set(indextodayDay, newStatus);
+                                    break;
+                                }
+                                case "?0":{
+                                    edit = listShedule.get(indextodayDay);
+                                    newStatus = edit.substring(0,edit.length()-1);
+                                    newStatus = newStatus + "0";
+                                    listShedule.set(indextodayDay, newStatus);
+                                    break;
+                                }
+                                case "1?":{
+                                    edit = listShedule.get(indextodayDay + 1);
+                                    char buf = edit.charAt(edit.length()-1);
+                                    newStatus = edit.substring(0, edit.length()-2);
+                                    newStatus += "1" + buf;
+                                    listShedule.set(indextodayDay + 1, newStatus);
+                                    break;
+                                }
+
+                            }
+
+                            for(String str: listShedule){
+                                schedulePosleEditSchedule += str + ";";
+                            }
+                            FirebaseDatabase db = FirebaseDatabase.getInstance();
+                            DatabaseReference reference = db.getReferenceFromUrl(uri);
+                            reference.setValue(schedulePosleEditSchedule);
+                    }
+                }
+
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
+        mDataBaseGroup.addListenerForSingleValueEvent(valueEventListener);
+    }
+
+
+    public  void checkStatusInSchedule(){
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                ArrayList<String> listShedule = new ArrayList<>();
+                ArrayList<String> listDate = new ArrayList<>();
+                ArrayList<String> listStatus = new ArrayList<>();
+                ArrayList<String> listName = new ArrayList<>();
+                String scheduleDoEditSchedule = "", uri = "";
+                for(DataSnapshot ds : dataSnapshot.getChildren()){
+                    Group group = ds.getValue(Group.class);
+                    assert group != null;
+                    if(group.getIdGroup().equals(IDGroupUser)){
+                        uri = "https://dnevalnie.firebaseio.com/Group/"+ ds.getKey() +"/schedule";
+                        scheduleDoEditSchedule = group.getSchedule();
+                        StringBuilder builderFull = new StringBuilder();
+                        StringBuilder builderDate = new StringBuilder();
+                        StringBuilder builderStatus = new StringBuilder();
+                        StringBuilder builderName = new StringBuilder();
+
+                        boolean startDate = false, startStatus = false, startName = true;
+
+                        for(int i = 0; i<scheduleDoEditSchedule.length(); i++){
+
+
+
+                            if(startStatus){
+                                builderStatus.append(scheduleDoEditSchedule.charAt(i));
+                            }
+
+                            if(scheduleDoEditSchedule.charAt(i) == ','){
+                                startDate = false;
+                                startStatus = true;
+                                listDate.add(String.valueOf(builderDate));
+                                builderDate.delete(0, builderDate.length());
+                            }
+
+                            if(startDate){
+                                builderDate.append(scheduleDoEditSchedule.charAt(i));
+                            }
+
+
+                            if(scheduleDoEditSchedule.charAt(i) == ':'){
+                                startDate = true;
+                                startName = false;
+                            }
+
+                            if(startName){
+                                builderName.append(scheduleDoEditSchedule.charAt(i));
+                            }
+
+                            if(scheduleDoEditSchedule.charAt(i) == ';'){
+                                startDate = false;
+                                startStatus = false;
+                                startName = true;
+                                listName.add(String.valueOf(builderName));
+                                listShedule.add(String.valueOf(builderFull));
+                                listStatus.add(String.valueOf(builderStatus));
+                                builderName.delete(0, builderName.length());
+                                builderFull.delete(0, builderFull.length());
+                                builderDate.delete(0, builderDate.length());
+                                builderStatus.delete(0, builderStatus.length());
+                            }else builderFull.append(scheduleDoEditSchedule.charAt(i));
+
+                        }
+
+                        Calendar calendar = new GregorianCalendar();
+                        String today = calendar.get(Calendar.DAY_OF_MONTH) + "." + (calendar.get(Calendar.DAY_OF_WEEK)-1) + "." + calendar.get(Calendar.MONTH);
+                        int indextodayDay = -1;
+                        for(int i = 0; i<listDate.size(); i++){
+                            if(listDate.get(i).equals(today)){
+                                indextodayDay = i;
+                            }
+                        }
+
+
+                        String statusTodayPOD = listStatus.get(indextodayDay);
+                        String statusYesterdayPOD = listStatus.get(indextodayDay-1);
+                        String statusTommorowPOD = listStatus.get(indextodayDay+1);
+
+                        setTextViewAcceptAndHandover(statusTodayPOD, TVAHAcceptToday, TVAHHandOverToday);
+                        setTextViewAcceptAndHandover(statusTommorowPOD, TVAHAcceptTommorow, TVAHHandOverTommorow);
+                        setTextViewAcceptAndHandover(statusYesterdayPOD, TVAHAcceptYesterday, TVAHHandOverYesterday);
+
+
+                        int indexDayWhenStatusHadOverIsOne = indextodayDay;
+                        if(statusTodayPOD.charAt(0) == '1'){
+                        }else{
+                            if(statusYesterdayPOD.charAt(1) == '1'){
+                               // showtost("degurstvo prognorenno vi degurite");
+                            }else{
+                              while(listStatus.get(indexDayWhenStatusHadOverIsOne).charAt(1) == '0'){
+                                  indexDayWhenStatusHadOverIsOne--;
+                              }
+                                indexDayWhenStatusHadOverIsOne++;
+                                showtost(String.valueOf(indexDayWhenStatusHadOverIsOne));
+                                showtost(String.valueOf(indextodayDay));
+                              //degurit echeika index + 1
+                                String itog = "";
+                                int raznizza = indextodayDay - indexDayWhenStatusHadOverIsOne;
+                                boolean startEdit = false;
+                                boolean endEdit = false;
+                                for(int i = 0; i<listName.size(); i++){
+                                    if(i == indexDayWhenStatusHadOverIsOne){
+                                        startEdit = true;
+                                    }
+                                    if(!startEdit && !endEdit){
+                                        itog += listName.get(i) + ":" + listDate.get(i) + "," + listStatus.get(i);
+                                    }
+                                    if(startEdit && !endEdit){
+                                        itog += listName.get(indexDayWhenStatusHadOverIsOne) + ":" + listDate.get(i) + "," + listStatus.get(i);
+                                    }
+                                    if(endEdit){
+                                        itog += listName.get(i - raznizza) + ":" + listDate.get(i) + "," + listStatus.get(i);
+
+                                    }
+                                    if(i == indextodayDay){
+                                        endEdit = true;
+                                        startEdit = false;
+                                    }
+                                }
+
+                                showtost(itog);
+                                FirebaseDatabase db = FirebaseDatabase.getInstance();
+                                DatabaseReference reference = db.getReferenceFromUrl(uri);
+                                reference.setValue(itog);
+
+
+                            }
+                        }
+                    }
+                }
+
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
+        mDataBaseGroup.addListenerForSingleValueEvent(valueEventListener);
+    }
+
+
+    public static void setTextViewAcceptAndHandover(String str, TextView textViewAccept, TextView textViewHO){
+        if(str.charAt(0) == '1')
+            textViewAccept.setText("Дежурство принял");
+        else
+            textViewAccept.setText("Дежурство не принял");
+
+        if(str.charAt(1) == '1')
+            textViewHO.setText("Дежурство сдал");
+        else
+            textViewHO.setText("Дежурство не сдал");
+    }
 
 
 
@@ -787,7 +1157,7 @@ public class HomeActivity extends AppCompatActivity {
                     int i = listNamePOD.indexOf(todayPODStr);
                     Calendar calendar = new GregorianCalendar();
                     Date date;
-                    while (counter < 28) {
+                    while (counter < Integer.parseInt(SettingActivity.quantityDayInSchedule)) {
                         counter++;
                         date = calendar.getTime();
                         String dayOfTheWeek = String.valueOf(date.getDay());
@@ -796,7 +1166,8 @@ public class HomeActivity extends AppCompatActivity {
                         if (i == listNamePOD.size()) {
                             i = 0;
                         }
-                        lol = lol + listNamePOD.get(i) + ":" + dayOfTheMonth + "." + dayOfTheWeek + "." + month + ";";
+                        lol = lol + listNamePOD.get(i) + ":" + dayOfTheMonth + "." +
+                                dayOfTheWeek + "." + month + "," + "00" + ";";
                         i++;
                         calendar.add(Calendar.DAY_OF_YEAR, 1);
                     }
@@ -864,6 +1235,10 @@ public class HomeActivity extends AppCompatActivity {
 
 
 
+
+
+
+    //надо что то делать с хвостом
     public static void AcceptWorkIsFalse() {
         methodOn = 0;
         if(listSchedule.size()>0){
@@ -899,7 +1274,10 @@ public class HomeActivity extends AppCompatActivity {
                                     posledvoet = 1;
                                 } else if (schedule.charAt(i) == ';') {
                                     buflistScheduleName.add(String.valueOf(nameBr));
+                                    //удаляю хвост
                                     buflistScheduleDate.add(String.valueOf(dateBr));
+                                    dateBr.delete(dateBr.length()-3, dateBr.length());
+                                    buflistScheduleDateClear.add(String.valueOf(dateBr));
                                     nameBr.delete(0, nameBr.length());
                                     dateBr.delete(0, dateBr.length());
                                     posledvoet = 0;
@@ -913,9 +1291,9 @@ public class HomeActivity extends AppCompatActivity {
                             }
                             //узнаем какой индекс у сегодняшнего дня
                             int index = 0;
-                            for(String date : buflistScheduleDate){
+                            for(String date : buflistScheduleDateClear){
                                 if(date.equals(sStr)){
-                                    index = buflistScheduleDate.indexOf(date);
+                                    index = buflistScheduleDateClear.indexOf(date);
                                 }
                             }
 
@@ -947,6 +1325,8 @@ public class HomeActivity extends AppCompatActivity {
 
 
 
+
+
     //Вызывается вначале всей проги и когда показывается больше инфы о обмнене
     public static void notshowQuestionAboutAcceptReplace(){
         TVaboutAcceptReplace.setVisibility(View.GONE);
@@ -956,14 +1336,12 @@ public class HomeActivity extends AppCompatActivity {
     }
     //Вызывается когда статус обмена равен 1
     public static void showQuestionAboutAcceptReplace(){
+
         TVaboutAcceptReplace.setVisibility(View.VISIBLE);
         BHNotAcceptReplace.setVisibility(View.VISIBLE);
         BHAcceptReplace.setVisibility(View.VISIBLE);
         TVQestionReplace.setVisibility(View.VISIBLE);
     }
-
-
-
 
     //вызывается когда пользователь нажимат подробнее
     public void AcceptReplaceIsLearnMore(View view) {
@@ -971,15 +1349,13 @@ public class HomeActivity extends AppCompatActivity {
         showTextInfoAboutReplace();
     }
 
-
-
     //вызывается когда пользовательь нажимает нет
     public void AcceptReplaceIsFalse(View view) {
         ODCinHomeActtwo = 1;
         TVAHReplacetext.setText("Выберите день который хотите поменять");
         NotshowTextInfoAboutReplace();
         notshowQuestionAboutAcceptReplace();
-        HomeActivity.statusOne = 0;
+        //HomeActivity.statusOne = 0;
         FirebaseDatabase db = FirebaseDatabase.getInstance();
         DatabaseReference reference = db.getReferenceFromUrl(uriUserStatus);
         reference.setValue("0");
@@ -987,7 +1363,9 @@ public class HomeActivity extends AppCompatActivity {
         reference2.setValue("-");
         Toast.makeText(HomeActivity.this, "Хорошо", Toast.LENGTH_SHORT).show();
         notshowQuestionAboutAcceptReplace();
+        chekStatus = true;
         checkStatus();
+
     }
 
     public void AcceptReplaceIsTrue(View view){
@@ -999,6 +1377,7 @@ public class HomeActivity extends AppCompatActivity {
         nameOne = "";
         nameTwo = "";
         schedule = "";
+        NotshowTextInfoAboutReplace();
         TVAHReplacetext.setText("Выберите день который хотите поменять");
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
@@ -1015,6 +1394,7 @@ public class HomeActivity extends AppCompatActivity {
                         for(int i = 0; i<schedule.length(); i++) {
                             if (schedule.charAt(i) == ';') {
                                 listDataForReplaseSchedule.add(String.valueOf(builder));
+                                builder.delete(builder.length()-3, builder.length());
                                 if(String.valueOf(builder).equals(replaceForDay)){
                                     indexForDay = listDataForReplaseSchedule.size()-1;
                                 }
@@ -1042,13 +1422,56 @@ public class HomeActivity extends AppCompatActivity {
                     listDataForReplaseSchedule.set(indexDay, listDataForReplaseSchedule.get(indexDay).replaceAll(nameTwo, nameOne));
                     listDataForReplaseSchedule.set(indexForDay, listDataForReplaseSchedule.get(indexForDay).replaceAll(nameOne, nameTwo));
                     String itog = "";
-                    for (String str : listDataForReplaseSchedule) {
-                        itog = itog + str + ";";
+                    for(int i = 0; i<listDataForReplaseSchedule.size(); i++){
+                        itog += listDataForReplaseSchedule.get(i) + ";";
                     }
+                   // Toast.makeText(HomeActivity.this,String.valueOf(itog.substring(0, 50)), Toast.LENGTH_SHORT).show();
                     FirebaseDatabase db = FirebaseDatabase.getInstance();
                     DatabaseReference reference = db.getReferenceFromUrl(UriUserInHome);
                     reference.setValue(itog);
-                    itog = "";
+
+                    ODCinFragmentReplaceTwo = 1;
+                   // HomeActivity.statusOne = 0;
+                    ValueEventListener valueEventListener2 = new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            if (ODCinFragmentReplaceTwo == 1) {
+                                String uri = "https://dnevalnie.firebaseio.com/Person_On_Duty/";
+                                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                                    ThreadCheckStatus.ODCinThreadChecStatone = 0;
+                                    PersonOnDuty personOnDuty = ds.getValue(PersonOnDuty.class);
+                                    assert personOnDuty != null;
+                                    if (personOnDuty.getIdGroup().equals(IDGroupUser)) {
+                                        if(onlyOneStopper == 0){
+                                            onlyOneStopper = 1;
+                                        }
+                                        uri = uri + ds.getKey() + "/status";
+                                        FirebaseDatabase db = FirebaseDatabase.getInstance();
+                                        DatabaseReference reference = db.getReferenceFromUrl(uri);
+                                       // Toast.makeText(HomeActivity.this,"поменял на 0", Toast.LENGTH_SHORT).show();
+                                         reference.setValue("0");
+                                        uri = "https://dnevalnie.firebaseio.com/Person_On_Duty/";
+                                        uri = uri + ds.getKey() + "/replaceDay";
+                                        DatabaseReference reference2 = db.getReferenceFromUrl(uri);
+                                       // Toast.makeText(HomeActivity.this,"поменял на -", Toast.LENGTH_SHORT).show();
+                                         reference2.setValue("-");
+                                        uri = "https://dnevalnie.firebaseio.com/Person_On_Duty/";
+
+                                    }
+                                }
+                                NotshowTextInfoAboutReplace();
+                                chekStatus = true;
+                                checkStatus();
+                                ODCinFragmentReplaceTwo = 0;
+                                onlyOneStopper = 0;
+                            }
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                        }
+                    };
+
+                    mDataBasePOD.addListenerForSingleValueEvent(valueEventListener2);
 
                 }catch (Exception e){
                     Toast.makeText(HomeActivity.this, String.valueOf(e), Toast.LENGTH_SHORT).show();
@@ -1065,46 +1488,6 @@ public class HomeActivity extends AppCompatActivity {
         mDataBaseGroup.addListenerForSingleValueEvent(valueEventListener);
 
         //вторая часть метода меняющего грфик просто надо
-
-        ODCinFragmentReplaceTwo = 1;
-        HomeActivity.statusOne = 0;
-        ValueEventListener valueEventListener2 = new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (ODCinFragmentReplaceTwo == 1) {
-                   String uri = "https://dnevalnie.firebaseio.com/Person_On_Duty/";
-                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                        ThreadCheckStatus.ODCinThreadChecStatone = 0;
-                        PersonOnDuty personOnDuty = ds.getValue(PersonOnDuty.class);
-                        assert personOnDuty != null;
-                        if (personOnDuty.getIdGroup().equals(IDGroupUser)) {
-                            if(onlyOneStopper == 0){
-                                onlyOneStopper = 1;
-                            }
-                            uri = uri + ds.getKey() + "/status";
-                            FirebaseDatabase db = FirebaseDatabase.getInstance();
-                            DatabaseReference reference = db.getReferenceFromUrl(uri);
-                            reference.setValue("0");
-                            uri = "https://dnevalnie.firebaseio.com/Person_On_Duty/";
-                            uri = uri + ds.getKey() + "/replaceDay";
-                            DatabaseReference reference2 = db.getReferenceFromUrl(uri);
-                            reference2.setValue("-");
-                            uri = "https://dnevalnie.firebaseio.com/Person_On_Duty/";
-
-                        }
-                    }
-                    NotshowTextInfoAboutReplace();
-                    checkStatus();
-                    ODCinFragmentReplaceTwo = 0;
-                    onlyOneStopper = 0;
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        };
-
-        mDataBasePOD.addListenerForSingleValueEvent(valueEventListener2);
     }
 
     public void showTextInfoAboutReplace(){
@@ -1154,12 +1537,13 @@ public class HomeActivity extends AppCompatActivity {
                                 if (scheduleFullReplaceDay.charAt(i) == ';') {
                                     posledvoet = 0;
                                     posledvoet2 = 0;
-                                    builderDate.delete(builderDate.length()-1, builderDate.length());
+                                    builderDate.delete(builderDate.length()-4, builderDate.length());
                                     if (todayStr.equals(String.valueOf(builderDate))) {
                                         pointToday = 1;
                                     }
                                     if (permissionToShowLVRDay == 1 && pointToday == 1) {
                                         permissionToShowLVRDay = 0;
+                                        scheduleBuilder.delete(scheduleBuilder.length()-3, scheduleBuilder.length());
                                         listDataForReplaseFinishFragmentReplace.add(Constant.createFormate(String.valueOf(scheduleBuilder)));
                                         buf.add(String.valueOf(scheduleBuilder));
                                     }
@@ -1225,8 +1609,8 @@ public class HomeActivity extends AppCompatActivity {
         BAHNotReplace.setVisibility(View.GONE);
         LVAHReplaceDay.setVisibility(View.GONE);
         BAHReplace.setVisibility(View.GONE);
-        HomeActivity.statusOne = 0;
-        checkStatus();
+       // HomeActivity.statusOne = 0;
+        //checkStatus();
     }
     public static void NotshowFragmentInfoAboutAcceptWork(){
         fragmentAccrptWork.setVisibility(View.GONE);
@@ -1247,6 +1631,13 @@ public class HomeActivity extends AppCompatActivity {
         TVaboutAcceptReplace = (TextView) findViewById(R.id.TVaboutAcceptReplace);
         TV_replace_day_p2 = (TextView) findViewById(R.id.TV_replace_day_p2);
         TVAHReplacetext = (TextView) findViewById(R.id.TVAHReplacetext);
+
+        TVAHAcceptToday = (TextView) findViewById(R.id.TVAHAcceptToday);
+        TVAHHandOverToday = (TextView) findViewById(R.id.TVAHHandOverToday);
+        TVAHAcceptTommorow  = (TextView) findViewById(R.id.TVAHAcceptTommorow);
+        TVAHHandOverTommorow   = (TextView) findViewById(R.id.TVAHHandOverTommorow);
+        TVAHAcceptYesterday  = (TextView) findViewById(R.id.TVAHAcceptYesterday);
+        TVAHHandOverYesterday = (TextView) findViewById(R.id.TVAHHandOverYesterday);
 
         ETHActivityGroupID = (EditText) findViewById(R.id.ETHActivityGroupID);
         editTextTextPersonName = (EditText) findViewById(R.id.editTextTextPersonName);
@@ -1270,6 +1661,9 @@ public class HomeActivity extends AppCompatActivity {
         CallTomorrowPOD = (Button) findViewById(R.id.CallTomorrowPOD);
         BAHNotReplace = (Button) findViewById(R.id.BAHNotReplace);
         BAHReplace = (Button) findViewById(R.id.BAHReplace);
+        BAHsetHandOverWorkOne = (Button) findViewById(R.id.BAHsetHandOverWorkOne);
+        showUndoneDuties = (Button) findViewById(R.id.showUndoneDuties);
+        BAHEdit = (Button) findViewById(R.id.BAHEdit);
 
         LVAHReplaceDay = (ListView) findViewById(R.id.LVAHReplaceDay);
         listDataForReplaseFinishFragmentReplace = new ArrayList<>();
@@ -1278,8 +1672,9 @@ public class HomeActivity extends AppCompatActivity {
         LVAHReplaceDay.setAdapter(ArrayAdapterForReplaceFinishFragmentReplace);
 
         fragmentAccrptWork = (FrameLayout)  findViewById(R.id.fragment_info_about_acceptWork);
+        infoAboutUndoneDuties = (FrameLayout) findViewById(R.id.fargment_info_undoneDuties);
         fragmentAccrptWork.setVisibility(View.GONE);
-
+        infoAboutUndoneDuties.setVisibility(View.GONE);
 
 
 
@@ -1345,7 +1740,7 @@ public class HomeActivity extends AppCompatActivity {
         IDGroupUser = null;
         userName = null;
         stopChekWhoIsUser = 0;
-        statusOne = 0;
+       // statusOne = 0;
     }
 
 
@@ -1367,6 +1762,19 @@ public class HomeActivity extends AppCompatActivity {
             }
         };
         mDataBasePOD.addValueEventListener(valueEventListener);
+    }
+
+    public void goToEditor(View view) {
+        Intent intent = new Intent(HomeActivity.this, EditActivity.class);
+        startActivity(intent);
+    }
+
+    public  void showtost(String str){
+        Toast.makeText(HomeActivity.this, str, Toast.LENGTH_SHORT).show();
+    }
+
+    public void showUndoneDuties(View view) {
+        infoAboutUndoneDuties.setVisibility(View.VISIBLE);
     }
 }
 

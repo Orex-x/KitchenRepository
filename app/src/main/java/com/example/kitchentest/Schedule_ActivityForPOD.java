@@ -10,6 +10,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -58,8 +59,6 @@ public class Schedule_ActivityForPOD extends AppCompatActivity {
         }
     }
 
-
-
     private void getScheduleFromDb(){
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
@@ -72,7 +71,7 @@ public class Schedule_ActivityForPOD extends AppCompatActivity {
                 Calendar calendar = new GregorianCalendar();
                 Date date = calendar.getTime();
                 todayStr = ":" + String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)) +
-                        "." + date.getDay() + "." + date.getMonth() + ";";
+                        "." + date.getDay() + "." + date.getMonth() + ",";
 
                 pointToday = 0;
 
@@ -105,11 +104,13 @@ public class Schedule_ActivityForPOD extends AppCompatActivity {
                             if(scheduleFull.charAt(i) == ';'){
                                 posledvoet = 0;
 
+                                builderDate.delete(builderDate.length()-3, builderDate.length());
                                 if(todayStr.equals(String.valueOf(builderDate))){
                                     pointToday = 1;
                                 }
                                 if(pointToday == 1 && permissionToShowLVRDay==1){
                                     permissionToShowLVRDay = 0;
+                                    scheduleBuilder.delete(scheduleBuilder.length()-3, scheduleBuilder.length());
                                     OKlistData.add(Constant.createFormate(String.valueOf(scheduleBuilder)));
                                     buf.add(String.valueOf(scheduleBuilder));
                                 }

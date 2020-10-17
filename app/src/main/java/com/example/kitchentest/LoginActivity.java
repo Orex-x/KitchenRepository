@@ -152,8 +152,9 @@ public class LoginActivity extends AppCompatActivity {
                         if (currentUser != null) {
                             idPersonOD = currentUser.getUid();
                         }
-                        PersonOnDuty personOnDuty = new PersonOnDuty(name, Constant.PERSON_ON_DUTY_ROLE, idPersonOD , phoneStr, idGroupStr,
-                                "0", "0" , "-");
+                        PersonOnDuty personOnDuty = new PersonOnDuty(name,
+                                Constant.PERSON_ON_DUTY_ROLE, idPersonOD , phoneStr, idGroupStr,
+                                "0", "0" , "0", "-", "-");
 
                         PersonOnDutyDataBase.push().setValue(personOnDuty);
                         FirebaseUser currentUser2 = mAuth.getCurrentUser();
@@ -271,7 +272,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private void createGruop(String idWatcher, String idGroup) {
-        Group group = new Group(idWatcher, idGroup, "-");
+        Group group = new Group(idWatcher, idGroup, "-", "-","10", "31");
         GroupDataBase.push().setValue(group);
     }
 

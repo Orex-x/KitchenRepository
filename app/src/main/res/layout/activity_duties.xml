@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    tools:context=".DutiesActivity">
+
+    <TextView
+        android:id="@+id/TVActHomeGlav"
+        android:layout_width="match_parent"
+        android:layout_height="50sp"
+        android:background="@drawable/text"
+        android:text="Обязаности"
+        android:paddingRight="20dp"
+        android:paddingTop="3dp"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:visibility="visible"
+        android:gravity="right"
+        android:textColor="@color/color_white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/BRBack"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:onClick="backSettings"
+        android:text="❮"
+        android:textSize="30dp"
+        android:textColor="@color/color_white"
+        android:background="@drawable/empty_button"
+        android:visibility="visible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/BADaddDutie"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/button"
+        android:onClick="addDuties"
+        android:text="+"
+        android:textColor="@color/colorAccent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/BADdeleteDutie"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/button"
+        android:onClick="deleteDuties"
+        android:text="-"
+        android:textColor="@color/colorAccent"
+        app:layout_constraintBottom_toTopOf="@+id/BADaddDutie"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ListView
+        android:id="@+id/LVAD"
+        android:layout_width="348dp"
+        android:layout_height="385dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/island_list"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/BADdeleteDutie"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ETADDuties" >
+    </ListView>
+
+
+    <TextView
+        android:id="@+id/TVADemptyList"
+        android:layout_width="225dp"
+        android:layout_height="123dp"
+        android:gravity="center"
+        android:text="Список обязанностей пуст"
+        android:textColor="@color/color_white"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/LVAD"
+        app:layout_constraintEnd_toEndOf="@+id/LVAD"
+        app:layout_constraintStart_toStartOf="@+id/LVAD"
+        app:layout_constraintTop_toTopOf="@+id/LVAD" />
+
+    <EditText
+        android:id="@+id/ETADDuties"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="Обязанность"
+        android:padding="12sp"
+        android:visibility="gone"
+        android:textColor="@color/colorAccent"
+        android:textColorHint="@color/color_Hint"
+        android:background="@drawable/edit_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TVActHomeGlav" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

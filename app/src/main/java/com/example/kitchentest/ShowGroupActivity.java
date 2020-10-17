@@ -208,7 +208,7 @@ public class ShowGroupActivity extends AppCompatActivity {
     private void createPPOD() {
         
         PersonOnDuty personOnDuty = new PersonOnDuty(namePPOD, Constant.PERSON_ON_DUTY_ROLE, "IDID" , phonePPOD, IDGroup,
-                "0", "0" , "-");
+                "0", "0" , "0", "-", "-");
 
         mDataBasePOD.push().setValue(personOnDuty);
         listView.setVisibility(View.VISIBLE);
@@ -244,7 +244,7 @@ public class ShowGroupActivity extends AppCompatActivity {
                         startActivity(intent);
                         HomeActivity.UserID = null;
                         HomeActivity.stopChekWhoIsUser = 0;
-                        HomeActivity.statusOne = 0;
+                       // HomeActivity.statusOne = 0;
                     }
                 }
             }

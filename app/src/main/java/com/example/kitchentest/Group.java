@@ -1,7 +1,8 @@
 package com.example.kitchentest;
 
 public class Group {
-    String idAdmin, idGroup, schedule, replaceDayGroup;
+    String idAdmin, idGroup, schedule, replaceDayGroup, duties, SDeadline,
+            SquantityDayInSchedule;
 
     public Group() {
     }
@@ -12,14 +13,47 @@ public class Group {
         this.idGroup = idGroup;
     }
 
-    public Group(String idAdmin, String idGroup, String replaceDayGroup) {
+    public Group(String idAdmin, String idGroup, String replaceDayGroup, String SDeadline, String SquantityDayInSchedule) {
         this.idAdmin = idAdmin;
         this.idGroup = idGroup;
-        this.schedule = schedule;
         this.replaceDayGroup = replaceDayGroup;
+        this.SDeadline = SDeadline;
+        this.SquantityDayInSchedule = SquantityDayInSchedule;
     }
 
+    public Group(String idAdmin, String idGroup, String replaceDayGroup,
+                 String duties, String SDeadline, String squantityDayInSchedule) {
+        this.idAdmin = idAdmin;
+        this.idGroup = idGroup;
+        this.replaceDayGroup = replaceDayGroup;
+        this.duties = duties;
+        this.SDeadline = SDeadline;
+        SquantityDayInSchedule = squantityDayInSchedule;
+    }
 
+    public String getDuties() {
+        return duties;
+    }
+
+    public void setDuties(String duties) {
+        this.duties = duties;
+    }
+
+    public String getSDeadline() {
+        return SDeadline;
+    }
+
+    public void setSDeadline(String SDeadline) {
+        this.SDeadline = SDeadline;
+    }
+
+    public String getSquantityDayInSchedule() {
+        return SquantityDayInSchedule;
+    }
+
+    public void setSquantityDayInSchedule(String squantityDayInSchedule) {
+        SquantityDayInSchedule = squantityDayInSchedule;
+    }
 
     public String getReplaceDayGroup() {
         return replaceDayGroup;

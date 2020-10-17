@@ -99,8 +99,10 @@
         android:id="@+id/bottom2"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:text=""
-        android:background="@drawable/ic_back"
+        android:text="❮"
+        android:textSize="30dp"
+        android:textColor="@color/color_white"
+        android:background="@drawable/empty_button"
         android:onClick="backHomeActivityFromASFW"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

@@ -103,7 +103,7 @@ public class Schedule_ActivityForWatcher extends AppCompatActivity {
 
 
                     if(i != -1) {
-                        while (counterForNewSchedule < 28) {
+                        while (counterForNewSchedule < Integer.parseInt(SettingActivity.quantityDayInSchedule)) {
                             counterForNewSchedule++;
                             date2 = calendar.getTime();
                             String dayOfTheWeek = String.valueOf(date2.getDay());
@@ -112,7 +112,8 @@ public class Schedule_ActivityForWatcher extends AppCompatActivity {
                             if (i == listItem.size()) {
                                 i = 0;
                             }
-                            lol = lol +  listItem.get(i).getName() + ":" + dayOfTheMonth + "." + dayOfTheWeek + "." + month + ";" ;
+                            lol = lol +  listItem.get(i).getName() + ":" + dayOfTheMonth +
+                                    "." + dayOfTheWeek + "." + month + "," + "00" + ";" ;
                             i++;
                             calendar.add(Calendar.DAY_OF_YEAR, 1);
                         }
@@ -146,7 +147,7 @@ public class Schedule_ActivityForWatcher extends AppCompatActivity {
                 Calendar calendar = new GregorianCalendar();
                 Date date = calendar.getTime();
                 todayStr = ":" + String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)) +
-                        "." + date.getDay() + "." + date.getMonth() + ";";
+                        "." + date.getDay() + "." + date.getMonth() + ",";
 
                 for(DataSnapshot ds : dataSnapshot.getChildren()) {
                     Group group = ds.getValue(Group.class);
@@ -168,11 +169,14 @@ public class Schedule_ActivityForWatcher extends AppCompatActivity {
 
                             if (scheduleFull.charAt(i) == ';') {
                                 posledvoet = 0;
+                                builderDate.delete(builderDate.length()-3, builderDate.length());
+
                                 if (todayStr.equals(String.valueOf(builderDate))) {
                                     pointToday = 1;
                                 }
                                 if (pointToday == 1 && counterForShowSchedule < 8) {
                                     counterForShowSchedule++;
+                                    scheduleBuilder.delete(scheduleBuilder.length()-3, scheduleBuilder.length());
                                     OKlistData.add(Constant.createFormate(String.valueOf(scheduleBuilder)));
                                 }
 

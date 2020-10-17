@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/islandtext"
+    tools:context=".Fragment_info_undoneDuties">
+
+    <TextView
+        android:id="@+id/TVFIUD"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorAccent"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="50dp"
+        android:visibility="visible"
+        android:text="" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorBackground"
+        android:textStyle="bold"
+        android:textSize="15dp"
+        android:layout_marginLeft="45dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="12dp"
+        android:visibility="visible"
+        android:text="К сожалению у вас не приняли дежурство, вот что вам нужно исправить: " />
+
+    <Button
+        android:id="@+id/BFIUD"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/colorBackground"
+        android:background="@drawable/empty_button"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:visibility="visible"
+        android:text="❮" />
+
+</FrameLayout>
